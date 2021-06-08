@@ -64,11 +64,16 @@ defmodule StatusblogWeb.Router do
   end
 
   scope "/", StatusblogWeb do
+    pipe_through [:browser, :require_authenticated_unverified_user]
+
+    get "/users/confirm", UserConfirmationController, :new
+    post "/users/confirm", UserConfirmationController, :create
+  end
+
+  scope "/", StatusblogWeb do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :confirm
   end
 end

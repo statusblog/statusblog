@@ -7,22 +7,11 @@ defmodule StatusblogWeb.UserConfirmationController do
     render(conn, "new.html")
   end
 
-  def create(conn, %{"user" => %{"email" => email}}) do
-    if user = Accounts.get_user_by_email(email) do
-      Accounts.deliver_user_confirmation_instructions(
-        user,
-        &Routes.user_confirmation_url(conn, :confirm, &1)
-      )
-    end
-
-    # In order to prevent user enumeration attacks, regardless of the outcome, show an impartial success/error message.
-    conn
-    |> put_flash(
-      :info,
-      "If your email is in our system and it has not been confirmed yet, " <>
-        "you will receive an email with instructions shortly."
+  def create(conn, _params) do # %{"user" => %{"email" => email}}) do
+    Accounts.deliver_user_confirmation_instructions(
+      conn.assigns[:current_user],
+      &Routes.user_confirmation_url(conn, :confirm, &1)
     )
-    |> redirect(to: "/")
   end
 
   # Do not log in the user after confirmation to avoid a
@@ -31,8 +20,9 @@ defmodule StatusblogWeb.UserConfirmationController do
     case Accounts.confirm_user(token) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "User confirmed successfully.")
-        |> redirect(to: "/")
+        |> put_flash(:info, "Email successfully verified.")
+        # if the user is already logged in, this should redirect back to "/"
+        |> redirect(to: Routes.user_session_path(conn, :new))
 
       :error ->
         # If there is a current user and the account was already confirmed,

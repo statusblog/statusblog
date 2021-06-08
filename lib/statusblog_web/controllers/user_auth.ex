@@ -3,6 +3,7 @@ defmodule StatusblogWeb.UserAuth do
   import Phoenix.Controller
 
   alias Statusblog.Accounts
+  alias Statusblog.Accounts.User
   alias StatusblogWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -128,15 +129,43 @@ defmodule StatusblogWeb.UserAuth do
   they use the application at all, here would be a good place.
   """
   def require_authenticated_user(conn, _opts) do
-    if conn.assigns[:current_user] do
-      conn
-      # else redirect to
-    else
-      conn
-      |> put_flash(:error, "You must log in to access this page.")
-      |> maybe_store_return_to()
-      |> redirect(to: Routes.user_session_path(conn, :new))
-      |> halt()
+    case conn.assigns[:current_user] do
+      %User{confirmed_at: nil} ->
+        conn
+        |> redirect(to: Routes.user_confirmation_path(conn, :new))
+        |> halt()
+
+      %User{confirmed_at: _date} ->
+        conn
+
+      _any ->
+        conn
+        |> put_flash(:error, "You must log in to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> halt()
+    end
+  end
+
+  @doc """
+  Used specifically for the email verification routes.
+  """
+  def require_authenticated_unverified_user(conn, _opts) do
+    case conn.assigns[:current_user] do
+      %User{confirmed_at: nil} ->
+        conn
+
+      %User{confirmed_at: _date} ->
+        conn
+        |> redirect(to: signed_in_path(conn))
+        |> halt()
+
+      _any ->
+        conn
+        |> put_flash(:error, "You must log in to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> halt()
     end
   end
 
