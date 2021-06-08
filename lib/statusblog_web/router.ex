@@ -17,12 +17,6 @@ defmodule StatusblogWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", StatusblogWeb do
-    pipe_through :browser
-
-    live "/", PageLive, :index
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", StatusblogWeb do
   #   pipe_through :api
@@ -61,6 +55,8 @@ defmodule StatusblogWeb.Router do
 
   scope "/", StatusblogWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live "/", PageLive, :index
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
