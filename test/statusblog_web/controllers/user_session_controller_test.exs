@@ -32,7 +32,7 @@ defmodule StatusblogWeb.UserSessionControllerTest do
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
-      _response = html_response(conn, 200)
+      _response = html_response(conn, 302)
       #assert response =~ user.email
       #assert response =~ "Settings</a>"
       #assert response =~ "Log out</a>"

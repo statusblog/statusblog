@@ -56,7 +56,7 @@ defmodule StatusblogWeb.Router do
   scope "/", StatusblogWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/", PageLive, :index
+    get "/", HomeController, :index
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
