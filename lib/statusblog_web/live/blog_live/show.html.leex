@@ -1,0 +1,37 @@
+<h1>Show Blog</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, StatusblogWeb.BlogLive.FormComponent,
+    id: @blog.id,
+    title: @page_title,
+    action: @live_action,
+    blog: @blog,
+    return_to: Routes.blog_show_path(@socket, :show, @blog) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @blog.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @blog.description %>
+  </li>
+
+  <li>
+    <strong>Subdomain:</strong>
+    <%= @blog.subdomain %>
+  </li>
+
+  <li>
+    <strong>Domain:</strong>
+    <%= @blog.domain %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.blog_show_path(@socket, :edit, @blog), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.blog_index_path(@socket, :index) %></span>

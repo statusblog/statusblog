@@ -58,6 +58,13 @@ defmodule StatusblogWeb.Router do
 
     get "/", HomeController, :index
 
+    live "/blogs", BlogLive.Index, :index
+    live "/blogs/new", BlogLive.Index, :new
+    live "/blogs/:id/edit", BlogLive.Index, :edit
+
+    live "/blogs/:id", BlogLive.Show, :show
+    live "/blogs/:id/show/edit", BlogLive.Show, :edit
+
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
