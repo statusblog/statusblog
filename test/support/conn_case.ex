@@ -50,6 +50,11 @@ defmodule StatusblogWeb.ConnCase do
     %{conn: log_in_user(conn, user), user: user}
   end
 
+  def register_and_confirm_and_log_in_user(%{conn: conn}) do
+    user = Statusblog.AccountsFixtures.confirmed_user_fixture()
+    %{conn: log_in_user(conn, user), user: user}
+  end
+
   @doc """
   Logs the given `user` into the `conn`.
 

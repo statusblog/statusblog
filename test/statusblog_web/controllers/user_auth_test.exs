@@ -164,7 +164,13 @@ defmodule StatusblogWeb.UserAuthTest do
       refute get_session(halted_conn, :user_return_to)
     end
 
-    test "does not redirect if user is authenticated", %{conn: conn, user: user} do
+    test "does not redirect if user is confirmed", %{conn: conn, user: user} do
+      token =
+        extract_user_token(fn url ->
+          Statusblog.Accounts.deliver_user_confirmation_instructions(user, url)
+        end)
+      {:ok, user} = Statusblog.Accounts.confirm_user(token)
+
       conn = conn |> assign(:current_user, user) |> UserAuth.require_authenticated_user([])
       refute conn.halted
       refute conn.status

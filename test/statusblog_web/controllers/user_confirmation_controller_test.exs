@@ -10,10 +10,27 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
   end
 
   describe "GET /users/confirm" do
-    test "renders the confirmation page", %{conn: conn} do
-      conn = get(conn, Routes.user_confirmation_path(conn, :new))
+    test "renders the confirmation page if logged in, not confirmed", %{conn: conn, user: user} do
+      conn =
+        log_in_user(conn, user)
+        |> get(Routes.user_confirmation_path(conn, :new))
+
       response = html_response(conn, 200)
-      assert response =~ "<h1>Resend confirmation instructions</h1>"
+      assert response =~ "Resend confirmation email"
+    end
+
+    test "redirects from confirmation page if not logged in", %{conn: conn} do
+      conn = get(conn, Routes.user_confirmation_path(conn, :new))
+      assert redirected_to(conn) == "/users/log_in"
+    end
+
+    test "redirects from confirmation page if confirmed", %{conn: conn, user: user} do
+      user = Repo.update!(Accounts.User.confirm_changeset(user))
+      conn =
+        log_in_user(conn, user)
+        |> get(Routes.user_confirmation_path(conn, :new))
+
+      assert redirected_to(conn) == "/"
     end
   end
 
@@ -21,37 +38,12 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
     @tag :capture_log
     test "sends a new confirmation token", %{conn: conn, user: user} do
       conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
-          "user" => %{"email" => user.email}
-        })
+        log_in_user(conn, user)
+        |> post(Routes.user_confirmation_path(conn, :create), %{})
 
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "confirm"
-    end
-
-    test "does not send confirmation token if User is confirmed", %{conn: conn, user: user} do
-      Repo.update!(Accounts.User.confirm_changeset(user))
-
-      conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
-          "user" => %{"email" => user.email}
-        })
-
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
-      refute Repo.get_by(Accounts.UserToken, user_id: user.id)
-    end
-
-    test "does not send confirmation token if email is invalid", %{conn: conn} do
-      conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
-          "user" => %{"email" => "unknown@example.com"}
-        })
-
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.all(Accounts.UserToken) == []
+      assert redirected_to(conn) == "/users/confirm"
+      assert get_flash(conn, :info) =~ "Confirmation"
+      assert Repo.get_by!(Accounts.UserToken, user_id: user.id, context: "confirm")
     end
   end
 
@@ -63,7 +55,7 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
         end)
 
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, token))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :info) =~ "Email successfully verified"
       assert Accounts.get_user!(user.id).confirmed_at
       refute get_session(conn, :user_token)
@@ -71,7 +63,7 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
 
       # When not logged in
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, token))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
 
       # When logged in
@@ -86,7 +78,7 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, "oops"))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
       refute Accounts.get_user!(user.id).confirmed_at
     end

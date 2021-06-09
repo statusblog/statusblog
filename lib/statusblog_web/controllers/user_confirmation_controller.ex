@@ -12,6 +12,10 @@ defmodule StatusblogWeb.UserConfirmationController do
       conn.assigns[:current_user],
       &Routes.user_confirmation_url(conn, :confirm, &1)
     )
+
+    conn
+    |> put_flash(:info, "Confirmation email sent.")
+    |> redirect(to: Routes.user_confirmation_path(conn, :new))
   end
 
   # Do not log in the user after confirmation to avoid a
@@ -19,10 +23,14 @@ defmodule StatusblogWeb.UserConfirmationController do
   def confirm(conn, %{"token" => token}) do
     case Accounts.confirm_user(token) do
       {:ok, _} ->
-        conn
-        |> put_flash(:info, "Email successfully verified.")
-        # if the user is already logged in, this should redirect back to "/"
-        |> redirect(to: Routes.user_session_path(conn, :new))
+        conn = put_flash(conn, :info, "Email successfully verified.")
+        case conn.assigns do
+          %{current_user: %{}} ->
+            redirect(conn, to: "/")
+
+          %{} ->
+            redirect(conn, to: Routes.user_session_path(conn, :new))
+        end
 
       :error ->
         # If there is a current user and the account was already confirmed,
@@ -36,7 +44,7 @@ defmodule StatusblogWeb.UserConfirmationController do
           %{} ->
             conn
             |> put_flash(:error, "User confirmation link is invalid or it has expired.")
-            |> redirect(to: "/")
+            |> redirect(to: Routes.user_session_path(conn, :new))
         end
     end
   end
