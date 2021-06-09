@@ -21,7 +21,7 @@ defmodule StatusblogWeb.UserAuthTest do
       conn = UserAuth.log_in_user(conn, user)
       assert token = get_session(conn, :user_token)
       assert get_session(conn, :live_socket_id) == "users_sessions:#{Base.url_encode64(token)}"
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/confirm"
       assert Accounts.get_user_by_session_token(token)
     end
 
@@ -30,7 +30,8 @@ defmodule StatusblogWeb.UserAuthTest do
       refute get_session(conn, :to_be_removed)
     end
 
-    test "redirects to the configured path", %{conn: conn, user: user} do
+    test "redirects to the configured path, if confirmed", %{conn: conn, user: user} do
+      user = Statusblog.Repo.update!(Accounts.User.confirm_changeset(user))
       conn = conn |> put_session(:user_return_to, "/hello") |> UserAuth.log_in_user(user)
       assert redirected_to(conn) == "/hello"
     end

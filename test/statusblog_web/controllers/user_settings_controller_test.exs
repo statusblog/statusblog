@@ -4,7 +4,7 @@ defmodule StatusblogWeb.UserSettingsControllerTest do
   alias Statusblog.Accounts
   import Statusblog.AccountsFixtures
 
-  setup :register_and_log_in_user
+  setup :register_and_confirm_and_log_in_user
 
   describe "GET /users/settings" do
     test "renders settings page", %{conn: conn} do

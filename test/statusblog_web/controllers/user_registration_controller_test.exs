@@ -7,9 +7,8 @@ defmodule StatusblogWeb.UserRegistrationControllerTest do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Sign in</h1>"
-      assert response =~ "Sign in</a>"
-      assert response =~ "Create one.</a>"
+      assert response =~ "Statusblog account"
+      assert response =~ "Register</button>"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -20,7 +19,7 @@ defmodule StatusblogWeb.UserRegistrationControllerTest do
 
   describe "POST /users/register" do
     @tag :capture_log
-    test "creates account and logs the user in", %{conn: conn} do
+    test "creates account and redirects to confirmation page", %{conn: conn} do
       email = unique_user_email()
 
       conn =
@@ -29,14 +28,7 @@ defmodule StatusblogWeb.UserRegistrationControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) =~ "/"
-
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
-      response = html_response(conn, 200)
-      assert response =~ email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert redirected_to(conn) =~ "/users/confirm"
     end
 
     test "render errors for invalid data", %{conn: conn} do
@@ -46,7 +38,6 @@ defmodule StatusblogWeb.UserRegistrationControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "should be at least 12 character"
     end
