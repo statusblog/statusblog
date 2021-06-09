@@ -8,6 +8,8 @@ defmodule StatusblogWeb.BlogLiveTest do
   @update_attrs %{description: "some updated description", domain: "some updated domain", name: "some updated name", subdomain: "some updated subdomain"}
   @invalid_attrs %{description: nil, domain: nil, name: nil, subdomain: nil}
 
+  setup :register_and_confirm_and_log_in_user
+
   defp create_blog(_) do
     blog = blog_fixture()
     %{blog: blog}
