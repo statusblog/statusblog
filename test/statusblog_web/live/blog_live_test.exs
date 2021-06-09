@@ -4,8 +4,8 @@ defmodule StatusblogWeb.BlogLiveTest do
   import Phoenix.LiveViewTest
   import Statusblog.BlogsFixtures
 
-  @create_attrs %{description: "some description", domain: "some domain", name: "some name", subdomain: "some subdomain"}
-  @update_attrs %{description: "some updated description", domain: "some updated domain", name: "some updated name", subdomain: "some updated subdomain"}
+  @create_attrs %{description: "some description", domain: "some domain", name: "some name", subdomain: "some-subdomain"}
+  @update_attrs %{description: "some updated description", domain: "some updated domain", name: "some updated name", subdomain: "some-updated-subdomain"}
   @invalid_attrs %{description: nil, domain: nil, name: nil, subdomain: nil}
 
   setup :register_and_confirm_and_log_in_user
