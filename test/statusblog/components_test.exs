@@ -11,9 +11,9 @@ defmodule Statusblog.ComponentsTest do
 
     @invalid_attrs %{description: nil, display_uptime: nil, name: nil, position: nil, start_date: nil, status: nil}
 
-    test "list_components/0 returns all components" do
+    test "list_components/1 returns all components" do
       component = component_fixture()
-      assert Components.list_components() == [component]
+      assert Components.list_components(component.blog_id) == [component]
     end
 
     test "get_component!/1 returns the component with given id" do

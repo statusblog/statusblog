@@ -7,18 +7,12 @@ defmodule Statusblog.Components do
   alias Statusblog.Repo
 
   alias Statusblog.Components.Component
+  #alias Statusblog.Blogs.Blog
 
-  @doc """
-  Returns the list of components.
-
-  ## Examples
-
-      iex> list_components()
-      [%Component{}, ...]
-
-  """
-  def list_components do
-    Repo.all(Component)
+  #def list_components(%Blog{id: id} = blog), do: list_components(id)
+  def list_components(blog_id) do
+    from(Component, where: [blog_id: ^blog_id], order_by: [asc: :position])
+    |> Repo.all()
   end
 
   @doc """
