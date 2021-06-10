@@ -1,4 +1,5 @@
-<%= live_component StatusblogWeb.SidebarComponent, title: @page_title do %>
+<%= live_component StatusblogWeb.SidebarComponent,
+  title: @page_title, menu: @menu, blog: @blog do %>
 
 <%= f = form_for @changeset, "#",
   class: "space-y-8 divide-y divide-gray-200",
