@@ -7,9 +7,7 @@ defmodule StatusblogWeb.ComponentLive.Index do
   @impl true
   def mount(%{"blog_id" => blog_id}, _session, socket) do
     # todo: validate blog_id is valid
-    IO.puts "fetching..."
     blog = Blogs.get_blog!(blog_id)
-    IO.inspect blog
 
     {:ok,
       socket
