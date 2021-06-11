@@ -5,7 +5,10 @@
     <div class="container">
       <div class="columns is-centered p-8">
         <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
-          <h2 class="is-size-2 has-text-weight-bold">Sign in to your account</h2>
+          <figure class="image is-128x128 is-inline-block">
+              <img class="" src="/logo.svg" alt="Statusblog"/>
+          </figure>
+          <h2 class="is-size-3 has-text-weight-bold">Sign in to your account</h2>
           <p>Don't have an account? <a href="#">Create one.</a></p>
         </div>
 
@@ -13,7 +16,7 @@
 
       <div class="columns is-centered">
         <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-          <form action="" class="box">
+          <form action="" class="box p-5">
             <div class="field">
               <label for="" class="label">Email</label>
               <div class="control has-icons-left">
@@ -32,14 +35,15 @@
                 </span>
               </div>
             </div>
-            <div class="field">
-              <label for="" class="checkbox">
+            <div class="field is-grouped columns mt-4">
+              <label class="checkbox column">
                 <input type="checkbox">
-               Remember me
+                Remember me
               </label>
+              <a href="#" class="column has-text-right">Forgot password?</a>
             </div>
             <div class="field">
-              <button class="button is-success">
+              <button class="button is-link is-fullwidth">
                 Login
               </button>
             </div>
