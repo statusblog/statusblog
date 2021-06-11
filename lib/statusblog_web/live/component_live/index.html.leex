@@ -48,12 +48,12 @@
       </svg>
       <div class="ml-3">
         <p class="text-sm font-medium text-gray-900"><%= component.name %></p>
-        <p class="text-sm text-gray-500"><%= component.status |> Atom.to_string() |> String.capitalize() %></p>
+        <p class="text-sm text-gray-500"><%= component.status |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></p>
       </div>
       <div class="ml-auto flex">
-        <%= live_redirect "Edit", to: "/", class: "text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto" %>
+        <%= live_redirect "Edit", to: Routes.component_edit_path(@socket, :edit, @blog, component.id), class: "text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto" %>
       </div>
-      <svg class="w-6 h-6 my-auto text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+      <svg class="w-6 h-6 my-auto text-gray-400 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
     </li>
   <% end %>
 </ul>

@@ -1,0 +1,43 @@
+<%= f = form_for @changeset, "#",
+  class: "space-y-8 divide-y divide-gray-200",
+  id: "blog-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+  <div class="space-y-8 divide-y divide-gray-200">
+    <div>
+      <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <div class="col-span-6 sm:col-span-4">
+          <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
+          <%= text_input f, :name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+          <%= error_tag f, :name %>
+        </div>
+
+        <div class="col-span-6 sm:col-span-4">
+          <%= label f, :status, class: "block text-sm font-medium text-gray-700" %>
+          <%= select f, :status, status_options(), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+          <%= error_tag f, :status %>
+        </div>
+
+        <div class="col-span-6">
+          <%= label f, :description, class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= textarea f, :description, rows: "3", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md" %>
+          </div>
+          <%= error_tag f, :description %>
+          <p class="mt-2 text-sm text-gray-500">Optional blurb about what this component does.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="pt-5">
+    <div class="flex justify-end">
+      <%= submit "Save",
+        phx_disable_with: "Saving...",
+        class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  </div>
+</form>
