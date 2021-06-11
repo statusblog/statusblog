@@ -1,110 +1,49 @@
-
-
-    <section class="hero is-fullheight has-background-white-bis">
-      <div class="hero-body">
+<section class="hero is-fullheight has-background-white-bis">
+  <div class="hero-body">
     <div class="container">
-      <div class="columns is-centered p-8">
-        <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
-          <figure class="image is-128x128 is-inline-block">
-              <img class="" src="/logo.svg" alt="Statusblog"/>
-          </figure>
-          <h2 class="is-size-3 has-text-weight-bold">Sign in to your account</h2>
-          <p>Don't have an account? <a href="#">Create one.</a></p>
-        </div>
-
+      <div class="has-text-centered">
+        <figure class="image is-96x96 is-inline-block mb-2">
+            <img class="" src="/logo.svg" alt="Statusblog"/>
+        </figure>
+        <h1 class="title is-3">Sign in to your account</h2>
+        <h3 class="subtitle is-6">
+          Don't have an account?
+          <%= link "Create one.", to: Routes.user_registration_path(@conn, :new) %>
+        </h3>
       </div>
 
-      <div class="columns is-centered">
-        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-          <form action="" class="box p-5">
-            <div class="field">
-              <label for="" class="label">Email</label>
-              <div class="control has-icons-left">
-                <input type="email" placeholder="e.g. bobsmith@gmail.com" class="input" required>
-                <span class="icon is-large is-left">
-                  <i class="bi bi-alarm"></i>
-                </span>
-              </div>
-            </div>
-            <div class="field">
-              <label for="" class="label">Password</label>
-              <div class="control has-icons-left">
-                <input type="password" placeholder="*******" class="input" required>
-                <span class="icon is-small is-left">
-                  <i class="fa fa-lock"></i>
-                </span>
-              </div>
-            </div>
-            <div class="field is-grouped columns mt-4">
-              <label class="checkbox column">
-                <input type="checkbox">
-                Remember me
-              </label>
-              <a href="#" class="column has-text-right">Forgot password?</a>
-            </div>
-            <div class="field">
-              <button class="button is-link is-fullwidth">
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
-        </div></div>
-      </div>
-    </section>
-
-
-<!--<div class="columns">
-  <div class="column is-half is-mobile is-centered is-offset-one-quarter">
-    <img class="column" src="/logo.svg" alt="Statusblog>
-    <h2 class="column">
-      Sign in to your account
-    </h2>
-    <p class="column">
-      Don't have an account?
-      <%= link "Create one.", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
-    </p>
-  </div>
-
-  <div class="column is-half is-mobile">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user, class: "space-y-6"], fn f -> %>
+      <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user, class: "box container mt-5", style: "max-width: 400px"], fn f -> %>
         <%= if @error_message do %>
-          <div class="text-sm text-red-600 italic">
+          <div class="help is-danger pb-4">
             <p><%= @error_message %></p>
           </div>
         <% end %>
 
         <div class="field">
-          <%= label f, :email, "Email address", class: "label" %>
+          <%= label f, :email, class: "label" %>
           <div class="control">
-            <%= email_input f, :email, required: true, class: "input" %>
+            <%= email_input f, :email, class: "input" %>
           </div>
         </div>
 
-        <div class="field">
+        <div class="field my-5">
           <%= label f, :password, class: "label" %>
           <div class="control">
-            <%= password_input f, :password, required: true, class: "input" %>
+            <%= password_input f, :password, class: "input" %>
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <%= checkbox f, :remember_me, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
-            <%= label f, :remember_me, "Remember me", class: "ml-2 block text-sm text-gray-900" %>
-          </div>
+        <div class="field my-5">
+          <%= label f, :remember_me, class: "checkbox" do %>
+            <%= checkbox f, :remember_me %>
+            Remember me
+          <% end %>
 
-          <div class="text-sm">
-            <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
-          </div>
+          <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "is-pulled-right" %>
         </div>
 
-        <div>
-          <%= submit "Sign in", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-        </div>
+        <%= submit "Sign in", class: "button is-link is-fullwidth" %>
       <% end %>
-
     </div>
   </div>
-</div>-->
+</section>
