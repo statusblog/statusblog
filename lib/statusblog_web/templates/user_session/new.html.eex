@@ -1,16 +1,68 @@
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <img class="mx-auto h-16 w-auto" src="/logo.svg" alt="Statusblog">
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+
+
+    <section class="hero is-fullheight has-background-white-bis">
+      <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered p-8">
+        <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
+          <h2 class="is-size-2 has-text-weight-bold">Sign in to your account</h2>
+          <p>Don't have an account? <a href="#">Create one.</a></p>
+        </div>
+
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+          <form action="" class="box">
+            <div class="field">
+              <label for="" class="label">Email</label>
+              <div class="control has-icons-left">
+                <input type="email" placeholder="e.g. bobsmith@gmail.com" class="input" required>
+                <span class="icon is-large is-left">
+                  <i class="bi bi-alarm"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label">Password</label>
+              <div class="control has-icons-left">
+                <input type="password" placeholder="*******" class="input" required>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="checkbox">
+                <input type="checkbox">
+               Remember me
+              </label>
+            </div>
+            <div class="field">
+              <button class="button is-success">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+        </div></div>
+      </div>
+    </section>
+
+
+<!--<div class="columns">
+  <div class="column is-half is-mobile is-centered is-offset-one-quarter">
+    <img class="column" src="/logo.svg" alt="Statusblog>
+    <h2 class="column">
       Sign in to your account
     </h2>
-    <p class="mt-2 text-center text-sm text-gray-600">
+    <p class="column">
       Don't have an account?
       <%= link "Create one.", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
     </p>
   </div>
 
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="column is-half is-mobile">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
       <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user, class: "space-y-6"], fn f -> %>
         <%= if @error_message do %>
@@ -19,17 +71,17 @@
           </div>
         <% end %>
 
-        <div>
-          <%= label f, :email, "Email address", class: "block text-sm font-medium text-gray-700" %>
-          <div class="mt-1">
-            <%= email_input f, :email, required: true, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        <div class="field">
+          <%= label f, :email, "Email address", class: "label" %>
+          <div class="control">
+            <%= email_input f, :email, required: true, class: "input" %>
           </div>
         </div>
 
-        <div>
-          <%= label f, :password, class: "block text-sm font-medium text-gray-700" %>
-          <div class="mt-1">
-            <%= password_input f, :password, required: true, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        <div class="field">
+          <%= label f, :password, class: "label" %>
+          <div class="control">
+            <%= password_input f, :password, required: true, class: "input" %>
           </div>
         </div>
 
@@ -51,4 +103,4 @@
 
     </div>
   </div>
-</div>
+</div>-->
