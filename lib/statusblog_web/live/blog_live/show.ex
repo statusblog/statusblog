@@ -5,6 +5,7 @@ defmodule StatusblogWeb.BlogLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
+    # todo: mount helper that assigns current user
     {:ok,
       socket
       |> assign(:menu, :blog_info)}
