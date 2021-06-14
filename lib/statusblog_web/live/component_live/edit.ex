@@ -9,7 +9,7 @@ defmodule StatusblogWeb.ComponentLive.Edit do
     blog = Blogs.get_blog!(blog_id)
     {:ok,
       socket
-      |> assign(:menu, :application)
+      |> assign(:menu, :components)
       |> assign(:blog, blog)
       |> assign(:page_title, "Edit component")
       |> assign(:component, Components.get_component!(id))}

@@ -28,6 +28,18 @@
           <p class="mt-2 text-sm text-gray-500">Optional blurb about what this component does.</p>
         </div>
 
+        <div class="col-span-6">
+          <div class="block text-sm font-medium text-gray-700">Display uptime</div>
+          <%= label f, :display_uptime, class: "flex items-center pt-2" do %>
+            <%= checkbox f, :display_uptime, class: "text-indigo-500 rounded border-gray-300" %>
+            <span class="text-gray-500 ml-2">Display the historical status of this component on your status blog</span>
+          <% end %>
+        </div>
+
+        <div class="col-span-6">
+          <%= label f, :start_date, class: "block text-sm font-medium text-gray-700" %>
+          <%= date_input f, :start_date, class: "border-gray-300 block rounded-md mt-1 focus:border-indigo-500 shadow-sm text-base sm:text-sm" %>
+          <%= error_tag f, :start_date %>
       </div>
     </div>
   </div>

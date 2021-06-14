@@ -7,7 +7,7 @@ defmodule Statusblog.Components do
   alias Statusblog.Repo
 
   alias Statusblog.Components.Component
-  #alias Statusblog.Blogs.Blog
+  alias Statusblog.Blogs.Blog
 
   #def list_components(%Blog{id: id} = blog), do: list_components(id)
   def list_components(blog_id) do
@@ -43,8 +43,9 @@ defmodule Statusblog.Components do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_component(attrs \\ %{}) do
-    %Component{}
+  def create_component(%Blog{} = blog, attrs \\ %{}) do
+    position = Repo.one!(from c in Component, select: coalesce(max(c.position), 0))
+    %Component{blog_id: blog.id, position: position + 1}
     |> Component.changeset(attrs)
     |> Repo.insert()
   end

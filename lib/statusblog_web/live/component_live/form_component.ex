@@ -41,6 +41,20 @@ defmodule StatusblogWeb.ComponentLive.FormComponent do
     end
   end
 
+  defp save_component(socket, :new, component_params) do
+    case Components.create_component(socket.assigns.blog, component_params) do
+      {:ok, _component} ->
+        {:noreply,
+          socket
+          |> put_flash(:info, "Component created successfully")
+          |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
   defp status_options() do
     Ecto.Enum.values(Statusblog.Components.Component, :status)
     |> Enum.map(&({status_option_display(&1), &1}))
