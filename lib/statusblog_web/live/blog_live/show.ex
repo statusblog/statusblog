@@ -2,23 +2,18 @@ defmodule StatusblogWeb.BlogLive.Show do
   use StatusblogWeb, :live_view
 
   alias Statusblog.Blogs
+  alias StatusblogWeb.MountHelpers
 
   @impl true
-  def mount(_params, _session, socket) do
-    # todo: mount helper that assigns current user
+  def mount(%{"id" => id}, session, socket) do
+    blog = Blogs.get_blog!(id)
     {:ok,
       socket
-      |> assign(:menu, :blog_info)}
-  end
-
-  @impl true
-  def handle_params(%{"id" => id}, _, socket) do
-    blog = Blogs.get_blog!(id)
-    {:noreply,
-     socket
-     |> assign(:page_title, "Edit blog")
-     |> assign(:blog, blog)
-     |> assign(:changeset, Blogs.change_blog(blog))}
+      |> MountHelpers.assign_defaults(session)
+      |> assign(:menu, :blog_info)
+      |> assign(:page_title, "Edit blog")
+      |> assign(:blog, blog)
+      |> assign(:changeset, Blogs.change_blog(blog))}
   end
 
   @impl true
