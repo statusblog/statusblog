@@ -7,6 +7,7 @@ defmodule Statusblog.BlogsTest do
     alias Statusblog.Blogs.Blog
 
     import Statusblog.BlogsFixtures
+    import Statusblog.AccountsFixtures
 
     @invalid_attrs %{description: nil, domain: nil, name: nil, subdomain: nil}
 
@@ -23,7 +24,7 @@ defmodule Statusblog.BlogsTest do
     test "create_blog/1 with valid data creates a blog" do
       valid_attrs = %{description: "some description", domain: "some domain", name: "some name", subdomain: "some-subdomain"}
 
-      assert {:ok, %Blog{} = blog} = Blogs.create_blog(valid_attrs)
+      assert {:ok, %Blog{} = blog} = Blogs.create_blog(confirmed_user_fixture(), valid_attrs)
       assert blog.description == "some description"
       assert blog.domain == "some domain"
       assert blog.name == "some name"
@@ -31,7 +32,7 @@ defmodule Statusblog.BlogsTest do
     end
 
     test "create_blog/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Blogs.create_blog(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Blogs.create_blog(confirmed_user_fixture(), @invalid_attrs)
     end
 
     test "update_blog/2 with valid data updates the blog" do

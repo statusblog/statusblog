@@ -26,8 +26,10 @@ defmodule Statusblog.BlogsFixtures do
         name: "some name",
         subdomain: unique_blog_subdomain()
       })
-      |> Statusblog.Blogs.create_blog()
+      |> create_blog()
 
     blog
   end
+
+  defp create_blog(attrs), do: Statusblog.Blogs.create_blog(Statusblog.AccountsFixtures.confirmed_user_fixture(), attrs)
 end

@@ -6,7 +6,7 @@ defmodule Statusblog.Blogs do
   import Ecto.Query, warn: false
   alias Statusblog.Repo
 
-  alias Statusblog.Blogs.Blog
+  alias Statusblog.Blogs.{Blog, Membership}
 
   @doc """
   Returns the list of blogs.
@@ -49,10 +49,23 @@ defmodule Statusblog.Blogs do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_blog(attrs \\ %{}) do
-    %Blog{}
-    |> Blog.changeset(attrs)
-    |> Repo.insert()
+  def create_blog(user, attrs \\ %{}) do
+    blog_changest = Blog.changeset(%Blog{}, attrs)
+
+    multi =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(:blog, blog_changest)
+      |> Ecto.Multi.insert(:membership, fn %{blog: blog} ->
+        Membership.insert_changeset(blog, user, :admin)
+      end)
+
+    case Repo.transaction(multi) do
+      {:ok, %{blog: blog}} ->
+        {:ok, blog}
+
+      {:error, :blog, changeset, _} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
