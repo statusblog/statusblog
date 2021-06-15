@@ -8,16 +8,13 @@ defmodule Statusblog.Blogs do
 
   alias Statusblog.Blogs.{Blog, Membership}
 
-  @doc """
-  Returns the list of blogs.
+  def list_blogs(user) do
+    user
+    |> Blog.by_user()
+    |> Repo.all()
+  end
 
-  ## Examples
-
-      iex> list_blogs()
-      [%Blog{}, ...]
-
-  """
-  def list_blogs do
+  def list_blogs() do
     Repo.all(Blog)
   end
 

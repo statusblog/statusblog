@@ -17,7 +17,7 @@ defmodule Statusblog.BlogsFixtures do
   @doc """
   Generate a blog.
   """
-  def blog_fixture(attrs \\ %{}) do
+  def blog_fixture(user \\ nil, attrs \\ %{}) do
     {:ok, blog} =
       attrs
       |> Enum.into(%{
@@ -26,10 +26,11 @@ defmodule Statusblog.BlogsFixtures do
         name: "some name",
         subdomain: unique_blog_subdomain()
       })
-      |> create_blog()
+      |> create_blog(user)
 
     blog
   end
 
-  defp create_blog(attrs), do: Statusblog.Blogs.create_blog(Statusblog.AccountsFixtures.confirmed_user_fixture(), attrs)
+  defp create_blog(attrs, nil), do: create_blog(attrs, Statusblog.AccountsFixtures.confirmed_user_fixture())
+  defp create_blog(attrs, user), do: Statusblog.Blogs.create_blog(user, attrs)
 end

@@ -16,6 +16,17 @@ defmodule Statusblog.BlogsTest do
       assert Blogs.list_blogs() == [blog]
     end
 
+    test "list_blogs/1 filters by user" do
+      user1 = confirmed_user_fixture()
+      blog1 = blog_fixture(user1)
+
+      user2 = confirmed_user_fixture()
+      _blog2 = blog_fixture(user2)
+
+      [loaded] = Blogs.list_blogs(user1)
+      assert loaded.id == blog1.id
+    end
+
     test "get_blog!/1 returns the blog with given id" do
       blog = blog_fixture()
       assert Blogs.get_blog!(blog.id) == blog

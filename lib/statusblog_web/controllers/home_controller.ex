@@ -1,11 +1,17 @@
 defmodule StatusblogWeb.HomeController do
   use StatusblogWeb, :controller
 
+  alias Statusblog.Blogs
+
   def index(conn, _params) do
-    # todo:
-    # fetch first blog that user is member of - if exists, redirect
-    # if none found, redirect to "/blogs/new"
-    redirect(conn, to: Routes.user_settings_path(conn, :edit))
+    user = conn.assigns[:current_user]
+    case Blogs.list_blogs(user) do
+      [blog | _] ->
+        redirect(conn, to: Routes.blog_edit_path(conn, :edit, blog))
+
+      [] ->
+        redirect(conn, to: Routes.blog_new_path(conn, :new))
+    end
   end
 
 end
