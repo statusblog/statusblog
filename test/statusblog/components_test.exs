@@ -33,16 +33,16 @@ defmodule Statusblog.ComponentsTest do
       assert component.status == :operational
     end
 
-    test "create_component/1 with duplicate positions" do
-      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational}
+    # test "create_component/1 with duplicate positions" do
+    #   valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational}
 
-      assert {:ok, %Component{}} = Components.create_component(blog_fixture(), valid_attrs)
-      assert_raise Ecto.ConstraintError, fn ->
-        Components.create_component(blog_fixture(), valid_attrs)
-      end
+    #   assert {:ok, %Component{}} = Components.create_component(blog_fixture(), valid_attrs)
+    #   assert_raise Ecto.ConstraintError, fn ->
+    #     Components.create_component(blog_fixture(), valid_attrs)
+    #   end
 
-      assert {:ok, %Component{}} = Components.create_component(blog_fixture(), %{valid_attrs | position: 41})
-    end
+    #   assert {:ok, %Component{}} = Components.create_component(blog_fixture(), %{valid_attrs | position: 41})
+    # end
 
     test "create_component/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Components.create_component(blog_fixture(), @invalid_attrs)
