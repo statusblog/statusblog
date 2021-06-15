@@ -22,9 +22,9 @@ defmodule Statusblog.ComponentsTest do
     end
 
     test "create_component/1 with valid data creates a component" do
-      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational, blog_id: blog_fixture().id}
+      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational}
 
-      assert {:ok, %Component{} = component} = Components.create_component(valid_attrs)
+      assert {:ok, %Component{} = component} = Components.create_component(blog_fixture(), valid_attrs)
       assert component.description == "some description"
       assert component.display_uptime == true
       assert component.name == "some name"
@@ -34,18 +34,18 @@ defmodule Statusblog.ComponentsTest do
     end
 
     test "create_component/1 with duplicate positions" do
-      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational, blog_id: blog_fixture().id}
+      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational}
 
-      assert {:ok, %Component{}} = Components.create_component(valid_attrs)
+      assert {:ok, %Component{}} = Components.create_component(blog_fixture(), valid_attrs)
       assert_raise Ecto.ConstraintError, fn ->
-        Components.create_component(valid_attrs)
+        Components.create_component(blog_fixture(), valid_attrs)
       end
 
-      assert {:ok, %Component{}} = Components.create_component(%{valid_attrs | position: 41})
+      assert {:ok, %Component{}} = Components.create_component(blog_fixture(), %{valid_attrs | position: 41})
     end
 
     test "create_component/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Components.create_component(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Components.create_component(blog_fixture(), @invalid_attrs)
     end
 
     test "update_component/2 with valid data updates the component" do
