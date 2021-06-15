@@ -1,41 +1,36 @@
-defmodule StatusblogWeb.BlogLive.Show do
+defmodule StatusblogWeb.BlogLive.New do
   use StatusblogWeb, :live_view
 
   alias Statusblog.Blogs
+  alias Statusblog.Blogs.Blog
   alias StatusblogWeb.MountHelpers
 
   @impl true
-  def mount(params, session, socket) do
-    IO.inspect params
+  def mount(_params, session, socket) do
     {:ok,
       socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :blog_info)
-      |> assign(:page_title, "Edit blog")
-      |> assign_changeset()}
-  end
-
-  defp assign_changeset(socket) do
-    socket
-    |> assign(:changeset, Blogs.change_blog(socket.assigns.blog))
+      |> MountHelpers.assign_current_user(session)
+      |> assign(:changeset, Blogs.change_blog(%Blog{}))}
   end
 
   @impl true
   def handle_event("validate", %{"blog" => blog_params}, socket) do
     changeset =
-      socket.assigns.blog
+      %Blog{}
       |> Blogs.change_blog(blog_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"blog" => blog_params}, socket) do
-    case Blogs.update_blog(socket.assigns.blog, blog_params) do
-      {:ok, _blog} ->
+    case Blogs.create_blog(socket.assigns.current_user, blog_params) do
+      {:ok, blog} ->
         {:noreply,
-         socket
-         |> put_flash(:info, "Blog updated successfully")}
+          socket
+          |> put_flash(:info, "Blog created successfully")
+          |> push_redirect(to: Routes.blog_edit_path(socket, :edit, blog))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

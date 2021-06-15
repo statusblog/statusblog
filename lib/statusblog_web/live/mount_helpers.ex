@@ -9,7 +9,7 @@ defmodule StatusblogWeb.MountHelpers do
     |> assign_current_blog(params)
   end
 
-  defp assign_current_user(socket, session) do
+  def assign_current_user(socket, session) do
     assign_new(socket, :current_user, fn ->
       Accounts.get_user_by_session_token!(session["user_token"])
     end)

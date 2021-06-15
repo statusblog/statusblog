@@ -58,12 +58,9 @@ defmodule StatusblogWeb.Router do
 
     get "/", HomeController, :index
 
-    live "/blogs", BlogLive.Index, :index
-    live "/blogs/new", BlogLive.Index, :new
-    live "/blogs/:id/edit", BlogLive.Index, :edit
-
-    live "/blogs/:blog_id", BlogLive.Show, :show
-    live "/blogs/:blog_id/show/edit", BlogLive.Show, :edit
+    live "/blogs/new", BlogLive.New, :new
+    live "/blogs/:blog_id", BlogLive.Edit, :show
+    live "/blogs/:blog_id/edit", BlogLive.Edit, :edit
 
     live "/blogs/:blog_id/components", ComponentLive.Index, :index
     live "/blogs/:blog_id/components/:id/edit", ComponentLive.Edit, :edit

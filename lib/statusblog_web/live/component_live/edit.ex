@@ -1,7 +1,6 @@
 defmodule StatusblogWeb.ComponentLive.Edit do
   use StatusblogWeb, :live_view
 
-  alias Statusblog.Blogs
   alias Statusblog.Components
   alias StatusblogWeb.MountHelpers
 
