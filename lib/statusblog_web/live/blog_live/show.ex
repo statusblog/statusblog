@@ -5,15 +5,19 @@ defmodule StatusblogWeb.BlogLive.Show do
   alias StatusblogWeb.MountHelpers
 
   @impl true
-  def mount(%{"id" => id}, session, socket) do
-    blog = Blogs.get_blog!(id)
+  def mount(params, session, socket) do
+    IO.inspect params
     {:ok,
       socket
-      |> MountHelpers.assign_defaults(session)
+      |> MountHelpers.assign_defaults(params, session)
       |> assign(:menu, :blog_info)
       |> assign(:page_title, "Edit blog")
-      |> assign(:blog, blog)
-      |> assign(:changeset, Blogs.change_blog(blog))}
+      |> assign_changeset()}
+  end
+
+  defp assign_changeset(socket) do
+    socket
+    |> assign(:changeset, Blogs.change_blog(socket.assigns.blog))
   end
 
   @impl true

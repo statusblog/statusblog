@@ -6,17 +6,18 @@ defmodule StatusblogWeb.ComponentLive.Index do
   alias StatusblogWeb.MountHelpers
 
   @impl true
-  def mount(%{"blog_id" => blog_id}, session, socket) do
-    # todo: validate blog_id is valid
-    blog = Blogs.get_blog!(blog_id)
-
+  def mount(params, session, socket) do
     {:ok,
       socket
-      |> MountHelpers.assign_defaults(session)
-      |> assign(:components, Components.list_components(blog_id))
+      |> MountHelpers.assign_defaults(params, session)
+      |> assign_components()
       |> assign(:page_title, "Components")
-      |> assign(:menu, :components)
-      |> assign(:blog, blog)}
+      |> assign(:menu, :components)}
+  end
+
+  defp assign_components(socket) do
+    socket
+    |> assign(:components, Components.list_components(socket.assigns.blog.id))
   end
 
 end

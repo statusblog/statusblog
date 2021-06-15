@@ -62,8 +62,8 @@ defmodule StatusblogWeb.Router do
     live "/blogs/new", BlogLive.Index, :new
     live "/blogs/:id/edit", BlogLive.Index, :edit
 
-    live "/blogs/:id", BlogLive.Show, :show
-    live "/blogs/:id/show/edit", BlogLive.Show, :edit
+    live "/blogs/:blog_id", BlogLive.Show, :show
+    live "/blogs/:blog_id/show/edit", BlogLive.Show, :edit
 
     live "/blogs/:blog_id/components", ComponentLive.Index, :index
     live "/blogs/:blog_id/components/:id/edit", ComponentLive.Edit, :edit
