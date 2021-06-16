@@ -7,6 +7,7 @@ defmodule StatusblogWeb.MountHelpers do
     socket
     |> assign_current_user(session)
     |> assign_current_blog(params)
+    |> assign_user_blogs()
   end
 
   def assign_current_user(socket, session) do
@@ -18,6 +19,12 @@ defmodule StatusblogWeb.MountHelpers do
   defp assign_current_blog(socket, params) do
     assign_new(socket, :blog, fn ->
       params["blog_id"] && Blogs.get_blog!(params["blog_id"])
+    end)
+  end
+
+  defp assign_user_blogs(socket) do
+    assign_new(socket, :blogs, fn ->
+      Blogs.list_blogs(socket.assigns.current_user)
     end)
   end
 end

@@ -16,6 +16,10 @@ defmodule StatusblogWeb.SidebarComponent do
   #   """
   # end
 
+  defp blog_redirect_class(current_blog, blog), do: blog_redirect_class(current_blog == blog)
+  defp blog_redirect_class(true), do: "p-2 w-full flex items-center text-lg font-medium bg-gray-50 hover:bg-gray-100"
+  defp blog_redirect_class(false), do: "p-2 w-full flex items-center text-lg font-medium hover:bg-gray-100"
+
   defp redirect_to(socket, blog, :blog_info), do: Routes.blog_edit_path(socket, :edit, blog)
   defp redirect_to(socket, blog, :components), do: Routes.component_index_path(socket, :index, blog)
 
