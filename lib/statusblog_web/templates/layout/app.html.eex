@@ -1,4 +1,6 @@
 <div>
-  <%= flash_alerts(@conn) %>
+  <%= flash_alert(:info, get_flash(@conn, :info)) %>
+  <%= flash_alert(:error, get_flash(@conn, :error)) %>
+
   <%= @inner_content %>
 </div>

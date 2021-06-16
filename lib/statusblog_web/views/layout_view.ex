@@ -1,12 +1,9 @@
 defmodule StatusblogWeb.LayoutView do
   use StatusblogWeb, :view
 
-  def flash_alerts(conn) do
-    get_flash(conn)
-    |> Enum.map(fn {type, msg} -> flash_alert(type, msg) end)
-  end
+  def flash_alert(_, nil), do: nil
 
-  def flash_alert("info", msg) do
+  def flash_alert(:info, msg) do
     ~E"""
     <div
       x-data="{ show: true }"
@@ -28,11 +25,10 @@ defmodule StatusblogWeb.LayoutView do
         </div>
       </div>
     </div>
-
     """
   end
 
-  def flash_alert("error", msg) do
+  def flash_alert(:error, msg) do
     ~E"""
     <div
       x-data="{ show: true }"
