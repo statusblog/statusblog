@@ -9,7 +9,7 @@ defmodule StatusblogWeb.LayoutView do
       x-data="{ show: true }"
       x-show.transition="show"
       x-init="setTimeout(() => show = false, 5000)"
-      class="rounded-md border bg-green-50 border-green-300 p-4 fixed top-4 left-1/2 transform -translate-x-1/2"
+      class="rounded-md border bg-green-50 border-green-300 p-4 fixed z-10 shadow-lg top-4 left-1/2 transform -translate-x-1/2"
     >
       <div class="flex">
         <div class="flex-shrink-0">
@@ -34,7 +34,7 @@ defmodule StatusblogWeb.LayoutView do
       x-data="{ show: true }"
       x-show.transition="show"
       x-init="setTimeout(() => show = false, 5000)"
-      class="rounded-md bg-red-50 border border-red-300 p-4 fixed top-4 left-1/2 transform -translate-x-1/2"
+      class="rounded-md bg-red-50 border border-red-300 p-4 fixed z-10 shadow-lg top-4 left-1/2 transform -translate-x-1/2"
     >
       <div class="flex">
         <div class="flex-shrink-0">
