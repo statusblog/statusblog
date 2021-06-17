@@ -22,6 +22,7 @@ defmodule StatusblogWeb.SidebarComponent do
 
   defp redirect_to(socket, blog, :blog_info), do: Routes.blog_edit_path(socket, :edit, blog)
   defp redirect_to(socket, blog, :components), do: Routes.component_index_path(socket, :index, blog)
+  defp redirect_to(socket, blog, :incidents), do: Routes.incident_index_path(socket, :index, blog)
 
   defp mobile_redirect_class(menu, item), do: mobile_redirect_class(menu == item)
   defp mobile_redirect_class(true), do: "bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md"
