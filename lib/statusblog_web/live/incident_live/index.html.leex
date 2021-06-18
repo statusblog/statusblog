@@ -48,7 +48,7 @@
         <p class="text-sm text-gray-500"><%= :investigating |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></p>
       </div>
       <div class="ml-auto flex">
-        <%= live_redirect "Edit", to: "/", class: "text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto" %>
+        <%= live_redirect "Edit", to: Routes.incident_edit_path(@socket, :edit, @blog, incident), class: "text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto" %>
       </div>
     </li>
   <% end %>
