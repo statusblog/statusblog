@@ -59,12 +59,11 @@ defmodule StatusblogWeb.Router do
     get "/", HomeController, :index
 
     live "/blogs/new", BlogLive.New, :new
-    live "/blogs/:blog_id", BlogLive.Edit, :show
-    live "/blogs/:blog_id/edit", BlogLive.Edit, :edit
+    live "/blogs/:blog_id", BlogLive.Edit, :edit
 
     live "/blogs/:blog_id/components", ComponentLive.Index, :index
-    live "/blogs/:blog_id/components/:id/edit", ComponentLive.Edit, :edit
     live "/blogs/:blog_id/components/new", ComponentLive.New, :new
+    live "/blogs/:blog_id/components/:id", ComponentLive.Edit, :edit
 
     live "/blogs/:blog_id/incidents", IncidentLive.Index, :index
     live "/blogs/:blog_id/incidents/new", IncidentLive.New, :new
