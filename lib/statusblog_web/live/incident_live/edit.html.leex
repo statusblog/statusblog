@@ -1,15 +1,25 @@
 <%= live_component StatusblogWeb.SidebarComponent,
   title: @incident.name, menu: @menu, blog: @blog, blogs: @blogs, current_user: @current_user do %>
 
-  <%= for incident_update <- @incident_updates do %>
-    <%= incident_update.status %>
-  <% end %>
+  <div class="mt-8">
+    <h2 class="text-xl font-bold text-gray-700 border-gray-300 border-b-2">Update history</h2>
+    <%= for incident_update <- @incident_updates do %>
+      <div class="py-4 border-b border-gray-200">
+        <div class="my-2 uppercase font-bold text-gray-500 text-xs tracking-wide"><%= update_time(incident_update) %></div>
+        <div class="my-2 uppercase font-bold text-xs text-blue-800 bg-blue-200 inline-block py-1 px-2 rounded">
+          <%= incident_update.status %>
+        </div>
+        <div class="my-2 text-gray-700"><%= incident_update.body %></div>
+      </div>
+    <% end %>
+  </div>
 
   <%= f = form_for @changeset, "#",
-    class: "space-y-8 divide-y divide-gray-200",
+    class: "space-y-8 mt-16",
     id: "incident-form",
     phx_change: "validate",
     phx_submit: "save" %>
+    <h2 class="text-xl font-bold text-gray-700 border-gray-300 border-b-2">Add new update</h2>
     <div class="space-y-8 divide-y divide-gray-200">
       <div>
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">

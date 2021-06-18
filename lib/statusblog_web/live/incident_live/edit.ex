@@ -40,6 +40,12 @@ defmodule StatusblogWeb.IncidentLive.Edit do
     end
   end
 
+  defp update_time(%IncidentUpdate{} = incident_update) do
+    hour_min = Timex.format!( incident_update.inserted_at, "%H:%M", :strftime)
+    time_ago = Timex.from_now(incident_update.inserted_at)
+    "#{time_ago} (#{hour_min} UTC)"
+  end
+
   defp status_options() do
     Ecto.Enum.values(IncidentUpdate, :status)
     |> Enum.map(&({status_option_display(&1), &1}))
