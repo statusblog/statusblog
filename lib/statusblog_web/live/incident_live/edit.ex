@@ -13,8 +13,19 @@ defmodule StatusblogWeb.IncidentLive.Edit do
       |> assign(:menu, :incidents)
       |> assign(:incident, Incidents.get_incident!(incident_id))
       |> assign(:incident_updates, Incidents.list_incident_updates(incident_id))
-      |> assign(:changeset, Incidents.change_incident_update(%IncidentUpdate{}))}
+      |> assign_changeset()}
   end
+
+  defp assign_changeset(socket) do
+    changeset =
+      Incidents.change_incident_update(%IncidentUpdate{})
+      |> Ecto.Changeset.put_change(:status, default_status(socket.assigns.incident_updates))
+
+    assign(socket, :changeset, changeset)
+  end
+
+  defp default_status([]), do: :investigating
+  defp default_status([iu | _]), do: iu.status
 
   @impl true
   def handle_event("validate", %{"incident_update" => incident_update_params}, socket) do
