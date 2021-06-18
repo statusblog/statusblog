@@ -131,6 +131,8 @@ defmodule Statusblog.Incidents do
 
   """
   def create_incident_update(%Incident{} = incident, attrs \\ %{}) do
+    # todo: Multi and also update components?
+
     %IncidentUpdate{incident_id: incident.id}
     |> IncidentUpdate.changeset(attrs)
     |> Repo.insert()

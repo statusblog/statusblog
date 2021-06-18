@@ -4,6 +4,7 @@ defmodule Statusblog.Components.Component do
   alias Statusblog.Blogs.Blog
 
   @status_values [:operational, :under_maintenance, :degraded_performance, :partial_outage, :major_outage]
+  def status_values(), do: @status_values
 
   schema "components" do
     field :description, :string

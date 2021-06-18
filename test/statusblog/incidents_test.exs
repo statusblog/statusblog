@@ -83,6 +83,20 @@ defmodule Statusblog.IncidentsTest do
       assert incident_update.status == :investigating
     end
 
+    test "create_incident_update/1 handles embedded component" do
+      valid_attrs = %{body: "some body", status: :investigating, components: [%{id: 1, name: "foo", status: :operational}]}
+      assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
+      [inserted_component] = incident_update.components
+      assert inserted_component.id == 1
+      IO.inspect inserted_component
+    end
+
+    test "create_incident_update/1 does not insert not-selected component" do
+      valid_attrs = %{body: "some body", status: :investigating, components: [%{id: 1, name: "foo", status: :operational, selected: false}]}
+      assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
+      assert incident_update.components == []
+    end
+
     test "create_incident_update/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Incidents.create_incident_update(incident_fixture(), @invalid_attrs)
     end
