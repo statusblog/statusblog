@@ -28,12 +28,11 @@ defmodule StatusblogWeb.IncidentLive.New do
   @impl true
   def handle_event("save", %{"incident" => incident_params}, socket) do
     case Incidents.create_incident(socket.assigns.blog, incident_params) do
-      {:ok, _incident} ->
+      {:ok, incident} ->
         {:noreply,
           socket
           |> put_flash(:info, "Incident created successfully")
-          # todo: should be incident "edit" path
-          |> push_redirect(to: Routes.incident_index_path(socket, :index, socket.assigns.blog))}
+          |> push_redirect(to: Routes.incident_edit_path(socket, :edit, socket.assigns.blog, incident))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
