@@ -22,4 +22,21 @@ defmodule Statusblog.IncidentsFixtures do
   end
 
   defp create_incident(attrs), do: Incidents.create_incident(BlogsFixtures.blog_fixture(), attrs)
+
+  @doc """
+  Generate a incident_update.
+  """
+  def incident_update_fixture(attrs \\ %{}) do
+    {:ok, incident_update} =
+      attrs
+      |> Enum.into(%{
+        body: "some body",
+        status: :investigating
+      })
+      |> create_incident_update()
+
+    incident_update
+  end
+
+  defp create_incident_update(attrs), do: Incidents.create_incident_update(incident_fixture(), attrs)
 end
