@@ -1,6 +1,5 @@
 defmodule StatusblogWeb.ComponentLive.FormComponent do
   use StatusblogWeb, :live_component
-
   alias Statusblog.Components
 
   @impl true

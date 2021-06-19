@@ -88,7 +88,6 @@ defmodule Statusblog.IncidentsTest do
       assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
       [inserted_component] = incident_update.components
       assert inserted_component.id == 1
-      IO.inspect inserted_component
     end
 
     test "create_incident_update/1 does not insert not-selected component" do

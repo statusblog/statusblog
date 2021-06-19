@@ -6,6 +6,8 @@ defmodule Statusblog.Incidents do
   import Ecto.Query, warn: false
   alias Statusblog.Repo
 
+  alias Statusblog.Components
+  alias Statusblog.Components.Component
   alias Statusblog.Incidents.Incident
   alias Statusblog.Blogs.Blog
 
@@ -131,11 +133,29 @@ defmodule Statusblog.Incidents do
 
   """
   def create_incident_update(%Incident{} = incident, attrs \\ %{}) do
-    # todo: Multi and also update components?
+    iu_changeset =
+      %IncidentUpdate{incident_id: incident.id}
+      |> IncidentUpdate.changeset(attrs)
+      |> IncidentUpdate.filter_unselected_components()
 
-    %IncidentUpdate{incident_id: incident.id}
-    |> IncidentUpdate.changeset(attrs)
-    |> Repo.insert()
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:incident_update, iu_changeset)
+    |> Ecto.Multi.merge(fn %{incident_update: incident_update} ->
+      Enum.reduce(incident_update.components, Ecto.Multi.new(), fn iuc, multi ->
+        component = Components.get_component!(iuc.id)
+        if component.status != iuc.status do
+          Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
+        else
+          multi
+        end
+      end)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{incident_update: incident_update}} -> {:ok, incident_update}
+      {:error, :incident_update, changeset, _} -> {:error, changeset}
+      # don't handle component issues
+    end
   end
 
   @doc """

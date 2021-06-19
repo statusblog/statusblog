@@ -36,6 +36,24 @@
             </div>
             <%= error_tag f, :body %>
           </div>
+
+          <div class="col-span-6">
+            <div class="block text-sm font-medium text-gray-700">Components affected</div>
+            <%= for fc <- inputs_for(f, :components) do %>
+              <div>
+                <div>
+                  <%= checkbox fc, :selected %>
+                  <%= label fc, :selected, fc.source.changes.name %>
+                  <%= hidden_input fc, :name %>
+                  <%= hidden_input fc, :id %>
+                </div>
+
+                <div class="col-span-6 sm:col-span-4">
+                  <%= select fc, :status, component_status_options(), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
       </div>
     </div>
 

@@ -20,4 +20,11 @@ defmodule Statusblog.Incidents.IncidentUpdate do
     |> cast_embed(:components)
     |> validate_required([:body, :status])
   end
+
+  def filter_unselected_components(incident_update) do
+    incident_update
+    |> IO.inspect
+    |> put_embed(:components, Enum.filter(incident_update.changes.components, fn cs -> cs.changes.selected end))
+    |> IO.inspect
+  end
 end
