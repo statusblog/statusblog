@@ -4,9 +4,12 @@ defmodule Statusblog.Incidents.IncidentUpdate do
   alias Statusblog.Incidents.Incident
   alias Statusblog.Incidents.IncidentUpdateComponent
 
+  @status_values [:investigating, :identified, :monitoring, :resolved]
+  def status_values(), do: @status_values
+
   schema "incident_updates" do
     field :body, :string
-    field :status, Ecto.Enum, values: [:investigating, :identified, :monitoring, :resolved]
+    field :status, Ecto.Enum, values: @status_values
     embeds_many :components, IncidentUpdateComponent
     belongs_to :incident, Incident
 

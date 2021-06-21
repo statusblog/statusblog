@@ -141,7 +141,12 @@ defmodule Statusblog.Incidents do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:incident_update, iu_changeset)
     |> Ecto.Multi.merge(fn %{incident_update: incident_update} ->
-      Enum.reduce(incident_update.components, Ecto.Multi.new(), fn iuc, multi ->
+      # update incident
+      multi = Ecto.Multi.new()
+        |> Ecto.Multi.update(:incident, change_incident(incident, %{status: incident_update.status}))
+
+      # update components
+      Enum.reduce(incident_update.components, multi, fn iuc, multi ->
         component = Components.get_component!(iuc.id)
         if component.status != iuc.status do
           Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
