@@ -26,8 +26,6 @@ defmodule Statusblog.Incidents.IncidentUpdate do
 
   def filter_unselected_components(incident_update) do
     incident_update
-    |> IO.inspect
     |> put_embed(:components, Enum.filter(incident_update.changes.components, fn cs -> cs.changes.selected end))
-    |> IO.inspect
   end
 end

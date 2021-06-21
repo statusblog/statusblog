@@ -45,9 +45,30 @@ defmodule Statusblog.Incidents do
 
   """
   def create_incident(%Blog{} = blog, attrs \\ %{}) do
-    %Incident{blog_id: blog.id}
-    |> Incident.changeset(attrs)
-    |> Repo.insert()
+    changeset =
+      %Incident{blog_id: blog.id}
+      |> Incident.changeset(attrs)
+      |> Incident.filter_unselected_components()
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:incident, changeset)
+    |> Ecto.Multi.merge(fn %{incident: incident} ->
+      [incident_update] = incident.incident_updates
+      Enum.reduce(incident_update.components, Ecto.Multi.new(), fn iuc, multi ->
+        component = Components.get_component!(iuc.id)
+        if component.status != iuc.status do
+          Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
+        else
+          multi
+        end
+      end)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{incident: incident}} -> {:ok, incident}
+      {:error, :incident, changeset, _} -> {:error, changeset}
+      # don't handle component issues
+    end
   end
 
   @doc """
