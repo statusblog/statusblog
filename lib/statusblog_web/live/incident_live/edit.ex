@@ -15,12 +15,7 @@ defmodule StatusblogWeb.IncidentLive.Edit do
       |> assign(:menu, :incidents)
       |> assign(:incident, Incidents.get_incident!(incident_id))
       |> assign(:incident_updates, Incidents.list_incident_updates(incident_id))
-      #|> assign_components()
       |> assign_changeset()}
-  end
-
-  defp assign_components(socket) do
-    assign(socket, :components, Components.list_components(socket.assigns.blog.id))
   end
 
   defp assign_changeset(socket) do
