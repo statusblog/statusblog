@@ -42,7 +42,7 @@ defmodule StatusblogWeb.IncidentLive.Edit do
 
   defp default_component_selected(_component, []), do: false
   defp default_component_selected(component, [iu | _]) do
-    Enum.any?(iu.components, fn c -> c.id == component.id end)
+    Enum.any?(iu.components, fn c -> c.selected && c.id == component.id end)
   end
 
   @impl true

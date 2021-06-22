@@ -5,25 +5,20 @@ defmodule Statusblog.Incidents.IncidentUpdateComponent do
 
   @primary_key false
   embedded_schema do
-    field :selected, :boolean, virtual: true
+    # this _should_ be virtual so that we only use it to drive UI and eventually
+    # just filter out before insertion. unfortunately there is no good way to do that
+    # it is worth taking the miniscule storage hit instead of making Ecto happy, and filtering
+    # when displaying in UI, instead, for now.
+    field :selected, :boolean
 
     field :id, :integer, primary_key: true
     field :name, :string
     field :status, Ecto.Enum, values: Component.status_values()
   end
 
-  # def changeset(_component, %{selected: false}) do
-  #   %Ecto.Changeset{action: :ignore}
-  # end
-
   def changeset(component, attrs) do
     component
     |> cast(attrs, [:id, :name, :status, :selected])
     |> validate_required([:id, :name, :status, :selected])
-    #|> ignore_if_not_selected()
-    # |> IO.inspect
   end
-
-  def ignore_if_not_selected(%Ecto.Changeset{changes: %{selected: false}} = c), do: %{c | action: :ignore}
-  def ignore_if_not_selected(c), do: c
 end

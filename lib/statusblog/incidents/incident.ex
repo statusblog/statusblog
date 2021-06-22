@@ -22,12 +22,4 @@ defmodule Statusblog.Incidents.Incident do
     |> cast_assoc(:incident_updates)
     |> validate_required([:name])
   end
-
-  def filter_unselected_components(changeset) do
-    filtered_updates =
-      get_change(changeset, :incident_updates)
-      |> Enum.map(&IncidentUpdate.filter_unselected_components/1)
-
-    put_change(changeset, :incident_updates, filtered_updates)
-  end
 end

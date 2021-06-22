@@ -48,13 +48,13 @@ defmodule Statusblog.Incidents do
     changeset =
       %Incident{blog_id: blog.id}
       |> Incident.changeset(attrs)
-      |> Incident.filter_unselected_components()
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:incident, changeset)
     |> Ecto.Multi.merge(fn %{incident: incident} ->
       [incident_update] = incident.incident_updates
-      Enum.reduce(incident_update.components, Ecto.Multi.new(), fn iuc, multi ->
+      Enum.filter(incident_update.components, fn iuc -> iuc.selected end)
+      |> Enum.reduce(Ecto.Multi.new(), fn iuc, multi ->
         component = Components.get_component!(iuc.id)
         if component.status != iuc.status do
           Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
@@ -157,7 +157,6 @@ defmodule Statusblog.Incidents do
     iu_changeset =
       %IncidentUpdate{incident_id: incident.id}
       |> IncidentUpdate.changeset(attrs)
-      |> IncidentUpdate.filter_unselected_components()
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:incident_update, iu_changeset)
@@ -167,7 +166,8 @@ defmodule Statusblog.Incidents do
         |> Ecto.Multi.update(:incident, change_incident(incident, %{status: incident_update.status}))
 
       # update components
-      Enum.reduce(incident_update.components, multi, fn iuc, multi ->
+      Enum.filter(incident_update.components, fn iuc -> iuc.selected end)
+      |> Enum.reduce(multi, fn iuc, multi ->
         component = Components.get_component!(iuc.id)
         if component.status != iuc.status do
           Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
