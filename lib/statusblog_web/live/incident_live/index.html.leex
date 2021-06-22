@@ -8,29 +8,11 @@
       </div>
     </div>
     <div class="mt-4">
-      <!-- Dropdown menu on small screens -->
-      <div class="sm:hidden">
-        <label for="current-tab" class="sr-only">Select a tab</label>
-        <select id="current-tab" name="current-tab" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-          <option selected>Open</option>
-          <option disabled>Resolved</option>
-        </select>
-      </div>
-      <!-- Tabs at small breakpoint and up -->
-      <div class="hidden sm:block">
+
+      <div class="">
         <nav class="-mb-px flex space-x-8">
-          <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-          <a href="#" class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm" aria-current="page">
-            Open
-          </a>
-
-          <span href="#" class="border-transparent text-gray-500 cursor-not-allowed whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-            Resolved
-          </span>
-
-          <%# <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-            Hired
-          </a> %>
+          <%= live_redirect "Open", to: Routes.incident_index_path(@socket, :index, @blog), class: tab_class(@live_action == :index) %>
+          <%= live_redirect "Resolved", to: Routes.incident_index_path(@socket, :resolved, @blog), class: tab_class(@live_action == :resolved) %>
         </nav>
       </div>
     </div>

@@ -7,12 +7,27 @@ defmodule Statusblog.Incidents do
   alias Statusblog.Repo
 
   alias Statusblog.Components
-  alias Statusblog.Components.Component
   alias Statusblog.Incidents.Incident
   alias Statusblog.Blogs.Blog
 
   def list_incidents(blog_id) do
     from(Incident, where: [blog_id: ^blog_id], order_by: [desc: :inserted_at])
+    |> Repo.all()
+  end
+
+  def list_open_incidents(blog_id) do
+    from(i in Incident,
+      where: i.blog_id == ^blog_id and is_nil(i.resolved_at),
+      order_by: [desc: :inserted_at]
+    )
+    |> Repo.all()
+  end
+
+  def list_resolved_incidents(blog_id) do
+    from(i in Incident,
+      where: i.blog_id == ^blog_id and not is_nil(i.resolved_at),
+      order_by: [desc: :inserted_at]
+    )
     |> Repo.all()
   end
 
