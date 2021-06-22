@@ -44,7 +44,7 @@ defmodule StatusblogWeb.IncidentLive.New do
   def handle_event("validate", %{"incident" => incident_params}, socket) do
     changeset =
       %Incident{}
-      |> Incidents.change_incident(incident_params)
+      |> Incidents.change_incident(copy_status_to_incident(incident_params))
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -52,7 +52,7 @@ defmodule StatusblogWeb.IncidentLive.New do
 
   @impl true
   def handle_event("save", %{"incident" => incident_params}, socket) do
-    case Incidents.create_incident(socket.assigns.blog, incident_params) do
+    case Incidents.create_incident(socket.assigns.blog, copy_status_to_incident(incident_params)) do
       {:ok, incident} ->
         {:noreply,
           socket
@@ -62,6 +62,10 @@ defmodule StatusblogWeb.IncidentLive.New do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
+  end
+
+  defp copy_status_to_incident(incident_params) do
+    Map.put_new(incident_params, "status", get_in(incident_params, ["incident_updates", "0", "status"]))
   end
 
   defp component_status_options() do

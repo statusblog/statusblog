@@ -21,14 +21,11 @@ defmodule StatusblogWeb.IncidentLive.Edit do
   defp assign_changeset(socket) do
     changeset =
       Incidents.change_incident_update(%IncidentUpdate{})
-      |> Ecto.Changeset.put_change(:status, default_status(socket.assigns.incident_updates))
+      |> Ecto.Changeset.put_change(:status, socket.assigns.incident.status)
       |> Ecto.Changeset.put_embed(:components, default_components(socket))
 
     assign(socket, :changeset, changeset)
   end
-
-  defp default_status([]), do: :investigating
-  defp default_status([iu | _]), do: iu.status
 
   defp default_components(socket) do
     blog_id = socket.assigns.blog.id

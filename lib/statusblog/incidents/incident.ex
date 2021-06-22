@@ -20,6 +20,14 @@ defmodule Statusblog.Incidents.Incident do
     incident
     |> cast(attrs, [:name, :status, :resolved_at])
     |> cast_assoc(:incident_updates)
-    |> validate_required([:name])
+    |> validate_required([:name, :status])
+    |> prepare_changes(&maybe_set_resolved_at/1)
+  end
+
+  defp maybe_set_resolved_at(changeset) do
+    case get_change(changeset, :status) do
+      :resolved -> put_change(changeset, :resolved_at, DateTime.utc_now() |> DateTime.truncate(:second))
+      _ -> changeset
+    end
   end
 end

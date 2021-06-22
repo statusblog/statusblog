@@ -162,7 +162,8 @@ defmodule Statusblog.Incidents do
     |> Ecto.Multi.insert(:incident_update, iu_changeset)
     |> Ecto.Multi.merge(fn %{incident_update: incident_update} ->
       # update incident
-      multi = Ecto.Multi.new()
+      multi =
+        Ecto.Multi.new()
         |> Ecto.Multi.update(:incident, change_incident(incident, %{status: incident_update.status}))
 
       # update components
