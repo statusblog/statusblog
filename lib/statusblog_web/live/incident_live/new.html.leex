@@ -17,40 +17,10 @@
       </div>
     </div>
 
+    <div class="mt-6 pt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
     <%= for fu <- inputs_for(f, :incident_updates) do %>
-     <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-          <div class="col-span-6 sm:col-span-4">
-            <%= label fu, :status, class: "block text-sm font-medium text-gray-700" %>
-            <%= select fu, :status, status_options(), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
-            <%= error_tag f, :status %>
-          </div>
-
-          <div class="col-span-6">
-            <%= label fu, :body, "Message", class: "block text-sm font-medium text-gray-700" %>
-            <div class="mt-1">
-              <%= textarea fu, :body, rows: "3", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md" %>
-            </div>
-            <%= error_tag fu, :body %>
-          </div>
-
-          <div class="col-span-6">
-            <div class="block text-sm font-medium text-gray-700">Components affected</div>
-            <%= for fc <- inputs_for(fu, :components) do %>
-              <div>
-                <div>
-                  <%= checkbox fc, :selected %>
-                  <%= label fc, :selected, fc.source.changes.name %>
-                  <%= hidden_input fc, :name %>
-                  <%= hidden_input fc, :id %>
-                </div>
-
-                <div class="col-span-6 sm:col-span-4">
-                  <%= select fc, :status, component_status_options(), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-      <% end %>
+      <%= live_component StatusblogWeb.IncidentLive.UpdateInputsComponent, form: fu %>
+    <% end %>
 
     <div class="pt-5">
       <div class="flex justify-end">
