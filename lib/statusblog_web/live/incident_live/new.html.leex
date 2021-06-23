@@ -17,7 +17,6 @@
       </div>
     </div>
 
-    <div class="mt-6 pt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
     <%= for fu <- inputs_for(f, :incident_updates) do %>
       <%= live_component StatusblogWeb.IncidentLive.UpdateInputsComponent, form: fu %>
     <% end %>
