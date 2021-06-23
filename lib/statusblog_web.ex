@@ -51,6 +51,15 @@ defmodule StatusblogWeb do
     end
   end
 
+  def live_view_no_sidebar do
+    quote do
+      use Phoenix.LiveView,
+        layout: {StatusblogWeb.LayoutView, "live_no_sidebar.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent

@@ -1,11 +1,6 @@
-<%= live_component StatusblogWeb.SidebarComponent,
-  title: @page_title, menu: @menu, blog: @blog, blogs: @blogs, current_user: @current_user do %>
-
-  <%= live_component @socket, StatusblogWeb.ComponentLive.FormComponent,
+<%= live_component @socket, StatusblogWeb.ComponentLive.FormComponent,
     id: :new_component,
     blog: @blog,
     component: @component,
     action: @live_action,
     return_to: Routes.component_index_path(@socket, :index, @blog) %>
-
-<% end %>

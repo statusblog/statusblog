@@ -63,7 +63,7 @@ defmodule StatusblogWeb.Router do
 
     live "/blogs/:blog_id/components", ComponentLive.Index, :index
     live "/blogs/:blog_id/components/new", ComponentLive.New, :new
-    live "/blogs/:blog_id/components/:id", ComponentLive.Edit, :edit
+    live "/blogs/:blog_id/components/:id", ComponentLive.Edit, :edit #, layout: {StatusblogWeb.LayoutView, "live2.html"}
 
     live "/blogs/:blog_id/incidents", IncidentLive.Index, :index
     live "/blogs/:blog_id/incidents/resolved", IncidentLive.Index, :resolved

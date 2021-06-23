@@ -12,6 +12,7 @@ defmodule StatusblogWeb.IncidentLive.Edit do
       socket
       |> MountHelpers.assign_defaults(params, session)
       |> assign(:menu, :incidents)
+      |> assign(:page_title, "Edit incident")
       |> assign(:incident, Incidents.get_incident!(incident_id))
       |> assign(:incident_updates, Incidents.list_incident_updates(incident_id))
       |> assign_changeset()}

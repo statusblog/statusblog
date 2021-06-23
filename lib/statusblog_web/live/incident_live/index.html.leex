@@ -1,23 +1,19 @@
-<%= live_component StatusblogWeb.SidebarComponent,
-  title: @page_title, menu: @menu, blog: @blog, blogs: @blogs, current_user: @current_user do %>
-
-  <div class="relative pb-5 border-b border-gray-200 sm:pb-0">
-    <div class="md:flex md:items-center md:justify-between">
-      <div class="mt-3 flex md:mt-0 md:absolute md:top-3 md:right-0">
-        <%= live_redirect "Create incident", to: Routes.incident_new_path(@socket, :new, @blog), class: "ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    </div>
-    <div class="mt-4">
-
-      <div class="">
-        <nav class="-mb-px flex space-x-8">
-          <%= live_redirect "Open", to: Routes.incident_index_path(@socket, :index, @blog), class: tab_class(@live_action == :index) %>
-          <%= live_redirect "Resolved", to: Routes.incident_index_path(@socket, :resolved, @blog), class: tab_class(@live_action == :resolved) %>
-        </nav>
-      </div>
+<div class="relative pb-5 border-b border-gray-200 sm:pb-0">
+  <div class="md:flex md:items-center md:justify-between">
+    <div class="mt-3 flex md:mt-0 md:absolute md:top-3 md:right-0">
+      <%= live_redirect "Create incident", to: Routes.incident_new_path(@socket, :new, @blog), class: "ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
     </div>
   </div>
+  <div class="mt-4">
 
+    <div class="">
+      <nav class="-mb-px flex space-x-8">
+        <%= live_redirect "Open", to: Routes.incident_index_path(@socket, :index, @blog), class: tab_class(@live_action == :index) %>
+        <%= live_redirect "Resolved", to: Routes.incident_index_path(@socket, :resolved, @blog), class: tab_class(@live_action == :resolved) %>
+      </nav>
+    </div>
+  </div>
+</div>
 
 <ul class="divide-y divide-gray-200">
   <%= for incident <- @incidents do %>
@@ -35,7 +31,3 @@
     </li>
   <% end %>
 </ul>
-
-
-
-<% end %>

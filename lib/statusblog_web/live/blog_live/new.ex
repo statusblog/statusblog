@@ -1,5 +1,5 @@
 defmodule StatusblogWeb.BlogLive.New do
-  use StatusblogWeb, :live_view
+  use StatusblogWeb, :live_view_no_sidebar
 
   alias Statusblog.Blogs
   alias Statusblog.Blogs.Blog
