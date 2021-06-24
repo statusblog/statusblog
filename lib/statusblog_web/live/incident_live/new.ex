@@ -36,7 +36,7 @@ defmodule StatusblogWeb.IncidentLive.New do
 
     Components.list_components(blog_id)
     |> Enum.map(fn c ->
-      %{id: c.id, status: c.status, name: c.name}
+      %{id: c.id, status: c.status, name: c.name, selected: false}
     end)
   end
 

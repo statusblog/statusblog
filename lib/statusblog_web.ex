@@ -97,6 +97,9 @@ defmodule StatusblogWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
+      # common enum helpers
+      import StatusblogWeb.EnumHelpers
+
       import StatusblogWeb.ErrorHelpers
       import StatusblogWeb.Gettext
       alias StatusblogWeb.Router.Helpers, as: Routes

@@ -12,7 +12,7 @@
       <%= hidden_input f, :action, name: "action", value: "update_email" %>
 
       <div>
-        <%= label f, :email, "New email", class: "block text-sm font-medium text-gray-700" %>
+        <%= label f, :email, class: "block text-sm font-medium text-gray-700" %>
         <%= email_input f, :email, required: true, class: "shadow-sm focus:border-indigo-500 block sm:text-sm border border-gray-300 rounded-md w-full max-w-md" %>
         <%= error_tag f, :email %>
       </div>

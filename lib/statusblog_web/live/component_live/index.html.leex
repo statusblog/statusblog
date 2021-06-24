@@ -39,9 +39,7 @@
 <ul class="divide-y divide-gray-200">
   <%= for component <- @components do %>
     <li class="py-4 flex">
-      <svg class="mr-1.5 h-5 w-5 text-green-600 my-auto" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-      </svg>
+      <%= component_status_svg(component.status) %>
       <div class="ml-3">
         <p class="text-sm font-medium text-gray-900"><%= component.name %></p>
         <p class="text-sm text-gray-500"><%= component.status |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></p>
