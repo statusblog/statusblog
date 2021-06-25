@@ -20,5 +20,5 @@ defmodule StatusblogWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :statusblog
+  use Gettext, otp_app: :statusblog_web
 end

@@ -1,4 +1,4 @@
-defmodule Statusblog.Application do
+defmodule StatusblogWeb.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,21 +8,17 @@ defmodule Statusblog.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      Statusblog.Repo,
       # Start the Telemetry supervisor
       StatusblogWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Statusblog.PubSub},
       # Start the Endpoint (http/https)
       StatusblogWeb.Endpoint
-      # Start a worker by calling: Statusblog.Worker.start_link(arg)
-      # {Statusblog.Worker, arg}
+      # Start a worker by calling: StatusblogWeb.Worker.start_link(arg)
+      # {StatusblogWeb.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Statusblog.Supervisor]
+    opts = [strategy: :one_for_one, name: StatusblogWeb.Supervisor]
     Supervisor.start_link(children, opts)
   end
 

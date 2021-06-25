@@ -1,22 +1,28 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Config module.
+# This file is responsible for configuring your umbrella
+# and **all applications** and their dependencies with the
+# help of the Config module.
 #
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
-
-# General application configuration
+# Note that all applications in your umbrella share the
+# same configuration and dependencies, which is why they
+# all use the same configuration file. If you want different
+# configurations or dependencies per app, it is best to
+# move said applications out of the umbrella.
 import Config
-
+# Configure Mix tasks and generators
 config :statusblog,
   ecto_repos: [Statusblog.Repo]
 
+config :statusblog_web,
+  ecto_repos: [Statusblog.Repo],
+  generators: [context_app: :statusblog]
+
 # Configures the endpoint
-config :statusblog, StatusblogWeb.Endpoint,
+config :statusblog_web, StatusblogWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "2zS97thTQXa5Lw5VqvtGfRhPwQrz65CP187hoRwH0fCxbORWRCkIcyp7NY23bSUJ",
+  secret_key_base: "hAUFG2Fusg1MRMaGEWuIK3viGG0ljuY+QrWKL7TDG9FmXedtaTR3cohSa/+fzHo9",
   render_errors: [view: StatusblogWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Statusblog.PubSub,
-  live_view: [signing_salt: "hBa4TN9j"]
+  live_view: [signing_salt: "BVAjcel1"]
 
 # Configures Elixir's Logger
 config :logger, :console,

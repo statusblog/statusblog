@@ -14,7 +14,7 @@ config :statusblog, Statusblog.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :statusblog, StatusblogWeb.Endpoint,
+config :statusblog_web, StatusblogWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -27,7 +27,7 @@ config :statusblog, StatusblogWeb.Endpoint,
       "--mode",
       "development",
       "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
+      cd: Path.expand("../apps/statusblog_web/assets", __DIR__)
     ]
   ]
 
@@ -56,7 +56,7 @@ config :statusblog, StatusblogWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :statusblog, StatusblogWeb.Endpoint,
+config :statusblog_web, StatusblogWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
@@ -69,9 +69,9 @@ config :statusblog, StatusblogWeb.Endpoint,
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
+# Initialize plugs at runtime for faster development compilation
+config :phoenix, :plug_init_mode, :runtime
+
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
-
-# Initialize plugs at runtime for faster development compilation
-config :phoenix, :plug_init_mode, :runtime
