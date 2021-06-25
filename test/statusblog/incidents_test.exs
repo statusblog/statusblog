@@ -13,19 +13,20 @@ defmodule Statusblog.IncidentsTest do
 
     test "list_incidents/1 returns all incidents" do
       incident = incident_fixture()
-      assert Incidents.list_incidents(incident.blog_id) == [incident]
+      [found_incident] = Incidents.list_incidents(incident.blog_id)
+      assert found_incident.id == incident.id
     end
 
     test "get_incident!/1 returns the incident with given id" do
       incident = incident_fixture()
-      assert Incidents.get_incident!(incident.id) == incident
+      assert Incidents.get_incident!(incident.id).id == incident.id
     end
 
     test "create_incident/1 with valid data creates a incident" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{name: "some name", status: :investigating, incident_updates: [%{body: "a", status: :investigating}]}
 
-      assert {:ok, %Incident{} = incident} = Incidents.create_incident(blog_fixture(), valid_attrs)
-      assert incident.name == "some name"
+      assert {:ok, %Incident{} = created_incident} = Incidents.create_incident(blog_fixture(), valid_attrs)
+      assert created_incident.name == "some name"
     end
 
     test "create_incident/1 with invalid data returns error changeset" do
@@ -36,14 +37,14 @@ defmodule Statusblog.IncidentsTest do
       incident = incident_fixture()
       update_attrs = %{name: "some updated name"}
 
-      assert {:ok, %Incident{} = incident} = Incidents.update_incident(incident, update_attrs)
-      assert incident.name == "some updated name"
+      assert {:ok, %Incident{} = updated_incident} = Incidents.update_incident(incident, update_attrs)
+      assert updated_incident.name == "some updated name"
     end
 
     test "update_incident/2 with invalid data returns error changeset" do
       incident = incident_fixture()
       assert {:error, %Ecto.Changeset{}} = Incidents.update_incident(incident, @invalid_attrs)
-      assert incident == Incidents.get_incident!(incident.id)
+      assert incident.id == Incidents.get_incident!(incident.id).id
     end
 
     test "delete_incident/1 deletes the incident" do
@@ -66,8 +67,10 @@ defmodule Statusblog.IncidentsTest do
     @invalid_attrs %{body: nil, status: nil}
 
     test "list_incident_updates/1 returns all incident_updates" do
-      incident_update = incident_update_fixture()
-      assert Incidents.list_incident_updates(incident_update.incident_id) == [incident_update]
+      incident_fixture = incident_fixture()
+      [created_incident_update] = incident_fixture.incident_updates
+      [found_incident_update] = Incidents.list_incident_updates(incident_fixture.id)
+      assert found_incident_update.id == created_incident_update.id
     end
 
     test "get_incident_update!/1 returns the incident_update with given id" do
@@ -88,12 +91,6 @@ defmodule Statusblog.IncidentsTest do
       assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
       [inserted_component] = incident_update.components
       assert inserted_component.id == 1
-    end
-
-    test "create_incident_update/1 does not insert not-selected component" do
-      valid_attrs = %{body: "some body", status: :investigating, components: [%{id: 1, name: "foo", status: :operational, selected: false}]}
-      assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
-      assert incident_update.components == []
     end
 
     test "create_incident_update/1 with invalid data returns error changeset" do

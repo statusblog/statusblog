@@ -9,7 +9,7 @@ defmodule Statusblog.Incidents.IncidentUpdateComponent do
     # just filter out before insertion. unfortunately there is no good way to do that
     # it is worth taking the miniscule storage hit instead of making Ecto happy, and filtering
     # when displaying in UI, instead, for now.
-    field :selected, :boolean
+    field :selected, :boolean, defualt: false
 
     field :id, :integer, primary_key: true
     field :name, :string
@@ -19,6 +19,6 @@ defmodule Statusblog.Incidents.IncidentUpdateComponent do
   def changeset(component, attrs) do
     component
     |> cast(attrs, [:id, :name, :status, :selected])
-    |> validate_required([:id, :name, :status, :selected])
+    |> validate_required([:id, :name, :status])
   end
 end

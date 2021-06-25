@@ -19,7 +19,7 @@ defmodule Statusblog.Incidents.Incident do
   def changeset(incident, attrs) do
     incident
     |> cast(attrs, [:name, :status, :resolved_at])
-    |> cast_assoc(:incident_updates)
+    |> cast_assoc(:incident_updates, required: true)
     |> validate_required([:name, :status])
     |> prepare_changes(&maybe_set_resolved_at/1)
   end
