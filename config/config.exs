@@ -8,6 +8,18 @@
 # configurations or dependencies per app, it is best to
 # move said applications out of the umbrella.
 import Config
+
+config :statusblog_site_web,
+  generators: [context_app: false]
+
+# Configures the endpoint
+config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "kGmWhQwnEwRouIo1IKpaTwpMwvnfGv99TZRawgJg4HNsRtUbfLLFkoN1CGr1LQpn",
+  render_errors: [view: StatusblogSiteWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: StatusblogSiteWeb.PubSub,
+  live_view: [signing_salt: "K6H8Q7fr"]
+
 # Configure Mix tasks and generators
 config :statusblog,
   ecto_repos: [Statusblog.Repo]

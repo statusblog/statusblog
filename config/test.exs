@@ -21,5 +21,9 @@ config :statusblog_web, StatusblogWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   server: false
 
+config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
+  http: [ip: {127, 0, 0, 1}, port: 4003],
+  server: false
+
 # Print only warnings and errors during test
 config :logger, level: :warn
