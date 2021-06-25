@@ -17,7 +17,7 @@ config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "kGmWhQwnEwRouIo1IKpaTwpMwvnfGv99TZRawgJg4HNsRtUbfLLFkoN1CGr1LQpn",
   render_errors: [view: StatusblogSiteWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: StatusblogSiteWeb.PubSub,
+  pubsub_server: Statusblog.PubSub,
   live_view: [signing_salt: "K6H8Q7fr"]
 
 # Configure Mix tasks and generators
