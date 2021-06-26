@@ -34,6 +34,12 @@ defmodule Statusblog.Blogs do
   """
   def get_blog!(id), do: Repo.get!(Blog, id)
 
+  def get_blog_by_subdomain(subdomain) do
+    subdomain
+    |> Blog.by_subdomain()
+    |> Repo.one()
+  end
+
   @doc """
   Creates a blog.
 

@@ -14,7 +14,7 @@ config :statusblog_site_web,
 
 # Configures the endpoint
 config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "statusblog.local"],
   secret_key_base: "kGmWhQwnEwRouIo1IKpaTwpMwvnfGv99TZRawgJg4HNsRtUbfLLFkoN1CGr1LQpn",
   render_errors: [view: StatusblogSiteWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Statusblog.PubSub,

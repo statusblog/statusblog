@@ -38,4 +38,8 @@ defmodule Statusblog.Blogs.Blog do
       on: [member_id: ^user.id]
     )
   end
+
+  def by_subdomain(subdomain) do
+    from(b in __MODULE__, where: b.subdomain == ^subdomain)
+  end
 end
