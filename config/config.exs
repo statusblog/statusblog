@@ -23,7 +23,8 @@ config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
 # Configure Mix tasks and generators
 config :statusblog,
   ecto_repos: [Statusblog.Repo],
-  root_domain: "statusblog.local"
+  root_domain: "statusblog.local",
+  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog"]
 
 config :statusblog_web,
   ecto_repos: [Statusblog.Repo],

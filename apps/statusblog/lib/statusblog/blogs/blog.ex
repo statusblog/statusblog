@@ -29,6 +29,7 @@ defmodule Statusblog.Blogs.Blog do
     |> validate_required([:subdomain])
     |> validate_format(:subdomain, ~r/^(?![0-9]+$)(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$/,
       message: "must only contain characters a-z, 0-9, hyphens, and cannot begin with a hyphen")
+    |> validate_exclusion(:subdomain, Application.get_env(:statusblog, :subdomain_denylist))
     |> unique_constraint(:subdomain)
   end
 
