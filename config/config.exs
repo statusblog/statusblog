@@ -24,7 +24,7 @@ config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
 config :statusblog,
   ecto_repos: [Statusblog.Repo],
   root_domain: "statusblog.local",
-  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog"]
+  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog", "status"]
 
 config :statusblog_web,
   ecto_repos: [Statusblog.Repo],
