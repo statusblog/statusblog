@@ -88,4 +88,10 @@ defmodule StatusblogWeb.Router do
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm/:token", UserConfirmationController, :confirm
   end
+
+  scope "/", StatusblogWeb do
+    pipe_through [:api]
+
+    get "/tls/ask", TlsController, :ask
+  end
 end

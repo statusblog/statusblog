@@ -5,15 +5,19 @@ defmodule StatusblogSiteWeb.DomainPlug do
   alias Statusblog.Blogs.Blog
 
   def fetch_current_blog(conn, _opts) do
-    subdomain = get_subdomain(conn.host)
-    blog = Blogs.get_blog_by_subdomain(subdomain)
-    assign(conn, :current_blog, blog)
+    if String.ends_with?(conn.host, root_domain()) do
+      assign(conn, :current_blog, get_by_subdomain(conn.host))
+    else
+      assign(conn, :current_blog, Blogs.get_blog_by_domain(conn.host))
+    end
   end
 
-  defp get_subdomain(host) do
-    root_domain = Application.get_env(:statusblog, :root_domain)
-    String.replace(host, ".#{root_domain}", "")
+  defp get_by_subdomain(host) do
+    String.replace(host, ".#{root_domain()}", "")
+    |> Blogs.get_blog_by_subdomain()
   end
+
+  defp root_domain(), do: Application.get_env(:statusblog, :root_domain)
 
   def require_current_blog(conn, _ops) do
     case conn.assigns[:current_blog] do

@@ -51,4 +51,8 @@ defmodule Statusblog.Blogs.Blog do
   def by_subdomain(subdomain) do
     from(b in __MODULE__, where: b.subdomain == ^subdomain)
   end
+
+  def by_domain(domain) do
+    from(b in __MODULE__, where: b.domain == ^domain)
+  end
 end
