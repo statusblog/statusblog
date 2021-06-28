@@ -16,12 +16,24 @@
         <div class="sm:col-span-4">
           <%= label f, :subdomain, class: "block text-sm font-medium text-gray-700" %>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <%= text_input f, :subdomain, class: "flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-l-md sm:text-sm border-gray-300" %>
+            <%= text_input f, :subdomain,
+              disabled: domain_set(f),
+              class: "flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-l-md sm:text-sm border-gray-300 disabled:bg-gray-200" %>
             <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
               .status.blog
             </span>
           </div>
           <%= error_tag f, :subdomain %>
+          <%= if domain_set(f) do %>
+          <p class="mt-2 text-sm text-gray-500">Disabled as long as custom domain is set.</p>
+          <% end %>
+        </div>
+
+        <div class="col-span-6 sm:col-span-4">
+          <%= label f, :domain, "Custom domain", class: "block text-sm font-medium text-gray-700" %>
+          <%= text_input f, :domain, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+          <%= error_tag f, :domain %>
+          <p class="mt-2 text-sm text-gray-500">Ensure that the specified domain is CNAME'd to <%= "#{input_value(f, :subdomain)}.status.blog" %></p>
         </div>
 
         <div class="col-span-6">

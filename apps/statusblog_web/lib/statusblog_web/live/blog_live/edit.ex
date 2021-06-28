@@ -19,6 +19,8 @@ defmodule StatusblogWeb.BlogLive.Edit do
     |> assign(:changeset, Blogs.change_blog(socket.assigns.blog))
   end
 
+  defp domain_set(f), do: String.length(input_value(f, :domain) || "") > 0
+
   @impl true
   def handle_event("validate", %{"blog" => blog_params}, socket) do
     changeset =

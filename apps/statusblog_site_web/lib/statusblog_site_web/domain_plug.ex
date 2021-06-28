@@ -21,6 +21,7 @@ defmodule StatusblogSiteWeb.DomainPlug do
 
       _any ->
         conn
+        # todo: redirect to statusblog.io?
         |> Phoenix.Controller.render(StatusblogSiteWeb.ErrorView, :"404")
         |> halt()
     end

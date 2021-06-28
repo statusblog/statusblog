@@ -21,7 +21,7 @@ defmodule Statusblog.Blogs.Blog do
     |> cast(attrs, [:name, :description, :subdomain, :domain])
     |> validate_required([:name])
     |> validate_subdomain()
-    |> unique_constraint(:domain)
+    |> validate_domain()
   end
 
   defp validate_subdomain(changeset) do
@@ -30,6 +30,14 @@ defmodule Statusblog.Blogs.Blog do
     |> validate_format(:subdomain, ~r/^(?![0-9]+$)(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$/,
       message: "must only contain characters a-z, 0-9, hyphens, and cannot begin with a hyphen")
     |> unique_constraint(:subdomain)
+  end
+
+  defp validate_domain(changeset) do
+    changeset
+    # source: https://blog.bejarano.io/domain-name-validation-with-regular-expressions/
+    |> validate_format(:domain, ~r/^(?=.{4,255}$)([a-zA-Z0-9_]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9_])?\.){1,126}[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]$/,
+      message: "invalid domain")
+    |> unique_constraint(:domain)
   end
 
   def by_user(user) do
