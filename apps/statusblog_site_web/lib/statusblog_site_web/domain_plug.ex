@@ -1,5 +1,6 @@
 defmodule StatusblogSiteWeb.DomainPlug do
   import Plug.Conn
+  import Phoenix.Controller
   alias Statusblog.Blogs
   alias Statusblog.Blogs.Blog
 
@@ -10,8 +11,8 @@ defmodule StatusblogSiteWeb.DomainPlug do
   end
 
   defp get_subdomain(host) do
-    root_host = StatusblogSiteWeb.Endpoint.config(:url)[:host]
-    String.replace(host, ".#{root_host}", "")
+    root_domain = Application.get_env(:statusblog, :root_domain)
+    String.replace(host, ".#{root_domain}", "")
   end
 
   def require_current_blog(conn, _ops) do
@@ -22,7 +23,9 @@ defmodule StatusblogSiteWeb.DomainPlug do
       _any ->
         conn
         # todo: redirect to statusblog.io?
-        |> Phoenix.Controller.render(StatusblogSiteWeb.ErrorView, :"404")
+        |> put_status(:not_found)
+        |> put_view(StatusblogSiteWeb.ErrorView)
+        |> render(:"404")
         |> halt()
     end
   end

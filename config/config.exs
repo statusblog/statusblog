@@ -14,7 +14,7 @@ config :statusblog_site_web,
 
 # Configures the endpoint
 config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
-  url: [host: "statusblog.local"],
+  url: [host: "localhost"],
   secret_key_base: "kGmWhQwnEwRouIo1IKpaTwpMwvnfGv99TZRawgJg4HNsRtUbfLLFkoN1CGr1LQpn",
   render_errors: [view: StatusblogSiteWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Statusblog.PubSub,
@@ -22,7 +22,8 @@ config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
 
 # Configure Mix tasks and generators
 config :statusblog,
-  ecto_repos: [Statusblog.Repo]
+  ecto_repos: [Statusblog.Repo],
+  root_domain: "statusblog.local"
 
 config :statusblog_web,
   ecto_repos: [Statusblog.Repo],
