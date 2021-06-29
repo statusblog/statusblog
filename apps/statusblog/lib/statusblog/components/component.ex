@@ -3,6 +3,7 @@ defmodule Statusblog.Components.Component do
   import Ecto.Changeset
   alias Statusblog.Blogs.Blog
 
+  # these are in ascending order of "importance"
   @status_values [:operational, :under_maintenance, :degraded_performance, :partial_outage, :major_outage]
   def status_values(), do: @status_values
 

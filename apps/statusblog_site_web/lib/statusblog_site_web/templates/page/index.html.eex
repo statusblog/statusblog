@@ -1,1 +1,29 @@
-<h1><%= @current_blog.name %></h1>
+<div class="flex flex-col justify-center max-w-3xl mx-auto py-16">
+  <div class="flex">
+    <h1 class="text-4xl font-semibold"><%= @current_blog.name %></h1>
+    <button disabled class="bg-gray-300 py-2 px-4 ml-auto rounded cursor-not-allowed text-gray-500 shadow-sm border border-gray-400">
+      Subscribe to updates
+    </button>
+  </div>
+
+  <!-- active incidents / status -->
+  <div class="my-8">
+    <%= if Enum.empty?(@open_incidents) do %>
+      <%= overall_status_widget(@components) %>
+    <% else %>
+      <p>TODO</p>
+    <% end %>
+  </div>
+
+  <!-- components -->
+  <div>
+  </div>
+
+  <!-- incident history -->
+  <div>
+  </div>
+
+  <!-- footer -->
+  <div>
+  </div>
+</div>
