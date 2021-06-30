@@ -21,9 +21,33 @@
 
   <!-- incident history -->
   <div>
+    <h1>Past Incidents</h1>
+    <%= for {date, resolved_incidents_at_date} <- recent_resolved_incidents_by_date(@resolved_incidents) do %>
+      <div>
+        <div><%= date %></div>
+        <%= if Enum.empty?(resolved_incidents_at_date) do %>
+          <p>No incidents reported.</p>
+        <% else %>
+          <%= for resolved_incident_at_date <- resolved_incidents_at_date do %>
+            <div>
+              <div><%= resolved_incident_at_date.name %></div>
+              <div>
+                <%= for incident_update <- resolved_incident_at_date.incident_updates do %>
+                  <div>
+                    <div><%= incident_update.status %></div>
+                    <div><%= incident_update.body %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <!-- footer -->
-  <div>
+  <div class="border-t mt-12 flex">
+    <a class="ml-auto pt-2 text-sm text-gray-400" href="https://www.statusblog.io">Powered by Statusblog</p>
   </div>
 </div>

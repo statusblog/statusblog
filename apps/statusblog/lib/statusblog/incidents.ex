@@ -18,7 +18,8 @@ defmodule Statusblog.Incidents do
   def list_open_incidents(blog_id) do
     from(i in Incident,
       where: i.blog_id == ^blog_id and is_nil(i.resolved_at),
-      order_by: [desc: :inserted_at]
+      order_by: [desc: :inserted_at],
+      preload: [:incident_updates]
     )
     |> Repo.all()
   end
@@ -26,7 +27,8 @@ defmodule Statusblog.Incidents do
   def list_resolved_incidents(blog_id) do
     from(i in Incident,
       where: i.blog_id == ^blog_id and not is_nil(i.resolved_at),
-      order_by: [desc: :inserted_at]
+      order_by: [desc: :inserted_at],
+      preload: [:incident_updates]
     )
     |> Repo.all()
   end

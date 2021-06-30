@@ -2,6 +2,10 @@ defmodule StatusblogSiteWeb.PageView do
   use StatusblogSiteWeb, :view
   alias Statusblog.Components.Component
 
+  #
+  # Status widget / active incidents
+  #
+
   defp overall_status_widget(components), do: status_widget(overall_status(components))
 
   defp overall_status([]), do: :operational
@@ -30,4 +34,21 @@ defmodule StatusblogSiteWeb.PageView do
   defp status_widget_text(:degraded_performance), do: "Partially Degraded Service"
   defp status_widget_text(:partial_outage), do: "Minor Service Outage"
   defp status_widget_text(:major_outage), do: "Major Service Outage"
+
+  #
+  # Incident history
+  #
+
+  # returns [{date, incidents}...]
+  defp recent_resolved_incidents_by_date(resolved_incidents) do
+    date_range = Date.range(Date.utc_today(), Date.add(Date.utc_today(), -7))
+
+    date_range
+    |> Enum.map(fn date -> {date, resolved_incidents_with_date(resolved_incidents, date)} end)
+  end
+
+  defp resolved_incidents_with_date(resolved_incidents, date) do
+    Enum.filter(resolved_incidents, fn ri -> NaiveDateTime.to_date(ri.inserted_at) == date end)
+  end
+
 end
