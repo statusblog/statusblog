@@ -7,7 +7,7 @@ defmodule Statusblog.BlogsFixtures do
   @doc """
   Generate a unique blog domain.
   """
-  def unique_blog_domain, do: "some domain#{System.unique_integer([:positive])}"
+  def unique_blog_domain, do: "some.domain#{System.unique_integer([:positive])}"
 
   @doc """
   Generate a unique blog subdomain.
