@@ -20,22 +20,22 @@
   </div>
 
   <!-- incident history -->
-  <div>
-    <h1>Past Incidents</h1>
+  <div class="mt-4">
+    <h2 class="text-2xl font-semibold">Past Incidents</h1>
     <%= for {date, resolved_incidents_at_date} <- recent_resolved_incidents_by_date(@resolved_incidents) do %>
-      <div>
-        <div><%= date %></div>
+      <div class="mt-6">
+        <div class="text-lg border-b font-semibold pb-1 mb-2"><%= Calendar.strftime(date, "%b %-d, %Y") %></div>
         <%= if Enum.empty?(resolved_incidents_at_date) do %>
-          <p>No incidents reported.</p>
+          <p class="text-gray-400">No incidents reported.</p>
         <% else %>
           <%= for resolved_incident_at_date <- resolved_incidents_at_date do %>
             <div>
-              <div><%= resolved_incident_at_date.name %></div>
-              <div>
+              <div class="text-lg font-semibold mb-2"><%= resolved_incident_at_date.name %></div>
+              <div class="space-y-4">
                 <%= for incident_update <- resolved_incident_at_date.incident_updates do %>
                   <div>
-                    <div><%= incident_update.status %></div>
-                    <div><%= incident_update.body %></div>
+                    <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.body %></div>
+                    <div class="text-sm text-gray-400 mt-1"><%= Calendar.strftime(incident_update.inserted_at, "%b %-d, %H:%M UTC") %></div>
                   </div>
                 <% end %>
               </div>
