@@ -13,12 +13,13 @@ defmodule Statusblog.ComponentsTest do
 
     test "list_components/1 returns all components" do
       component = component_fixture()
-      assert Components.list_components(component.blog_id) == [component]
+      [found_component] = Components.list_components(component.blog_id)
+      assert component.id == found_component.id
     end
 
     test "get_component!/1 returns the component with given id" do
       component = component_fixture()
-      assert Components.get_component!(component.id) == component
+      assert Components.get_component!(component.id).id == component.id
     end
 
     test "create_component/1 with valid data creates a component" do
@@ -31,6 +32,8 @@ defmodule Statusblog.ComponentsTest do
       assert component.position == 42
       assert component.start_date == ~D[2021-06-09]
       assert component.status == :operational
+      [component_update] = component.component_updates
+      assert component_update.status == :operational
     end
 
     # test "create_component/1 with duplicate positions" do
@@ -59,12 +62,18 @@ defmodule Statusblog.ComponentsTest do
       assert component.position == 43
       assert component.start_date == ~D[2021-06-10]
       assert component.status == :degraded_performance
+      [this_component_update, _init_component_update] = component.component_updates
+      assert this_component_update.status == :degraded_performance
     end
 
     test "update_component/2 with invalid data returns error changeset" do
       component = component_fixture()
       assert {:error, %Ecto.Changeset{}} = Components.update_component(component, @invalid_attrs)
-      assert component == Components.get_component!(component.id)
+    end
+
+    test "update_component/2 with invalid status returns error changeset" do
+      component = component_fixture()
+      assert {:error, %Ecto.Changeset{}} = Components.update_component(component, %{status: :foo})
     end
 
     test "delete_component/1 deletes the component" do

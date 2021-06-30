@@ -94,6 +94,8 @@ defmodule Statusblog.Components do
 
   """
   def change_component(%Component{} = component, attrs \\ %{}) do
-    Component.changeset(component, attrs)
+    component
+    |> Repo.preload(:component_updates)
+    |> Component.changeset(attrs)
   end
 end
