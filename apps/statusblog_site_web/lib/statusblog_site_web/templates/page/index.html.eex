@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center max-w-3xl mx-auto py-16">
+<div class="flex flex-col justify-center max-w-3xl mx-auto py-16 space-y-16">
   <div class="flex">
     <h1 class="text-4xl font-semibold"><%= @current_blog.name %></h1>
     <button disabled class="bg-gray-300 py-2 px-4 ml-auto rounded cursor-not-allowed text-gray-500 shadow-sm border border-gray-400">
@@ -7,18 +7,39 @@
   </div>
 
   <!-- active incidents / status -->
-  <div class="my-8">
+  <div class="">
     <%= if Enum.empty?(@open_incidents) do %>
       <%= overall_status_widget(@components) %>
     <% else %>
-      <p>TODO</p>
+      <%= for open_incident <- @open_incidents do %>
+        <div class="border border-gray-700 rounded">
+          <div class="p-4 bg-gray-700 text-white">
+            <%= open_incident.name %>
+          </div>
+          <div class="space-y-4 p-4">
+            <%= for incident_update <- open_incident.incident_updates do %>
+              <div>
+                <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.body %></div>
+                <div class="text-sm text-gray-400 mt-1"><%= Calendar.strftime(incident_update.inserted_at, "%b %-d, %H:%M UTC") %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 
+  <%= if @current_blog.description not in [nil, ""] do %>
+    <div class="">
+      <h2 class="text-2xl font-semibold">About This Site</h1>
+      <div class="mt-2 text-gray-500"><%= @current_blog.description %></div>
+    </div>
+  <% end %>
+
   <!-- components -->
-  <div class="border border-gray-300 divide-y divide-gray-300">
+  <div class="border border-gray-200 rounded divide-y divide-gray-200 mb-8">
     <%= for component <- @components do %>
-      <div class="py-4 px-2">
+      <div class="py-6 px-4">
         <div class="flex">
           <div class="text-sm font-semibold"><%= component.name %></div>
           <div class="ml-auto text-xs <%= status_text_class(component.status) %>"><%= component.status |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></div>

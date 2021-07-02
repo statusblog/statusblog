@@ -19,8 +19,6 @@ defmodule StatusblogSiteWeb.PageController do
       |> Enum.map(&Components.get_component_uptime/1)
       |> Enum.reduce(%{}, fn (elem, acc) -> Map.put(acc, elem.component_id, elem) end)
 
-    IO.inspect uptimes
-
     assign(conn, :component_uptime_by_id, uptimes)
   end
 end

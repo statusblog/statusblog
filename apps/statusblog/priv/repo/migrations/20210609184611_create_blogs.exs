@@ -4,7 +4,7 @@ defmodule Statusblog.Repo.Migrations.CreateBlogs do
   def change do
     create table(:blogs) do
       add :name, :string, null: false
-      add :description, :string
+      add :description, :text
       add :subdomain, :string, null: false
       add :domain, :string
 

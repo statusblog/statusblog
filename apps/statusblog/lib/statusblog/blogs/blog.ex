@@ -20,6 +20,7 @@ defmodule Statusblog.Blogs.Blog do
     blog
     |> cast(attrs, [:name, :description, :subdomain, :domain])
     |> validate_required([:name])
+    |> update_change(:description, &String.trim/1)
     |> validate_subdomain()
     |> validate_domain()
   end
