@@ -37,24 +37,26 @@
   <% end %>
 
   <!-- components -->
-  <div class="border border-gray-200 rounded divide-y divide-gray-200 mb-8">
-    <%= for component <- @components do %>
-      <div class="py-6 px-4">
-        <div class="flex">
-          <div class="text-sm font-semibold"><%= component.name %></div>
-          <div class="ml-auto text-xs <%= status_text_class(component.status) %>"><%= component.status |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></div>
+  <%= if not Enum.empty?(@components) do %>
+    <div class="border border-gray-200 rounded divide-y divide-gray-200 mb-8">
+      <%= for component <- @components do %>
+        <div class="py-6 px-4">
+          <div class="flex">
+            <div class="text-sm font-semibold"><%= component.name %></div>
+            <div class="ml-auto text-xs <%= status_text_class(component.status) %>"><%= component.status |> Atom.to_string() |> String.replace("_", " ") |> String.capitalize() %></div>
+          </div>
+          <%= uptime_svg(@component_uptime_by_id[component.id].days) %>
+          <div class="flex text-sm text-gray-400 mt-2">
+            <div>90 days ago</div>
+            <div class="border-b flex-grow my-auto mx-4"></div>
+            <div><%= @component_uptime_by_id[component.id].total_percent %>% uptime</div>
+            <div class="border-b flex-grow my-auto mx-4"></div>
+            <div>Today</div>
+          </div>
         </div>
-        <%= uptime_svg(@component_uptime_by_id[component.id].days) %>
-        <div class="flex text-sm text-gray-400 mt-2">
-          <div>90 days ago</div>
-          <div class="border-b flex-grow my-auto mx-4"></div>
-          <div><%= @component_uptime_by_id[component.id].total_percent %>% uptime</div>
-          <div class="border-b flex-grow my-auto mx-4"></div>
-          <div>Today</div>
-        </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <!-- incident history -->
   <div class="mt-4">
