@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center max-w-3xl mx-auto py-16 space-y-16">
+<div class="flex flex-col justify-center max-w-3xl mx-auto py-16 space-y-20">
   <div class="flex">
     <h1 class="text-4xl font-semibold"><%= @current_blog.name %></h1>
     <button disabled class="bg-gray-300 py-2 px-4 ml-auto rounded cursor-not-allowed text-gray-500 shadow-sm border border-gray-400">
@@ -59,7 +59,7 @@
   <% end %>
 
   <!-- incident history -->
-  <div class="mt-4">
+  <div class="">
     <h2 class="text-2xl font-semibold">Past Incidents</h1>
     <%= for {date, resolved_incidents_at_date} <- recent_resolved_incidents_by_date(@resolved_incidents) do %>
       <div class="mt-6">
@@ -86,7 +86,7 @@
   </div>
 
   <!-- footer -->
-  <div class="border-t mt-12 flex">
+  <div class="border-t flex">
     <a class="ml-auto pt-2 text-sm text-gray-400" href="https://www.statusblog.io">Powered by Statusblog</p>
   </div>
 </div>
