@@ -36,6 +36,39 @@ defmodule StatusblogSiteWeb.PageView do
   defp status_widget_text(:major_outage), do: "Major Service Outage"
 
   #
+  # Components
+  #
+
+  defp uptime_svg(days) do
+    ~E"""
+    <svg class="w-full mt-2" preserveAspectRatio="none" height="34" viewBox="0 0 448 34">
+      <%= for {day, num} <- Enum.with_index(days) do %>
+      <rect class="hover:text-gray-500 <%= uptime_rect_class(day) %> fill-current" height="34" width="3" x="<%= num * 5 %>" y="0" class=""></rect>
+      <% end %>
+    </svg>
+    """
+  end
+
+  defp uptime_rect_class(day) do
+    cond do
+      day.major_outage_seconds > 0 -> "text-red-500"
+      day.partial_outage_seconds > 0 -> "text-yellow-600"
+      day.degraded_performance_seconds > 0 -> "text-yellow-300"
+      day.under_maintenance_seconds > 0 || day.operational_seconds > 0 -> "text-green-500"
+      true -> "text-gray-300"
+    end
+  end
+
+  defp status_text_class(:operational), do: "text-green-600"
+  defp status_text_class(:under_maintenance), do: "text-blue-600"
+  defp status_text_class(:degraded_performance), do: "text-yellow-400"
+  defp status_text_class(:partial_outage), do: "text-yellow-600"
+  defp status_text_class(:major_outage), do: "text-red-600"
+
+
+  #defp get_uptime_svg()
+
+  #
   # Incident history
   #
 

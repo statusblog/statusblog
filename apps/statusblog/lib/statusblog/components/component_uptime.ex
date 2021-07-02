@@ -1,3 +1,3 @@
 defmodule Statusblog.Components.ComponentUptime do
-  defstruct [:total_percent, :days]
+  defstruct [:component_id, :total_percent, :days]
 end

@@ -11,8 +11,11 @@ defmodule Statusblog.Components do
 
   #def list_components(%Blog{id: id} = blog), do: list_components(id)
   def list_components(blog_id) do
-    from(Component, where: [blog_id: ^blog_id], order_by: [asc: :position])
-    |> Repo.all()
+    from(Component,
+      where: [blog_id: ^blog_id],
+      order_by: [asc: :position],
+      preload: [:component_updates]
+    ) |> Repo.all()
   end
 
   @doc """
@@ -102,13 +105,13 @@ defmodule Statusblog.Components do
   def get_component_uptime(%Component{} = component, num_days \\ 90) do
     component = Repo.preload(component, :component_updates)
     now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
-    get_component_uptime(component.component_updates, component.start_date, num_days, now)
+    get_component_uptime(component.id, component.component_updates, component.start_date, num_days, now)
   end
 
-  def get_component_uptime(updates, start_date, num_days, now) do
+  def get_component_uptime(id, updates, start_date, num_days, now) do
     days = get_component_uptime_days(updates, start_date, num_days, now)
     # total_percent = compute_uptime_percent(days)
-    %ComponentUptime{days: days, total_percent: 100}
+    %ComponentUptime{component_id: id, days: days, total_percent: 100}
   end
 
   defp get_component_uptime_days(component_updates, start_date, days, now) do
