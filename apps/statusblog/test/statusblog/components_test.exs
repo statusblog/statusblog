@@ -87,4 +87,46 @@ defmodule Statusblog.ComponentsTest do
       assert %Ecto.Changeset{} = Components.change_component(component)
     end
   end
+
+  describe "component uptime" do
+    alias Statusblog.Components.{Component, ComponentUpdate}
+
+    import Statusblog.ComponentsFixtures
+
+    test "get_component_uptime/2 returns correct uptime for new component" do
+      component = component_fixture(%{start_date: Date.utc_today()})
+      uptime = Components.get_component_uptime(component)
+      assert uptime.total_percent == 100
+
+      [today | rest] = Enum.reverse(uptime.days)
+      assert today.operational_seconds == 86400
+      assert today.date == Date.utc_today()
+
+      [yesterday | _rest] = rest
+      assert yesterday.operational_seconds == 0
+      assert yesterday.date == Date.add(Date.utc_today(), -1)
+    end
+
+    test "get_component_uptime/4 returns correct uptime for new component" do
+      now = ~N[2021-07-02 05:20:07]
+      start_date = ~D[2021-07-01]
+
+      uptime = Components.get_component_uptime([], start_date, 90, now)
+
+      [today | _rest] = Enum.reverse(uptime.days)
+      assert today.operational_seconds == 86400
+    end
+
+    test "get_component_uptime/4 returns correct uptime for component with period of major_outage" do
+      now = ~N[2021-07-02 05:20:07]
+      start_date = ~D[2021-07-01]
+      hour_ago_update = %ComponentUpdate{status: :major_outage, inserted_at: NaiveDateTime.add(now, -3600)}
+
+      uptime = Components.get_component_uptime([hour_ago_update], start_date, 90, now)
+
+      [today | _rest] = Enum.reverse(uptime.days)
+      assert today.major_outage_seconds == 3600
+      assert today.operational_seconds == 82800
+    end
+  end
 end

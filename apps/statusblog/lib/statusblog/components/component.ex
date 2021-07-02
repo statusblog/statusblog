@@ -17,7 +17,7 @@ defmodule Statusblog.Components.Component do
     field :status, Ecto.Enum, values: @status_values
 
     belongs_to :blog, Blog
-    has_many :component_updates, ComponentUpdate, preload_order: [desc: :inserted_at]
+    has_many :component_updates, ComponentUpdate, preload_order: [asc: :inserted_at]
 
     timestamps()
   end
