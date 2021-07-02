@@ -111,7 +111,7 @@ defmodule Statusblog.ComponentsTest do
       now = ~N[2021-07-02 05:20:07]
       start_date = ~D[2021-07-01]
 
-      uptime = Components.get_component_uptime([], start_date, 90, now)
+      uptime = Components.get_component_uptime(1, [], start_date, 90, now)
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.operational_seconds == 86400
@@ -122,7 +122,7 @@ defmodule Statusblog.ComponentsTest do
       start_date = ~D[2021-07-01]
       hour_ago_update = %ComponentUpdate{status: :major_outage, inserted_at: NaiveDateTime.add(now, -3600)}
 
-      uptime = Components.get_component_uptime([hour_ago_update], start_date, 90, now)
+      uptime = Components.get_component_uptime(1, [hour_ago_update], start_date, 90, now)
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.major_outage_seconds == 3600

@@ -20,10 +20,13 @@ defmodule Statusblog.Blogs.Blog do
     blog
     |> cast(attrs, [:name, :description, :subdomain, :domain])
     |> validate_required([:name])
-    |> update_change(:description, &String.trim/1)
+    |> update_change(:description, &trim_string/1)
     |> validate_subdomain()
     |> validate_domain()
   end
+
+  defp trim_string(nil), do: nil
+  defp trim_string(s), do: String.trim(s)
 
   defp validate_subdomain(changeset) do
     changeset

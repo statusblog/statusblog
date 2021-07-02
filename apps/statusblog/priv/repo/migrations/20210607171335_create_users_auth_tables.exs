@@ -6,7 +6,7 @@ defmodule Statusblog.Repo.Migrations.CreateUsersAuthTables do
 
     create table(:users) do
       add :email, :citext, null: false
-      add :hashed_password, :string, null: false
+      add :hashed_password, :text, null: false
       add :confirmed_at, :naive_datetime
       timestamps()
     end
@@ -16,8 +16,8 @@ defmodule Statusblog.Repo.Migrations.CreateUsersAuthTables do
     create table(:users_tokens) do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :token, :binary, null: false
-      add :context, :string, null: false
-      add :sent_to, :string
+      add :context, :text, null: false
+      add :sent_to, :text
       timestamps(updated_at: false)
     end
 

@@ -3,7 +3,7 @@ defmodule Statusblog.Repo.Migrations.CreateComponentUpdates do
 
   def change do
     create table(:component_updates) do
-      add :status, :string, null: false
+      add :status, :text, null: false
       add :component_id, references(:components, on_delete: :delete_all)
 
       timestamps()

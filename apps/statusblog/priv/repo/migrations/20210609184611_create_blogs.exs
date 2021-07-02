@@ -3,10 +3,10 @@ defmodule Statusblog.Repo.Migrations.CreateBlogs do
 
   def change do
     create table(:blogs) do
-      add :name, :string, null: false
+      add :name, :text, null: false
       add :description, :text
-      add :subdomain, :string, null: false
-      add :domain, :string
+      add :subdomain, :text, null: false
+      add :domain, :text
 
       timestamps()
     end

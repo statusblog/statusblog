@@ -3,7 +3,7 @@ defmodule Statusblog.Repo.Migrations.CreateIncidents do
 
   def change do
     create table(:incidents) do
-      add :name, :string, null: false
+      add :name, :text, null: false
       add :blog_id, references(:blogs, on_delete: :delete_all), null: false
 
       timestamps()

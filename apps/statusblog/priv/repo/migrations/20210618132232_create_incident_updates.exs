@@ -3,8 +3,8 @@ defmodule Statusblog.Repo.Migrations.CreateIncidentUpdates do
 
   def change do
     create table(:incident_updates) do
-      add :body, :string, null: false
-      add :status, :string, null: false
+      add :body, :text, null: false
+      add :status, :text, null: false
       add :incident_id, references(:incidents, on_delete: :delete_all), null: false
 
       timestamps()
