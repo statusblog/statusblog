@@ -124,7 +124,7 @@ defmodule Statusblog.ComponentsTest do
       hour_ago_update = %ComponentUpdate{status: :major_outage, inserted_at: NaiveDateTime.add(now, -3600)}
 
       uptime = Components.get_component_uptime(1, [hour_ago_update], start_date, 90, now)
-      assert uptime.total_percent == 97.87234042553191
+      assert uptime.total_percent == 97.87
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.major_outage_seconds == 3600

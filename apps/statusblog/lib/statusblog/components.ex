@@ -67,6 +67,7 @@ defmodule Statusblog.Components do
   """
   def update_component(%Component{} = component, attrs) do
     component
+    |> Repo.preload(:component_updates)
     |> Component.changeset(attrs)
     |> Repo.update()
   end
@@ -135,7 +136,9 @@ defmodule Statusblog.Components do
       totals.major_outage_seconds
       + (totals.partial_outage_seconds * 0.3)
 
-    100 * ((total_seconds - down_seconds) / total_seconds)
+    (total_seconds - down_seconds) / total_seconds
+    |> Kernel.*(100)
+    |> Float.round(2)
   end
 
   defp get_component_uptime_days(component_updates, start_date, days, now) do
