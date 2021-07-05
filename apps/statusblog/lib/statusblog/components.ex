@@ -138,7 +138,7 @@ defmodule Statusblog.Components do
 
     (total_seconds - down_seconds) / total_seconds
     |> Kernel.*(100)
-    |> Float.round(2)
+    |> Float.floor(2)
   end
 
   defp get_component_uptime_days(component_updates, start_date, days, now) do

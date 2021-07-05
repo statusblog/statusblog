@@ -76,6 +76,11 @@ defmodule Statusblog.ComponentsTest do
       assert {:error, %Ecto.Changeset{}} = Components.update_component(component, %{status: :foo})
     end
 
+    test "update_component/2 with invalid date returns error changeset" do
+      component = component_fixture()
+      assert {:error, %Ecto.Changeset{}} = Components.update_component(component, %{start_date: ~D"2030-01-01"})
+    end
+
     test "delete_component/1 deletes the component" do
       component = component_fixture()
       assert {:ok, %Component{}} = Components.delete_component(component)

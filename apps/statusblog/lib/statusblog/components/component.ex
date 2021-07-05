@@ -28,6 +28,7 @@ defmodule Statusblog.Components.Component do
     |> cast(attrs, [:name, :description, :position, :status, :display_uptime, :start_date])
     |> add_default_start_date()
     |> validate_required([:name, :position, :status, :display_uptime, :start_date])
+    |> validate_start_date()
     |> unique_constraint([:blog_id, :position])
     |> prepare_changes(&maybe_create_component_update/1)
   end
@@ -57,4 +58,13 @@ defmodule Statusblog.Components.Component do
   end
 
   defp add_default_start_date(changeset), do: changeset
+
+  defp validate_start_date(changeset) do
+    date = get_change(changeset, :start_date)
+    if date != nil && Date.compare(date, Date.utc_today()) == :gt do
+      add_error(changeset, :start_date, "cannot be in future")
+    else
+      changeset
+    end
+  end
 end
