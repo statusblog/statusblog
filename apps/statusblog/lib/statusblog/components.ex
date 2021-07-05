@@ -110,8 +110,32 @@ defmodule Statusblog.Components do
 
   def get_component_uptime(id, updates, start_date, num_days, now) do
     days = get_component_uptime_days(updates, start_date, num_days, now)
-    # total_percent = compute_uptime_percent(days)
-    %ComponentUptime{component_id: id, days: days, total_percent: 100}
+    total_percent = compute_uptime_percent(days)
+    %ComponentUptime{component_id: id, days: days, total_percent: total_percent}
+  end
+
+  defp compute_uptime_percent(days) do
+    totals = Enum.reduce(days, %{}, fn (day, acc) ->
+      acc
+      |> Map.update(:operational_seconds, day.operational_seconds, &(&1 + day.operational_seconds))
+      |> Map.update(:under_maintenance_seconds, day.under_maintenance_seconds, &(&1 + day.under_maintenance_seconds))
+      |> Map.update(:degraded_performance_seconds, day.degraded_performance_seconds, &(&1 + day.degraded_performance_seconds))
+      |> Map.update(:partial_outage_seconds, day.partial_outage_seconds, &(&1 + day.partial_outage_seconds))
+      |> Map.update(:major_outage_seconds, day.major_outage_seconds, &(&1 + day.major_outage_seconds))
+    end)
+
+    total_seconds =
+      totals.operational_seconds
+      + totals.under_maintenance_seconds
+      + totals.degraded_performance_seconds
+      + totals.partial_outage_seconds
+      + totals.major_outage_seconds
+
+    down_seconds =
+      totals.major_outage_seconds
+      + (totals.partial_outage_seconds * 0.3)
+
+    100 * ((total_seconds - down_seconds) / total_seconds)
   end
 
   defp get_component_uptime_days(component_updates, start_date, days, now) do

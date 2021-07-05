@@ -96,7 +96,7 @@ defmodule Statusblog.ComponentsTest do
     test "get_component_uptime/2 returns correct uptime for new component" do
       component = component_fixture(%{start_date: Date.utc_today()})
       uptime = Components.get_component_uptime(component)
-      assert uptime.total_percent == 100
+      assert uptime.total_percent == 100.0
 
       [today | rest] = Enum.reverse(uptime.days)
       assert today.operational_seconds == 86400
@@ -112,6 +112,7 @@ defmodule Statusblog.ComponentsTest do
       start_date = ~D[2021-07-01]
 
       uptime = Components.get_component_uptime(1, [], start_date, 90, now)
+      assert uptime.total_percent == 100.0
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.operational_seconds == 86400
@@ -123,6 +124,7 @@ defmodule Statusblog.ComponentsTest do
       hour_ago_update = %ComponentUpdate{status: :major_outage, inserted_at: NaiveDateTime.add(now, -3600)}
 
       uptime = Components.get_component_uptime(1, [hour_ago_update], start_date, 90, now)
+      assert uptime.total_percent == 97.87234042553191
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.major_outage_seconds == 3600
