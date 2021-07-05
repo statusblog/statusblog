@@ -43,11 +43,18 @@ defmodule StatusblogSiteWeb.PageView do
     ~E"""
     <svg class="w-full mt-2" preserveAspectRatio="none" height="34" viewBox="0 0 448 34">
       <%= for {day, num} <- Enum.with_index(days) do %>
-      <rect class="hover:text-gray-500 <%= uptime_rect_class(day) %> fill-current" height="34" width="3" x="<%= num * 5 %>" y="0" class=""></rect>
+      <rect class="uptime-day hover:text-gray-500 <%= uptime_rect_class(day) %> fill-current"
+        height="34" width="3" x="<%= num * 5 %>" y="0"
+        data-date="<%= date_string(day) %>"
+        data-major-outage-seconds="<%= day.major_outage_seconds %>"
+        data-partial-outage-seconds="<%= day.partial_outage_seconds %>"
+        data-empty-day="<%= is_empty_day(day) %>"></rect>
       <% end %>
     </svg>
     """
   end
+
+  defp date_string(day), do: Calendar.strftime(day.date, "%b %-d %Y")
 
   defp uptime_rect_class(day) do
     cond do
@@ -57,6 +64,14 @@ defmodule StatusblogSiteWeb.PageView do
       day.under_maintenance_seconds > 0 || day.operational_seconds > 0 -> "text-green-500"
       true -> "text-gray-300"
     end
+  end
+
+  defp is_empty_day(day) do
+    day.major_outage_seconds == 0
+    && day.partial_outage_seconds == 0
+    && day.degraded_performance_seconds == 0
+    && day.under_maintenance_seconds == 0
+    && day.operational_seconds == 0
   end
 
   defp status_text_class(:operational), do: "text-green-600"
