@@ -60,8 +60,7 @@ defmodule StatusblogSiteWeb.PageView do
     cond do
       day.major_outage_seconds > 0 -> "text-red-500"
       day.partial_outage_seconds > 0 -> "text-yellow-600"
-      day.degraded_performance_seconds > 0 -> "text-yellow-300"
-      day.under_maintenance_seconds > 0 || day.operational_seconds > 0 -> "text-green-500"
+      day.degraded_performance_seconds > 0 || day.under_maintenance_seconds > 0 || day.operational_seconds > 0 -> "text-green-500"
       true -> "text-gray-300"
     end
   end
