@@ -20,6 +20,7 @@ defmodule StatusblogSiteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    post "/subscriptions/new", SubscriptionController, :create
   end
 
   # Other scopes may use custom stacks.
