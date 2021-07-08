@@ -74,6 +74,11 @@
                   Incidents
                 <% end %>
 
+                <%= live_redirect to: Routes.subscription_index_path(@socket, :index, @blog), class: mobile_redirect_class(@menu, :subscriptions) do %>
+                  <svg class="<%= svg_class(@menu, :subscriptions) %>" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                  Subscribers
+                <% end %>
+
               </nav>
             </div>
             <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
@@ -109,7 +114,7 @@
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
           <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-            <%= live_redirect to: redirect_to(@socket, @blog, :blog_info), class: "flex items-center flex-shrink-0 px-4 pb-4 border-b border-gray-200" do %>
+            <%= live_redirect to: Routes.blog_edit_path(@socket, :edit, @blog), class: "flex items-center flex-shrink-0 px-4 pb-4 border-b border-gray-200" do %>
               <img class="h-8 w-auto" src="/logo.svg">
               <span class="ml-2 text-xl font-bold tracking-wide text-gray-700">statusblog</span>
             <% end %>
@@ -158,6 +163,11 @@
               <%= live_redirect to: redirect_to(@socket, @blog, :incidents), class: desktop_redirect_class(@menu, :incidents) do %>
                 <svg class="<%= svg_class(@menu, :incidents) %>" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Incidents
+              <% end %>
+
+              <%= live_redirect to: Routes.subscription_index_path(@socket, :index, @blog), class: desktop_redirect_class(@menu, :subscriptions) do %>
+                <svg class="<%= svg_class(@menu, :subscriptions) %>" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                Subscribers
               <% end %>
 
             </nav>

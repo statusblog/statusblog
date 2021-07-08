@@ -10,6 +10,7 @@ defmodule StatusblogSiteWeb.SubscriptionController do
         conn
         |> put_flash(:info, "Please check your email inbox and confirm your subscription")
         |> redirect(to: Routes.page_path(conn, :index))
+
     end
 
   end

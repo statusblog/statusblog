@@ -70,6 +70,9 @@ defmodule StatusblogWeb.Router do
     live "/blogs/:blog_id/incidents/new", IncidentLive.New, :new
     live "/blogs/:blog_id/incidents/:incident_id", IncidentLive.Edit, :edit
 
+    live "/blogs/:blog_id/subscriptions", SubscriptionLive.Index, :index
+    live "/blogs/:blog_id/subscriptions/new", SubscriptionLive.Index, :new #TODO
+
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
