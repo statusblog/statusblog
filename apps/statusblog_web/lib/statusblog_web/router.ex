@@ -71,7 +71,7 @@ defmodule StatusblogWeb.Router do
     live "/blogs/:blog_id/incidents/:incident_id", IncidentLive.Edit, :edit
 
     live "/blogs/:blog_id/subscriptions", SubscriptionLive.Index, :index
-    live "/blogs/:blog_id/subscriptions/new", SubscriptionLive.Index, :new #TODO
+    live "/blogs/:blog_id/subscriptions/new", SubscriptionLive.New, :new
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
