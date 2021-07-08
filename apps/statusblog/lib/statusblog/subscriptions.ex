@@ -6,8 +6,10 @@ defmodule Statusblog.Subscriptions do
   import Ecto.Query, warn: false
   alias Statusblog.Repo
 
+  alias Statusblog.Blogs
   alias Statusblog.Blogs.Blog
   alias Statusblog.Subscriptions.Subscription
+  alias Statusblog.Subscriptions.EmailNotifier
 
   def list_subscriptions(blog_id) do
     from(Subscription, where: [blog_id: ^blog_id])
@@ -46,6 +48,22 @@ defmodule Statusblog.Subscriptions do
     %Subscription{blog_id: blog.id}
     |> Subscription.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @rand_size 32
+
+  # generate random confirmation token
+  # set token on subscription
+  # send email
+  def deliver_email_confirmation_instructions(%Subscription{} = subscription) do
+    if subscription.confirmed_at do
+      {:error, :already_confirmed}
+    else
+      token = :crypto.strong_rand_bytes(@rand_size) |> Base.encode64()
+      {:ok, updated_subscription} = update_subscription(subscription, %{confirmation_token: token})
+      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{token}"
+      EmailNotifier.deliver_confirmation_instructions(updated_subscription, url)
+    end
   end
 
   @doc """

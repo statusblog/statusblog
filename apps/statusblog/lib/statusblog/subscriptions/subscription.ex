@@ -5,6 +5,8 @@ defmodule Statusblog.Subscriptions.Subscription do
 
   schema "subscriptions" do
     field :email, :string
+    field :confirmed_at, :utc_datetime
+    field :confirmation_token, :string
     belongs_to :blog, Blog
 
     timestamps()
@@ -13,7 +15,7 @@ defmodule Statusblog.Subscriptions.Subscription do
   @doc false
   def changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:email])
+    |> cast(attrs, [:email, :confirmed_at, :confirmation_token])
     |> validate_email()
   end
 
