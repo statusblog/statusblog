@@ -27,3 +27,6 @@ config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# In test we don't send emails.
+config :statusblog, Statusblog.Mailer, adapter: Swoosh.Adapters.Test
