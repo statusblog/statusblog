@@ -30,4 +30,14 @@ defmodule StatusblogWeb.SubscriptionLive.Index do
       assign(socket, :subscriptions, subscriptions)}
   end
 
+  @impl true
+  def handle_event("resend", %{"id" => subscription_id}, socket) do
+    id = String.to_integer(subscription_id)
+    subscription = Enum.find(socket.assigns.subscriptions, fn s -> s.id == id end)
+    Subscriptions.deliver_email_confirmation_instructions(subscription)
+
+    {:noreply,
+      put_flash(socket, :info, "Confirmation email sent")}
+  end
+
 end

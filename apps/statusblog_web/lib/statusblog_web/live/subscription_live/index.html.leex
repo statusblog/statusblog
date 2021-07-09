@@ -64,6 +64,9 @@
           <p class="text-sm text-gray-500"><%= Calendar.strftime(subscription.inserted_at, "Added %b %-d") %></p>
         </div>
         <div class="ml-auto flex">
+          <%= if subscription.confirmed_at == nil do %>
+            <div phx-click="resend" phx-value-id="<%= subscription.id %>" class="mr-4 text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto cursor-pointer">Resend confirmation</div>
+          <% end %>
           <div id="<%= subscription.id %>" x-on:click="subscription_id = <%= subscription.id %>, open = true" class="text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium my-auto cursor-pointer">Remove</div>
         </div>
       </li>

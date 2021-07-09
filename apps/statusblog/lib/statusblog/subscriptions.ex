@@ -59,10 +59,23 @@ defmodule Statusblog.Subscriptions do
     if subscription.confirmed_at do
       {:error, :already_confirmed}
     else
-      token = :crypto.strong_rand_bytes(@rand_size) |> Base.encode64()
-      {:ok, updated_subscription} = update_subscription(subscription, %{confirmation_token: token})
-      url = URI.encode("#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{token}")
+      {:ok, updated_subscription} = maybe_set_token(subscription)
+      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{updated_subscription.confirmation_token}"
       EmailNotifier.deliver_confirmation_instructions(updated_subscription, url)
+    end
+  end
+
+  # only set a confirmation token if one does not already exist
+  defp maybe_set_token(%Subscription{} = subscription) do
+    if subscription.confirmation_token do
+      {:ok, subscription}
+    else
+      token =
+        :crypto.strong_rand_bytes(@rand_size)
+        |> Base.encode64()
+        |> String.replace("/", "_")
+        |> String.replace("+", "-")
+      update_subscription(subscription, %{confirmation_token: token})
     end
   end
 
