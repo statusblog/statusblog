@@ -1,5 +1,6 @@
 defmodule Statusblog.Subscriptions.Subscription do
   use Ecto.Schema
+  import Ecto.Query
   import Ecto.Changeset
   alias Statusblog.Blogs.Blog
 
@@ -26,5 +27,10 @@ defmodule Statusblog.Subscriptions.Subscription do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique([:email, :blog_id], Statusblog.Repo)
     |> unique_constraint([:email, :blog_id])
+  end
+
+  def token_query(%Blog{} = blog, token) do
+    from s in __MODULE__,
+      where: s.blog_id == ^blog.id and s.confirmation_token == ^token
   end
 end

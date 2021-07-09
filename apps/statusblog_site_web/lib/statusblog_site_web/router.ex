@@ -21,6 +21,7 @@ defmodule StatusblogSiteWeb.Router do
 
     get "/", PageController, :index
     post "/subscriptions/new", SubscriptionController, :create
+    get "/subscriptions/confirm/:token", SubscriptionController, :confirm
   end
 
   # Other scopes may use custom stacks.

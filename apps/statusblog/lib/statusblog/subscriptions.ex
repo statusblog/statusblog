@@ -61,8 +61,20 @@ defmodule Statusblog.Subscriptions do
     else
       token = :crypto.strong_rand_bytes(@rand_size) |> Base.encode64()
       {:ok, updated_subscription} = update_subscription(subscription, %{confirmation_token: token})
-      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{token}"
+      url = URI.encode("#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{token}")
       EmailNotifier.deliver_confirmation_instructions(updated_subscription, url)
+    end
+  end
+
+  def confirm_subscription(%Blog{} = blog, token) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+    query = Subscription.token_query(blog, token)
+
+    with %Subscription{} = subscription <- Repo.one(query),
+         {:ok, updated_subscription} = update_subscription(subscription, %{confirmed_at: now}) do
+      {:ok, updated_subscription}
+    else
+      _ -> :error
     end
   end
 
