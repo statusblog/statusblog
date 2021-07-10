@@ -2,12 +2,6 @@ defmodule Statusblog.Accounts.UserNotifier do
   import Swoosh.Email
   alias Statusblog.Mailer
 
-  # For simplicity, this module simply logs messages to the terminal.
-  # You should replace it by a proper email or notification tool, such as:
-  #
-  #   * Swoosh - https://hexdocs.pm/swoosh
-  #   * Bamboo - https://hexdocs.pm/bamboo
-  #
   defp deliver(email) do
     require Logger
     Logger.debug("========\n#{email.text_body}\n=======")
