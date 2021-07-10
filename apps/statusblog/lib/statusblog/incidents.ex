@@ -70,8 +70,13 @@ defmodule Statusblog.Incidents do
     |> Ecto.Multi.insert(:incident, changeset)
     |> Ecto.Multi.merge(fn %{incident: incident} ->
       [incident_update] = incident.incident_updates
+
+      multi =
+        Ecto.Multi.new()
+        |> Oban.insert(:job, Statusblog.Workers.ProcessIncidentUpdate.new(%{incident_update_id: incident_update.id, is_new?: true}))
+
       Enum.filter(incident_update.components, fn iuc -> iuc.selected end)
-      |> Enum.reduce(Ecto.Multi.new(), fn iuc, multi ->
+      |> Enum.reduce(multi, fn iuc, multi ->
         component = Components.get_component!(iuc.id)
         if component.status != iuc.status do
           Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
@@ -182,6 +187,7 @@ defmodule Statusblog.Incidents do
       multi =
         Ecto.Multi.new()
         |> Ecto.Multi.update(:incident, change_incident(incident, %{status: incident_update.status}))
+        |> Oban.insert(:job, Statusblog.Workers.ProcessIncidentUpdate.new(%{incident_update_id: incident_update.id, is_new?: false}))
 
       # update components
       Enum.filter(incident_update.components, fn iuc -> iuc.selected end)

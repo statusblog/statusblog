@@ -11,11 +11,14 @@ defmodule Statusblog.Application do
       # Start the Ecto repository
       Statusblog.Repo,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Statusblog.PubSub}
-      # Start a worker by calling: Statusblog.Worker.start_link(arg)
-      # {Statusblog.Worker, arg}
+      {Phoenix.PubSub, name: Statusblog.PubSub},
+      {Oban, oban_config()}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Statusblog.Supervisor)
+  end
+
+  defp oban_config do
+    Application.fetch_env!(:statusblog, Oban)
   end
 end

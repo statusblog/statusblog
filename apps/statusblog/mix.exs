@@ -42,7 +42,8 @@ defmodule Statusblog.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:timex, "~> 3.7"},
-      {:swoosh, "~> 1.3"}
+      {:swoosh, "~> 1.3"},
+      {:oban, "~> 2.7"}
     ]
   end
 

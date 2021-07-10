@@ -30,3 +30,5 @@ config :logger, level: :warn
 
 # In test we don't send emails.
 config :statusblog, Statusblog.Mailer, adapter: Swoosh.Adapters.Test
+
+config :statusblog, Oban, queues: false, plugins: false

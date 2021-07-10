@@ -55,6 +55,11 @@ config :phoenix, :json_library, Jason
 # at the `config/runtime.exs`.
 config :statusblog, Statusblog.Mailer, adapter: Swoosh.Adapters.Local
 
+config :statusblog, Oban,
+  repo: Statusblog.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [default: 10]
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
