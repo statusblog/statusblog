@@ -1,0 +1,5 @@
+Hi <%= subscription.email %>,
+
+You can confirm your subscription by visiting the URL below:
+
+<%= url %>
