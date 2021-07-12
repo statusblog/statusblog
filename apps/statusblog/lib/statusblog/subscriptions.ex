@@ -9,7 +9,6 @@ defmodule Statusblog.Subscriptions do
   alias Statusblog.Blogs
   alias Statusblog.Blogs.Blog
   alias Statusblog.Subscriptions.Subscription
-  alias Statusblog.Subscriptions.EmailNotifier
 
   def list_subscriptions(blog_id) do
     from(Subscription, where: [blog_id: ^blog_id])
