@@ -10,10 +10,10 @@ defmodule Statusblog.IncidentsFixtures do
   @doc """
   Generate a incident.
   """
-  def incident_fixture(attrs \\ %{}) do
-    {:ok, incident} =
-      attrs
-      |> Enum.into(%{
+  def incident_fixture(), do: incident_fixture(BlogsFixtures.blog_fixture())
+  def incident_fixture(blog, attrs \\ %{}) do
+    attrs =
+      Enum.into(attrs, %{
         name: "some name",
         status: :investigating,
         incident_updates: [
@@ -23,28 +23,25 @@ defmodule Statusblog.IncidentsFixtures do
           }
         ]
       })
-      |> create_incident()
+
+    {:ok, incident} = Incidents.create_incident(blog, attrs)
 
     incident
   end
 
-  defp create_incident(attrs), do: Incidents.create_incident(BlogsFixtures.blog_fixture(), attrs)
-
-  @spec incident_update_fixture(any) :: any
+  def incident_update_fixture(), do: incident_update_fixture(incident_fixture())
   @doc """
   Generate a incident_update.
   """
-  def incident_update_fixture(attrs \\ %{}) do
-    {:ok, incident_update} =
-      attrs
-      |> Enum.into(%{
+  def incident_update_fixture(incident, attrs \\ %{}) do
+    attrs =
+      Enum.into(attrs, %{
         body: "some body",
-        status: :investigating
+        status: :investigating,
       })
-      |> create_incident_update()
+
+    {:ok, incident_update} = Incidents.create_incident_update(incident, attrs)
 
     incident_update
   end
-
-  defp create_incident_update(attrs), do: Incidents.create_incident_update(incident_fixture(), attrs)
 end
