@@ -7,7 +7,7 @@ defmodule Statusblog.Subscriptions.Subscription do
   schema "subscriptions" do
     field :email, :string
     field :confirmed_at, :utc_datetime
-    field :confirmation_token, :string
+    field :email_token, :string
     belongs_to :blog, Blog
 
     timestamps()
@@ -16,7 +16,7 @@ defmodule Statusblog.Subscriptions.Subscription do
   @doc false
   def changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:email, :confirmed_at, :confirmation_token])
+    |> cast(attrs, [:email, :confirmed_at, :email_token])
     |> validate_email()
   end
 
@@ -31,6 +31,6 @@ defmodule Statusblog.Subscriptions.Subscription do
 
   def token_query(%Blog{} = blog, token) do
     from s in __MODULE__,
-      where: s.blog_id == ^blog.id and s.confirmation_token == ^token
+      where: s.blog_id == ^blog.id and s.email_token == ^token
   end
 end

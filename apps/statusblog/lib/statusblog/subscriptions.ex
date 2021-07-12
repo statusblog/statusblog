@@ -60,14 +60,21 @@ defmodule Statusblog.Subscriptions do
       {:error, :already_confirmed}
     else
       {:ok, updated_subscription} = maybe_set_token(subscription)
-      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{updated_subscription.confirmation_token}"
-      EmailNotifier.deliver_confirmation_instructions(updated_subscription, url)
+      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{updated_subscription.email_token}"
+
+      Statusblog.Emails.subscription_confirmation(subscription, url)
+      |> Statusblog.Mailer.deliver_better()
     end
+  end
+
+  def deliver_email_incident_update(blog, incident, incident_update, is_new?, subscriber) do
+    Statusblog.Emails.incident_update_notification(blog, incident, incident_update, is_new?, subscriber)
+    |> Statusblog.Mailer.deliver_better()
   end
 
   # only set a confirmation token if one does not already exist
   defp maybe_set_token(%Subscription{} = subscription) do
-    if subscription.confirmation_token do
+    if subscription.email_token do
       {:ok, subscription}
     else
       token =
@@ -75,7 +82,7 @@ defmodule Statusblog.Subscriptions do
         |> Base.encode64()
         |> String.replace("/", "_")
         |> String.replace("+", "-")
-      update_subscription(subscription, %{confirmation_token: token})
+      update_subscription(subscription, %{email_token: token})
     end
   end
 

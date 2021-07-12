@@ -1,0 +1,23 @@
+<%= blog.name %>
+
+<%= incident.name %>
+
+<%= if is_new? do %>
+New incident: <%= incident.status %>
+<% else %>
+Incident status:<%= incident_update.status %>
+<% end %>
+
+<%= incident_update.body %>
+
+Time posted: <%= incident_update.inserted_at %>
+
+Components affected:
+<%= for component <- incident_update.components do %>
+* <%= component.name %>
+<% end %>
+
+Unsubscribe (TODO):
+<%= subscription.email %>
+
+<%= test() %>

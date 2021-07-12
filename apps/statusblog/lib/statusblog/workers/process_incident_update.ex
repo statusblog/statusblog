@@ -4,7 +4,7 @@ defmodule Statusblog.Workers.ProcessIncidentUpdate do
   alias Statusblog.Blogs
   alias Statusblog.Incidents
   alias Statusblog.Subscriptions
-  alias Statusblog.Workers.SendIncidentUpdateEmail
+  alias Statusblog.Workers.SendIncidentUpdateNotification
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"incident_update_id" => incident_update_id, "is_new?" => is_new?}}) do
@@ -14,7 +14,6 @@ defmodule Statusblog.Workers.ProcessIncidentUpdate do
     subscriptions = Subscriptions.list_subscriptions(incident.blog_id)
 
     for subscription <- subscriptions do
-      # right now, we only have email type - when adding more, conver to case statement
       %{
         blog: blog,
         incident: incident,
@@ -22,9 +21,8 @@ defmodule Statusblog.Workers.ProcessIncidentUpdate do
         is_new?: is_new?,
         subscription: subscription
       }
-      IO.inspect()
-      # |> SendIncidentUpdateEmail.new()
-      # |> Oban.insert!()
+      |> SendIncidentUpdateNotification.new()
+      |> Oban.insert!()
     end
 
     :ok
