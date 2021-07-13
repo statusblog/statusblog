@@ -20,6 +20,19 @@ defmodule Statusblog.Subscriptions.Subscription do
     |> validate_email()
   end
 
+  def insert_changeset(subscription, attrs) do
+    subscription
+    |> changeset(attrs)
+    |> put_change(:email_token, generate_token())
+  end
+
+  defp generate_token() do
+    :crypto.strong_rand_bytes(32)
+    |> Base.encode64()
+    |> String.replace("/", "_")
+    |> String.replace("+", "-")
+  end
+
   defp validate_email(changeset) do
     changeset
     |> validate_required([:email])

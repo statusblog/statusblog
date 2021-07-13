@@ -20,8 +20,12 @@ defmodule StatusblogSiteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
     post "/subscriptions/new", SubscriptionController, :create
     get "/subscriptions/confirm/:token", SubscriptionController, :confirm
+    get "/subscriptions/unsubscribe/:token", SubscriptionController, :unsubscribe
+    # get "/subscriptions/:token", SubscriptionController, :edit
+    # put "/subscriptions/:token", SubscriptionController, :update
   end
 
   # Other scopes may use custom stacks.

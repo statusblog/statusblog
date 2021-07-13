@@ -46,21 +46,6 @@ defmodule Statusblog.Blogs do
     |> Repo.one()
   end
 
-  # TODO: need to handle HTTPS or not
-  def get_blog_base_url!(blog_id) when is_integer(blog_id) do
-    get_blog!(blog_id)
-    |> get_blog_base_url!()
-  end
-
-  def get_blog_base_url!(%Blog{} = blog) do
-    if blog.domain do
-      "http://#{blog.domain}"
-    else
-      root_domain = Application.get_env(:statusblog, :root_domain)
-      "http://#{blog.subdomain}.#{root_domain}"
-    end
-  end
-
   @doc """
   Creates a blog.
 

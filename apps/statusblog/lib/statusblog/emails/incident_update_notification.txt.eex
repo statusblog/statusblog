@@ -19,7 +19,5 @@ Components affected:
 <% end %>
 <% end %>
 
-Unsubscribe (TODO):
+Unsubscribe:
 <%= subscription.email %>
-
-<%= test() %>

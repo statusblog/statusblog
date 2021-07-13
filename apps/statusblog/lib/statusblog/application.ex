@@ -15,7 +15,18 @@ defmodule Statusblog.Application do
       {Oban, oban_config()}
     ]
 
+    setup_oban_logging()
+
     Supervisor.start_link(children, strategy: :one_for_one, name: Statusblog.Supervisor)
+  end
+
+  def setup_oban_logging() do
+    :telemetry.attach_many(
+      "oban-errors",
+      [[:oban, :job, :exception], [:oban, :circuit, :trip]],
+      &ErrorReporter.handle_event/4,
+      %{}
+    )
   end
 
   defp oban_config do

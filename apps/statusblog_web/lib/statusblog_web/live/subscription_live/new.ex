@@ -29,7 +29,9 @@ defmodule StatusblogWeb.SubscriptionLive.New do
   def handle_event("save", %{"subscription" => subscription_params}, socket) do
     case Subscriptions.create_subscription(socket.assigns.blog, subscription_params) do
       {:ok, subscription} ->
-        {:ok, _} = Subscriptions.deliver_email_confirmation_instructions(subscription)
+        {:ok, _} =
+          Statusblog.Emails.subscription_confirmation(subscription, socket.assigns.blog)
+          |> Statusblog.Mailer.deliver_better()
 
         {:noreply,
           socket

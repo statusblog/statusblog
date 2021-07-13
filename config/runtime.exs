@@ -41,7 +41,7 @@ if config_env() == :prod do
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4001")
+      port: String.to_integer(System.get_env("SITE_PORT") || "4001")
     ],
     secret_key_base: secret_key_base
 

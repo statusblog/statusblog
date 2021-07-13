@@ -104,7 +104,7 @@ defmodule StatusblogWeb do
       import StatusblogWeb.Gettext
       alias StatusblogWeb.Router.Helpers, as: Routes
 
-      defp root_domain(), do: Application.get_env(:statusblog, :root_domain)
+      defp site_root_domain(), do: Application.get_env(:statusblog, :site_root_domain)
     end
   end
 

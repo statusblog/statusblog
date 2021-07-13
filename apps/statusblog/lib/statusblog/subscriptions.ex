@@ -45,44 +45,8 @@ defmodule Statusblog.Subscriptions do
   """
   def create_subscription(%Blog{} = blog, attrs \\ %{}) do
     %Subscription{blog_id: blog.id}
-    |> Subscription.changeset(attrs)
+    |> Subscription.insert_changeset(attrs)
     |> Repo.insert()
-  end
-
-  @rand_size 32
-
-  # generate random confirmation token
-  # set token on subscription
-  # send email
-  def deliver_email_confirmation_instructions(%Subscription{} = subscription) do
-    if subscription.confirmed_at do
-      {:error, :already_confirmed}
-    else
-      {:ok, updated_subscription} = maybe_set_token(subscription)
-      url = "#{Blogs.get_blog_base_url!(updated_subscription.blog_id)}/subscriptions/confirm/#{updated_subscription.email_token}"
-
-      Statusblog.Emails.subscription_confirmation(subscription, url)
-      |> Statusblog.Mailer.deliver_better()
-    end
-  end
-
-  def deliver_email_incident_update(blog, incident, incident_update, is_new?, subscriber) do
-    Statusblog.Emails.incident_update_notification(blog, incident, incident_update, is_new?, subscriber)
-    |> Statusblog.Mailer.deliver_better()
-  end
-
-  # only set a confirmation token if one does not already exist
-  defp maybe_set_token(%Subscription{} = subscription) do
-    if subscription.email_token do
-      {:ok, subscription}
-    else
-      token =
-        :crypto.strong_rand_bytes(@rand_size)
-        |> Base.encode64()
-        |> String.replace("/", "_")
-        |> String.replace("+", "-")
-      update_subscription(subscription, %{email_token: token})
-    end
   end
 
   def confirm_subscription(%Blog{} = blog, token) do
@@ -94,6 +58,19 @@ defmodule Statusblog.Subscriptions do
       {:ok, updated_subscription}
     else
       _ -> :error
+    end
+  end
+
+  # if already unsubscribed (token not found) returns success
+  def unsubscribe_subscription(%Blog{} = blog, token) do
+    subscription =
+      Subscription.token_query(blog, token)
+      |> Repo.one()
+
+    if subscription != nil do
+      delete_subscription(subscription)
+    else
+      {:ok, nil}
     end
   end
 

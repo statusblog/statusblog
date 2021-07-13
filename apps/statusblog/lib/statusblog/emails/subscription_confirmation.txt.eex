@@ -2,4 +2,4 @@ Hi <%= subscription.email %>,
 
 You can confirm your subscription by visiting the URL below:
 
-<%= url %>
+<%= site_url(blog, "/subscriptions/confirm/#{subscription.email_token}") %>
