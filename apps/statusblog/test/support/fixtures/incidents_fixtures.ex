@@ -18,7 +18,7 @@ defmodule Statusblog.IncidentsFixtures do
         status: :investigating,
         incident_updates: [
           %{
-            body: "some body",
+            message: "some body",
             status: :investigating
           }
         ]
@@ -36,7 +36,7 @@ defmodule Statusblog.IncidentsFixtures do
   def incident_update_fixture(incident, attrs \\ %{}) do
     attrs =
       Enum.into(attrs, %{
-        body: "some body",
+        message: "some body",
         status: :investigating,
       })
 

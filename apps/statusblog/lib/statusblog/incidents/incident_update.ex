@@ -8,7 +8,7 @@ defmodule Statusblog.Incidents.IncidentUpdate do
   def status_values(), do: @status_values
 
   schema "incident_updates" do
-    field :body, :string
+    field :message, :string
     field :status, Ecto.Enum, values: @status_values
     embeds_many :components, IncidentUpdateComponent
     belongs_to :incident, Incident
@@ -19,9 +19,9 @@ defmodule Statusblog.Incidents.IncidentUpdate do
   @doc false
   def changeset(incident_update, attrs) do
     incident_update
-    |> cast(attrs, [:body, :status])
+    |> cast(attrs, [:message, :status])
     |> cast_embed(:components)
-    |> validate_required([:body, :status])
+    |> validate_required([:message, :status])
   end
 
 end

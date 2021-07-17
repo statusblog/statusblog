@@ -48,7 +48,7 @@
           <div class="space-y-4 p-4">
             <%= for incident_update <- open_incident.incident_updates do %>
               <div>
-                <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.body %></div>
+                <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.message %></div>
                 <div class="text-sm text-gray-400 mt-1"><%= Calendar.strftime(incident_update.inserted_at, "%b %-d, %H:%M UTC") %></div>
               </div>
             <% end %>
@@ -104,7 +104,7 @@
               <div class="space-y-4">
                 <%= for incident_update <- resolved_incident_at_date.incident_updates do %>
                   <div>
-                    <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.body %></div>
+                    <div class=""><span class="font-semibold"><%= incident_update.status %></span> - <%= incident_update.message %></div>
                     <div class="text-sm text-gray-400 mt-1"><%= Calendar.strftime(incident_update.inserted_at, "%b %-d, %H:%M UTC") %></div>
                   </div>
                 <% end %>

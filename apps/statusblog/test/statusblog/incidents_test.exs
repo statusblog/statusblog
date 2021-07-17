@@ -23,7 +23,7 @@ defmodule Statusblog.IncidentsTest do
     end
 
     test "create_incident/1 with valid data creates a incident" do
-      valid_attrs = %{name: "some name", status: :investigating, incident_updates: [%{body: "a", status: :investigating}]}
+      valid_attrs = %{name: "some name", status: :investigating, incident_updates: [%{message: "a", status: :investigating}]}
 
       assert {:ok, %Incident{} = created_incident} = Incidents.create_incident(blog_fixture(), valid_attrs)
       assert created_incident.name == "some name"
@@ -64,7 +64,7 @@ defmodule Statusblog.IncidentsTest do
 
     import Statusblog.IncidentsFixtures
 
-    @invalid_attrs %{body: nil, status: nil}
+    @invalid_attrs %{message: nil, status: nil}
 
     test "list_incident_updates/1 returns all incident_updates" do
       incident_fixture = incident_fixture()
@@ -79,15 +79,15 @@ defmodule Statusblog.IncidentsTest do
     end
 
     test "create_incident_update/1 with valid data creates a incident_update" do
-      valid_attrs = %{body: "some body", status: :investigating}
+      valid_attrs = %{message: "some body", status: :investigating}
 
       assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
-      assert incident_update.body == "some body"
+      assert incident_update.message == "some body"
       assert incident_update.status == :investigating
     end
 
     test "create_incident_update/1 handles embedded component" do
-      valid_attrs = %{body: "some body", status: :investigating, components: [%{id: 1, name: "foo", status: :operational}]}
+      valid_attrs = %{message: "some body", status: :investigating, components: [%{id: 1, name: "foo", status: :operational}]}
       assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.create_incident_update(incident_fixture(), valid_attrs)
       [inserted_component] = incident_update.components
       assert inserted_component.id == 1
@@ -98,15 +98,15 @@ defmodule Statusblog.IncidentsTest do
     end
 
     test "create_incident_update/2 with invalid enum returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Incidents.create_incident_update(incident_fixture(), %{body: "b", status: :foo})
+      assert {:error, %Ecto.Changeset{}} = Incidents.create_incident_update(incident_fixture(), %{message: "b", status: :foo})
     end
 
     test "update_incident_update/2 with valid data updates the incident_update" do
       incident_update = incident_update_fixture()
-      update_attrs = %{body: "some updated body", status: :identified}
+      update_attrs = %{message: "some updated body", status: :identified}
 
       assert {:ok, %IncidentUpdate{} = incident_update} = Incidents.update_incident_update(incident_update, update_attrs)
-      assert incident_update.body == "some updated body"
+      assert incident_update.message == "some updated body"
       assert incident_update.status == :identified
     end
 

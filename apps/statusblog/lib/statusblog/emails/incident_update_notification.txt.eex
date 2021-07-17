@@ -8,7 +8,7 @@ New incident: <%= incident.status %>
 Incident status: <%= incident_update.status %>
 <% end %>
 
-<%= incident_update.body %>
+<%= incident_update.message %>
 
 Time posted: <%= incident_update.inserted_at %>
 

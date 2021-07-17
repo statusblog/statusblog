@@ -6,7 +6,7 @@
       <div class="my-2 uppercase font-bold text-xs text-blue-800 bg-blue-200 inline-block py-1 px-2 rounded">
         <%= incident_update.status %>
       </div>
-      <div class="my-2 text-gray-900"><%= incident_update.body %></div>
+      <div class="my-2 text-gray-900"><%= incident_update.message %></div>
       <div class="flex space-x-4 mt-6">
         <%= for component <- incident_update.components |> Enum.filter(fn c -> c.selected end) do %>
           <div class="flex">

@@ -2,7 +2,7 @@ defmodule Statusblog.EmailsTest do
   use Statusblog.DataCase
 
   alias Statusblog.Emails
-  import Statusblog.{SubscriptionsFixtures, BlogsFixtures, ComponentsFixtures, IncidentsFixtures}
+  import Statusblog.{SubscriptionsFixtures, BlogsFixtures, IncidentsFixtures}
 
   test "subscription_confirmation_email/2" do
     blog = blog_fixture()
