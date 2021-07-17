@@ -29,7 +29,6 @@ defmodule Statusblog.ComponentsTest do
       assert component.description == "some description"
       assert component.display_uptime == true
       assert component.name == "some name"
-      assert component.position == 42
       assert component.start_date == ~D[2021-06-09]
       assert component.status == :operational
       [component_update] = component.component_updates
@@ -59,7 +58,6 @@ defmodule Statusblog.ComponentsTest do
       assert component.description == "some updated description"
       assert component.display_uptime == false
       assert component.name == "some updated name"
-      assert component.position == 43
       assert component.start_date == ~D[2021-06-10]
       assert component.status == :degraded_performance
       [this_component_update, _init_component_update] = component.component_updates

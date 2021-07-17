@@ -12,7 +12,6 @@ defmodule Statusblog.Components.Component do
     field :description, :string
     field :display_uptime, :boolean, default: false
     field :name, :string
-    field :position, :integer
     field :start_date, :date
     field :status, Ecto.Enum, values: @status_values
 
@@ -25,11 +24,10 @@ defmodule Statusblog.Components.Component do
   @doc false
   def changeset(component, attrs) do
     component
-    |> cast(attrs, [:name, :description, :position, :status, :display_uptime, :start_date])
+    |> cast(attrs, [:name, :description, :status, :display_uptime, :start_date])
     |> add_default_start_date()
-    |> validate_required([:name, :position, :status, :display_uptime, :start_date])
+    |> validate_required([:name, :status, :display_uptime, :start_date])
     |> validate_start_date()
-    |> unique_constraint([:blog_id, :position])
     |> prepare_changes(&maybe_create_component_update/1)
   end
 

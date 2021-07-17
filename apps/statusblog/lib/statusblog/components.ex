@@ -13,7 +13,7 @@ defmodule Statusblog.Components do
   def list_components(blog_id) do
     from(Component,
       where: [blog_id: ^blog_id],
-      order_by: [asc: :position],
+      order_by: [asc: :inserted_at],
       preload: [:component_updates]
     ) |> Repo.all()
   end
@@ -47,8 +47,7 @@ defmodule Statusblog.Components do
 
   """
   def create_component(%Blog{} = blog, attrs \\ %{}) do
-    position = Repo.one!(from c in Component, select: coalesce(max(c.position), 0))
-    %Component{blog_id: blog.id, position: position + 1}
+    %Component{blog_id: blog.id}
     |> Component.changeset(attrs)
     |> Repo.insert()
   end

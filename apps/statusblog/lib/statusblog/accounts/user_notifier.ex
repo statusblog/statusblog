@@ -27,7 +27,7 @@ defmodule Statusblog.Accounts.UserNotifier do
     |> to(user.email)
     # todo - load from config
     |> from("noreply@statusblog.io")
-    |> subject("Confirm your email")
+    |> subject("Verify your Statusblog email address")
     |> text_body("""
 
     Hi #{user.email},

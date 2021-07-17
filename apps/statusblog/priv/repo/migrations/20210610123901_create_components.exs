@@ -5,7 +5,6 @@ defmodule Statusblog.Repo.Migrations.CreateComponents do
     create table(:components) do
       add :name, :text, null: false
       add :description, :text
-      add :position, :integer, null: false
       add :status, :text, null: false
       add :display_uptime, :boolean, default: false, null: false
       add :start_date, :date, null: false
@@ -14,7 +13,6 @@ defmodule Statusblog.Repo.Migrations.CreateComponents do
       timestamps()
     end
 
-    create unique_index(:components, [:blog_id, :position])
     create index(:components, [:blog_id])
   end
 end
