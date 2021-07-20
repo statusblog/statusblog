@@ -26,7 +26,7 @@ config :statusblog,
   site_root_domain: "statusblog.local",
   site_port: 4001,
   site_scheme: "http",
-  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog", "status", "email"]
+  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog", "status", "email", "meta"]
 
 config :statusblog_web,
   ecto_repos: [Statusblog.Repo],
