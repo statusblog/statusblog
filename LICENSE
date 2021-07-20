@@ -1,10 +1,10 @@
 Source code in this repository is variously licensed under the Apache License
 Version 2.0, or the Business Source License 1.1.
 
-* Within the "apps/statusblog_web" and "apps/statusblog_marketing_web" directories,
+* Within the "apps/statusblog_web" directory,
   source code in a given file is licensed under the Business Source License 1.1,
   as defined in the LICENSE_BSL file in the current directory.
 
-* Outside of the "apps/statusblog_web" and "apps/statusblog_marketing_web" directories,
+* Outside of the "apps/statusblog_web" directory,
   source code in a given file is licensed under the Apache License Version 2.0,
   as defined in the LICENSE_APACHE file in the current directory.

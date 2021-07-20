@@ -33,7 +33,6 @@ Statusblog is structured as an Elixir umbrella project with multiple application
 * **apps/statusblog** - The core that powers it all.
 * **apps/statusblog_web** - The admin panel for creating and managing your blogs and incidents
 * **apps/statusblog_site_web** - The public-facing web app for showing your status blogs to the world
-* **apps/statusblog_marketing_web** - The code that powers our [statusblog.io](https://statusblog.io) homepage. You probably don't need this!
 
 ## Licenses
 
