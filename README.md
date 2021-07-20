@@ -18,7 +18,7 @@ makes Statusblog different:
 
 If you are interested in learning more, check out [our website](https://statusblog.io), read our [about page](https://statusblog.io/about), or explore our [documentation](https://docs.statuspage.io).
 
-## Can Statusblog be self-hosted
+## Can Statusblog be self-hosted?
 
 All the code in this repository is the exact code we use to host [Statusblog.io](https://statusblog.io), so you can use it to self-host it yourself.
 
