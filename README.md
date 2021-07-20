@@ -16,7 +16,7 @@ makes Statusblog different:
 * **Free custom domain w/ SSL** - If you use our hosted service, you can set up a custom domain with SSL for free. We make money by charging on number of subscribers or team members you use, _not_ by making you fork over monye for a cert we get for free from [Let's Encrypt](https://letsencrypt.org/).
 * **Elixir powered** - Elixir and its Erlang/BEAM base were literally purpose-built for fault-tolerance and many nines of availability. This allows our software to keep crashes and degradations local instead of crashing the entire service. It also allows our software to handle at least a magnitude more load than a Ruby/Rails equivalent.
 
-If you are interested in learning more, check out [our website](https://statusblog.io), read our [about page](https://statusblog.io/about), or explore our [documentation](https://docs.statuspage.io).
+If you are interested in learning more, check out [our website](https://statusblog.io), read our [about page](https://statusblog.io/about), or explore our [documentation](https://docs.statusblog.io).
 
 ## Can Statusblog be self-hosted?
 
