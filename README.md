@@ -6,8 +6,7 @@ Here is the [live demo](https://meta.statusblog.io) of our own status blog for s
 
 ## Why Statusblog?
 
-There are many status page and incident communication tools out there. We have detailed comparisons
-between ourselves and each of them on [our website](https://statusblog.io/alternatives/). Here's what
+There are many status page and incident communication tools out there. Here's what
 makes Statusblog different:
 
 * **Open-source** - The core functionality of Statusblog is open source, allowing you to modify it as you want and to self-host it yourself. We think the incident communication tools you use should be as open as the monitoring tools or web frameworks you use to power your business.
@@ -33,16 +32,3 @@ Statusblog is structured as an Elixir umbrella project with multiple application
 * **apps/statusblog** - The core that powers it all.
 * **apps/statusblog_web** - The admin panel for creating and managing your blogs and incidents
 * **apps/statusblog_site_web** - The public-facing web app for showing your status blogs to the world
-
-## Licenses
-
-As mentioned in our [LICNESE](LICENSE) file, the admin panel and marketing site are both licensed under the [BSL license](LICENSE_BSL).
-Everything else is licensed under the [Apache 2.0 License](LICENSE_APACHE). 
-
-The Business Source License 1.1 is an eventually-open-source license. It does not fit the OSI definition of open source because of the restriction
-it places is that you can't take the code and create a competitor to our [Statusblog.io](https://statusblog.io) service using that code. That
-same restriction, however, expires in 3 years, meaning all code licensed in this way reverts to the Apache 2.0 License after 3 years.
-
-We use the BSL license for some of our code so that we can to keep our open code and software sustainable. Ultimately, open source is not a business model,
-it is a software development methodology. We strive to keep our code as open as possible so you can use it more or less however you want,
-while adding the minimal restrictions to allow us to sustainably grow both the service and the software. 
