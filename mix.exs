@@ -7,7 +7,16 @@ defmodule Statusblog.Umbrella.MixProject do
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      releases: [
+        statusblog_umbrella: [
+          applications: [
+            statusblog: :permanent,
+            statusblog_web: :permanent,
+            statusblog_site_web: :permanent
+          ]
+        ]
+      ]
     ]
   end
 
