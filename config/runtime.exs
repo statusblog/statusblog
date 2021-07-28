@@ -46,6 +46,9 @@ if config_env() == :prod do
     server: true,
     secret_key_base: secret_key_base
 
+  config :sentry,
+    dsn: System.get_env("SENTRY_DSN")
+
   # ## Configuring the mailer
   #
   # In production you need to configure the mailer to use a different adapter.

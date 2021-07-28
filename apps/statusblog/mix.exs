@@ -43,7 +43,8 @@ defmodule Statusblog.MixProject do
       {:jason, "~> 1.0"},
       {:timex, "~> 3.7"},
       {:swoosh, "~> 1.3"},
-      {:oban, "~> 2.7"}
+      {:oban, "~> 2.7"},
+      {:sentry, "~> 8.0"}
     ]
   end
 

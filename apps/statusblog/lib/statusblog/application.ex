@@ -7,6 +7,8 @@ defmodule Statusblog.Application do
 
   @impl true
   def start(_type, _args) do
+    setup_sentry()
+
     children = [
       # Start the Ecto repository
       Statusblog.Repo,
@@ -15,12 +17,12 @@ defmodule Statusblog.Application do
       {Oban, oban_config()}
     ]
 
-    setup_oban_logging()
-
     Supervisor.start_link(children, strategy: :one_for_one, name: Statusblog.Supervisor)
   end
 
-  def setup_oban_logging() do
+  def setup_sentry() do
+    Logger.add_backend(Sentry.LoggerBackend)
+
     :telemetry.attach_many(
       "oban-errors",
       [[:oban, :job, :exception], [:oban, :circuit, :trip]],
