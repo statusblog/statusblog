@@ -17,8 +17,7 @@ if config_env() == :prod do
   config :statusblog, Statusblog.Repo,
     # ssl: true,
     url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: [:inet6]
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
@@ -34,6 +33,7 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4000")
     ],
+    server: true,
     secret_key_base: secret_key_base
 
   config :statusblog_site_web, StatusblogSiteWeb.Endpoint,
@@ -43,6 +43,7 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("SITE_PORT") || "4001")
     ],
+    server: true,
     secret_key_base: secret_key_base
 
   # ## Configuring the mailer

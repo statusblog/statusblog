@@ -61,37 +61,15 @@ RUN mix release
 FROM alpine:3.14.0 AS app
 RUN apk add --no-cache openssl ncurses-libs libstdc++
 
-ENV USER="elixir"
-
 # set build ENV (again)
 ARG MIX_ENV="prod"
 ENV MIX_ENV="${MIX_ENV}"
 
-WORKDIR "/home/${USER}/app"
-# Creates an unprivileged user to be used exclusively to run the Phoenix app
-RUN \
-  addgroup \
-   -g 1000 \
-   -S "${USER}" \
-  && adduser \
-   -s /bin/sh \
-   -u 1000 \
-   -G "${USER}" \
-   -h /home/elixir \
-   -D "${USER}" \
-  && su "${USER}"
+WORKDIR "/app"
 
-# Everything from this line onwards will run in the context of the unprivileged user.
-USER "${USER}"
+COPY --from=build /app/_build/"${MIX_ENV}"/rel/statusblog_umbrella ./
 
-COPY --from=build --chown="${USER}":"${USER}" /app/_build/"${MIX_ENV}"/rel/statusblog_umbrella ./
-
-ENTRYPOINT ["bin/statusblog_umbrella"]
-
-# Usage:
-#  * build: sudo docker image build -t elixir/my_app .
-#  * shell: sudo docker container run --rm -it --entrypoint "" -p 127.0.0.1:4000:4000 elixir/my_app sh
-#  * run:   sudo docker container run --rm -it -p 127.0.0.1:4000:4000 --name my_app elixir/my_app
-#  * exec:  sudo docker container exec -it my_app sh
-#  * logs:  sudo docker container logs --follow --tail 100 my_app
-CMD ["start"]
+# one alternative to this approach is to have the "bin/statusblog_umbrella" ENTRYPOINT
+# and the default "start" CMD. I would then run migrations manually via passing
+# "eval 'Statusblog.Release.migrate'" to the "pdoamn run" command
+ENTRYPOINT bin/statusblog_umbrella eval "Statusblog.Release.migrate" && bin/statusblog_umbrella start
