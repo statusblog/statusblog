@@ -2,7 +2,6 @@ defmodule StatusblogWeb.MountHelpers do
   import Phoenix.LiveView
   alias Statusblog.Accounts
   alias Statusblog.Blogs
-  alias StatusblogWeb.Router.Helpers, as: Routes
 
   def assign_defaults(socket, params, session) do
     socket

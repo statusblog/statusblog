@@ -10,7 +10,7 @@ defmodule Statusblog.Mailer do
         {:ok, email}
 
       any ->
-        Logger.warn("Failed to deliver email.\nResult: #{IO.inspect(any)}")
+        Sentry.capture_message("failed_to_deliver_email", extra: %{email: email, result: any})
         any
     end
   end

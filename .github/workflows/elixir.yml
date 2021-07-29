@@ -1,0 +1,52 @@
+name: Elixir CI
+
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+
+env:
+  MIX_ENV: test
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read .tool-versions
+        uses: marocchino/tool-versions-action@v1
+        id: versions
+      - name: Set up Elixir
+        uses: erlef/setup-elixir@v1
+        with:
+          elixir-version: ${{steps.versions.outputs.elixir}}
+          otp-version: ${{ steps.versions.outputs.erlang}}
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Check Formatting
+        run: mix format --check-formatted
+      - name: Check Compile Warnings
+        run: mix compile --warnings-as-errors --all-warnings
+      - name: Run tests
+        run: mix test
+      - name: Check Credo Warnings
+        run: mix credo --strict --only warning
+      # - name: Check Dialyzer
+      #   run: mix dialyzer
+

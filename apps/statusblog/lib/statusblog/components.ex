@@ -153,14 +153,13 @@ defmodule Statusblog.Components do
         )
       end)
 
-    total_seconds = totals.operational_seconds
-    +totals.under_maintenance_seconds
-    +totals.degraded_performance_seconds
-    +totals.partial_outage_seconds
-    +totals.major_outage_seconds
+    total_seconds =
+      totals.operational_seconds + totals.under_maintenance_seconds +
+        totals.degraded_performance_seconds + totals.partial_outage_seconds +
+        totals.major_outage_seconds
 
-    down_seconds = totals.major_outage_seconds
-    +(totals.partial_outage_seconds * 0.3)
+    adjusted_partial_seconds = totals.partial_outage_seconds * 0.3
+    down_seconds = totals.major_outage_seconds + adjusted_partial_seconds
 
     ((total_seconds - down_seconds) / total_seconds)
     |> Kernel.*(100)
