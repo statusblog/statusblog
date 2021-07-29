@@ -45,7 +45,8 @@ jobs:
         run: mix compile --warnings-as-errors --all-warnings
       - name: Run tests
         run: mix test
+      - name: Check Credo Warnings
+        run: mix credo --strict --only warning
       # - name: Check Dialyzer
       #   run: mix dialyzer
-      # - name: Check Credo Warnings
-      #   run: mix credo --strict --only warning --ignore Consistency
+

@@ -2,29 +2,12 @@ defmodule Statusblog.Accounts.UserNotifier do
   import Swoosh.Email
   alias Statusblog.Mailer
 
-  defp deliver(email) do
-    require Logger
-    Logger.debug("========\n#{email.text_body}\n=======")
-
-    case Mailer.deliver(email) do
-      :ok ->
-        {:ok, email}
-
-      {:ok, _} ->
-        {:ok, email}
-
-      any ->
-        Logger.warn("Failed to deliver email.\nResult: #{IO.inspect(any)}")
-        any
-    end
-  end
-
   @doc """
   Deliver instructions to confirm account.
   """
   def deliver_confirmation_instructions(user, url) do
     confirmation_instructions_email(user, url)
-    |> deliver()
+    |> Mailer.deliver_better()
   end
 
   defp confirmation_instructions_email(user, url) do
@@ -51,7 +34,7 @@ defmodule Statusblog.Accounts.UserNotifier do
   """
   def deliver_reset_password_instructions(user, url) do
     reset_password_instructions(user, url)
-    |> deliver()
+    |> Mailer.deliver_better()
   end
 
   defp reset_password_instructions(user, url) do
@@ -78,7 +61,7 @@ defmodule Statusblog.Accounts.UserNotifier do
   """
   def deliver_update_email_instructions(user, url) do
     update_email_instructions(user, url)
-    |> deliver()
+    |> Mailer.deliver_better()
   end
 
   defp update_email_instructions(user, url) do
