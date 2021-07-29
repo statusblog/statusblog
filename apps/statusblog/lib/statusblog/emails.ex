@@ -14,7 +14,7 @@ defmodule Statusblog.Emails do
     :subscription
   ])
 
-  defp site_url(%Blog{} = blog, path \\ nil) do
+  defp site_url(%Blog{} = blog, path) do
     origin = Statusblog.Utils.site_origin_uri(blog)
 
     %{origin | path: path}

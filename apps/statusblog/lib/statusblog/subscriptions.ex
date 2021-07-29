@@ -6,7 +6,6 @@ defmodule Statusblog.Subscriptions do
   import Ecto.Query, warn: false
   alias Statusblog.Repo
 
-  alias Statusblog.Blogs
   alias Statusblog.Blogs.Blog
   alias Statusblog.Subscriptions.Subscription
 

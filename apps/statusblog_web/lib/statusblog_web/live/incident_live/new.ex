@@ -2,7 +2,6 @@ defmodule StatusblogWeb.IncidentLive.New do
   use StatusblogWeb, :live_view
 
   alias Statusblog.Components
-  alias Statusblog.Components.Component
   alias Statusblog.Incidents
   alias Statusblog.Incidents.Incident
   alias Statusblog.Incidents.IncidentUpdate
