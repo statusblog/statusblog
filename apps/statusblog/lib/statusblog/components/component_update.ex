@@ -4,7 +4,13 @@ defmodule Statusblog.Components.ComponentUpdate do
   alias Statusblog.Components.Component
 
   # these are in ascending order of "importance"
-  @status_values [:operational, :under_maintenance, :degraded_performance, :partial_outage, :major_outage]
+  @status_values [
+    :operational,
+    :under_maintenance,
+    :degraded_performance,
+    :partial_outage,
+    :major_outage
+  ]
 
   schema "component_updates" do
     field :status, Ecto.Enum, values: @status_values

@@ -31,6 +31,8 @@ defmodule Statusblog.BlogsFixtures do
     blog
   end
 
-  defp create_blog(attrs, nil), do: create_blog(attrs, Statusblog.AccountsFixtures.confirmed_user_fixture())
+  defp create_blog(attrs, nil),
+    do: create_blog(attrs, Statusblog.AccountsFixtures.confirmed_user_fixture())
+
   defp create_blog(attrs, user), do: Statusblog.Blogs.create_blog(user, attrs)
 end

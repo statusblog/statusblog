@@ -5,9 +5,14 @@ defmodule Statusblog.Accounts.UserNotifier do
   defp deliver(email) do
     require Logger
     Logger.debug("========\n#{email.text_body}\n=======")
+
     case Mailer.deliver(email) do
-      :ok -> {:ok, email}
-      {:ok, _} -> {:ok, email}
+      :ok ->
+        {:ok, email}
+
+      {:ok, _} ->
+        {:ok, email}
+
       any ->
         Logger.warn("Failed to deliver email.\nResult: #{IO.inspect(any)}")
         any

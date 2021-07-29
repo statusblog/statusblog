@@ -5,12 +5,12 @@ defmodule StatusblogWeb.IncidentLive.UpdateInputsComponent do
 
   defp component_status_options() do
     Ecto.Enum.values(Component, :status)
-    |> Enum.map(&({status_option_display(&1), &1}))
+    |> Enum.map(&{status_option_display(&1), &1})
   end
 
   defp status_options() do
     Ecto.Enum.values(IncidentUpdate, :status)
-    |> Enum.map(&({status_option_display(&1), &1}))
+    |> Enum.map(&{status_option_display(&1), &1})
   end
 
   defp status_option_display(status) do

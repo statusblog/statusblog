@@ -9,6 +9,7 @@ defmodule StatusblogSiteWeb.PageView do
   defp overall_status_widget(components), do: status_widget(overall_status(components))
 
   defp overall_status([]), do: :operational
+
   defp overall_status(components) do
     components
     |> Enum.map(fn c -> c.status end)
@@ -58,19 +59,27 @@ defmodule StatusblogSiteWeb.PageView do
 
   defp uptime_rect_class(day) do
     cond do
-      day.major_outage_seconds > 0 -> "text-red-500"
-      day.partial_outage_seconds > 0 -> "text-yellow-600"
-      day.degraded_performance_seconds > 0 || day.under_maintenance_seconds > 0 || day.operational_seconds > 0 -> "text-green-500"
-      true -> "text-gray-300"
+      day.major_outage_seconds > 0 ->
+        "text-red-500"
+
+      day.partial_outage_seconds > 0 ->
+        "text-yellow-600"
+
+      day.degraded_performance_seconds > 0 || day.under_maintenance_seconds > 0 ||
+          day.operational_seconds > 0 ->
+        "text-green-500"
+
+      true ->
+        "text-gray-300"
     end
   end
 
   defp is_empty_day(day) do
-    day.major_outage_seconds == 0
-    && day.partial_outage_seconds == 0
-    && day.degraded_performance_seconds == 0
-    && day.under_maintenance_seconds == 0
-    && day.operational_seconds == 0
+    day.major_outage_seconds == 0 &&
+      day.partial_outage_seconds == 0 &&
+      day.degraded_performance_seconds == 0 &&
+      day.under_maintenance_seconds == 0 &&
+      day.operational_seconds == 0
   end
 
   defp status_text_class(:operational), do: "text-green-600"
@@ -79,8 +88,7 @@ defmodule StatusblogSiteWeb.PageView do
   defp status_text_class(:partial_outage), do: "text-yellow-600"
   defp status_text_class(:major_outage), do: "text-red-600"
 
-
-  #defp get_uptime_svg()
+  # defp get_uptime_svg()
 
   #
   # Incident history
@@ -97,5 +105,4 @@ defmodule StatusblogSiteWeb.PageView do
   defp resolved_incidents_with_date(resolved_incidents, date) do
     Enum.filter(resolved_incidents, fn ri -> NaiveDateTime.to_date(ri.inserted_at) == date end)
   end
-
 end

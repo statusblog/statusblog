@@ -8,10 +8,10 @@ defmodule StatusblogWeb.ComponentLive.New do
 
   def mount(params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :components)
-      |> assign(:page_title, "New component")
-      |> assign(:component, %Component{})}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign(:menu, :components)
+     |> assign(:page_title, "New component")
+     |> assign(:component, %Component{})}
   end
 end

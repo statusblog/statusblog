@@ -9,5 +9,4 @@ defmodule StatusblogWeb.TlsController do
       _ -> send_resp(conn, 404, "Not found")
     end
   end
-
 end

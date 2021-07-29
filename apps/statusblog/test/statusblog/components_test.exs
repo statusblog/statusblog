@@ -9,7 +9,14 @@ defmodule Statusblog.ComponentsTest do
     import Statusblog.ComponentsFixtures
     import Statusblog.BlogsFixtures
 
-    @invalid_attrs %{description: nil, display_uptime: nil, name: nil, position: nil, start_date: nil, status: nil}
+    @invalid_attrs %{
+      description: nil,
+      display_uptime: nil,
+      name: nil,
+      position: nil,
+      start_date: nil,
+      status: nil
+    }
 
     test "list_components/1 returns all components" do
       component = component_fixture()
@@ -23,9 +30,18 @@ defmodule Statusblog.ComponentsTest do
     end
 
     test "create_component/1 with valid data creates a component" do
-      valid_attrs = %{description: "some description", display_uptime: true, name: "some name", position: 42, start_date: ~D[2021-06-09], status: :operational}
+      valid_attrs = %{
+        description: "some description",
+        display_uptime: true,
+        name: "some name",
+        position: 42,
+        start_date: ~D[2021-06-09],
+        status: :operational
+      }
 
-      assert {:ok, %Component{} = component} = Components.create_component(blog_fixture(), valid_attrs)
+      assert {:ok, %Component{} = component} =
+               Components.create_component(blog_fixture(), valid_attrs)
+
       assert component.description == "some description"
       assert component.display_uptime == true
       assert component.name == "some name"
@@ -47,14 +63,25 @@ defmodule Statusblog.ComponentsTest do
     # end
 
     test "create_component/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Components.create_component(blog_fixture(), @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               Components.create_component(blog_fixture(), @invalid_attrs)
     end
 
     test "update_component/2 with valid data updates the component" do
       component = component_fixture()
-      update_attrs = %{description: "some updated description", display_uptime: false, name: "some updated name", position: 43, start_date: ~D[2021-06-10], status: :degraded_performance}
 
-      assert {:ok, %Component{} = component} = Components.update_component(component, update_attrs)
+      update_attrs = %{
+        description: "some updated description",
+        display_uptime: false,
+        name: "some updated name",
+        position: 43,
+        start_date: ~D[2021-06-10],
+        status: :degraded_performance
+      }
+
+      assert {:ok, %Component{} = component} =
+               Components.update_component(component, update_attrs)
+
       assert component.description == "some updated description"
       assert component.display_uptime == false
       assert component.name == "some updated name"
@@ -76,7 +103,9 @@ defmodule Statusblog.ComponentsTest do
 
     test "update_component/2 with invalid date returns error changeset" do
       component = component_fixture()
-      assert {:error, %Ecto.Changeset{}} = Components.update_component(component, %{start_date: ~D"3000-01-01"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Components.update_component(component, %{start_date: ~D"3000-01-01"})
     end
 
     test "delete_component/1 deletes the component" do
@@ -124,7 +153,11 @@ defmodule Statusblog.ComponentsTest do
     test "get_component_uptime/4 returns correct uptime for component with period of major_outage" do
       now = ~N[2021-07-02 05:20:07]
       start_date = ~D[2021-07-01]
-      hour_ago_update = %ComponentUpdate{status: :major_outage, inserted_at: NaiveDateTime.add(now, -3600)}
+
+      hour_ago_update = %ComponentUpdate{
+        status: :major_outage,
+        inserted_at: NaiveDateTime.add(now, -3600)
+      }
 
       uptime = Components.get_component_uptime(1, [hour_ago_update], start_date, 90, now)
       assert uptime.total_percent == 97.87

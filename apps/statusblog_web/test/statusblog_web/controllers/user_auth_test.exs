@@ -170,6 +170,7 @@ defmodule StatusblogWeb.UserAuthTest do
         extract_user_token(fn url ->
           Statusblog.Accounts.deliver_user_confirmation_instructions(user, url)
         end)
+
       {:ok, user} = Statusblog.Accounts.confirm_user(token)
 
       conn = conn |> assign(:current_user, user) |> UserAuth.require_authenticated_user([])

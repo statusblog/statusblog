@@ -7,10 +7,10 @@ defmodule StatusblogWeb.ComponentLive.Edit do
   @impl true
   def mount(%{"id" => id} = params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :components)
-      |> assign(:page_title, "Edit component")
-      |> assign(:component, Components.get_component!(id))}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign(:menu, :components)
+     |> assign(:page_title, "Edit component")
+     |> assign(:component, Components.get_component!(id))}
   end
 end

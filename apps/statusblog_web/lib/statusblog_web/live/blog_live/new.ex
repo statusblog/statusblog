@@ -8,9 +8,9 @@ defmodule StatusblogWeb.BlogLive.New do
   @impl true
   def mount(_params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_current_user(session)
-      |> assign(:changeset, Blogs.change_blog(%Blog{}))}
+     socket
+     |> MountHelpers.assign_current_user(session)
+     |> assign(:changeset, Blogs.change_blog(%Blog{}))}
   end
 
   @impl true
@@ -28,9 +28,9 @@ defmodule StatusblogWeb.BlogLive.New do
     case Blogs.create_blog(socket.assigns.current_user, blog_params) do
       {:ok, blog} ->
         {:noreply,
-          socket
-          |> put_flash(:info, "Blog created successfully")
-          |> push_redirect(to: Routes.blog_edit_path(socket, :edit, blog))}
+         socket
+         |> put_flash(:info, "Blog created successfully")
+         |> push_redirect(to: Routes.blog_edit_path(socket, :edit, blog))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

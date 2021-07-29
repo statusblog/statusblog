@@ -7,11 +7,11 @@ defmodule StatusblogWeb.BlogLive.Edit do
   @impl true
   def mount(params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :blog_info)
-      |> assign(:page_title, "Edit blog")
-      |> assign_changeset()}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign(:menu, :blog_info)
+     |> assign(:page_title, "Edit blog")
+     |> assign_changeset()}
   end
 
   defp assign_changeset(socket) do

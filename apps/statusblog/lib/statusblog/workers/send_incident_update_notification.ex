@@ -20,7 +20,13 @@ defmodule Statusblog.Workers.SendIncidentUpdateNotification do
     incident_update = Incidents.get_incident_update!(incident_update_id)
     subscription = Subscriptions.get_subscription!(subscription_id)
 
-    Statusblog.Emails.incident_update_notification(blog, incident, incident_update, is_new?, subscription)
+    Statusblog.Emails.incident_update_notification(
+      blog,
+      incident,
+      incident_update,
+      is_new?,
+      subscription
+    )
     |> Statusblog.Mailer.deliver_better()
   end
 end

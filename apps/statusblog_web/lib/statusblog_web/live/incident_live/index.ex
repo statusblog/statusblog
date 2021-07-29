@@ -7,11 +7,11 @@ defmodule StatusblogWeb.IncidentLive.Index do
   @impl true
   def mount(params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign_incidents()
-      |> assign(:page_title, "Incidents")
-      |> assign(:menu, :incidents)}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign_incidents()
+     |> assign(:page_title, "Incidents")
+     |> assign(:menu, :incidents)}
   end
 
   defp assign_incidents(socket) do
@@ -26,7 +26,11 @@ defmodule StatusblogWeb.IncidentLive.Index do
     end
   end
 
-  defp tab_class(true), do: "border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-  defp tab_class(false), do: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+  defp tab_class(true),
+    do:
+      "border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
 
+  defp tab_class(false),
+    do:
+      "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
 end

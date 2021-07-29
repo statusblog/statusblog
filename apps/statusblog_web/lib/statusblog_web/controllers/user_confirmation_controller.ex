@@ -7,7 +7,8 @@ defmodule StatusblogWeb.UserConfirmationController do
     render(conn, "new.html")
   end
 
-  def create(conn, _params) do # %{"user" => %{"email" => email}}) do
+  # %{"user" => %{"email" => email}}) do
+  def create(conn, _params) do
     Accounts.deliver_user_confirmation_instructions(
       conn.assigns[:current_user],
       &Routes.user_confirmation_url(conn, :confirm, &1)
@@ -24,6 +25,7 @@ defmodule StatusblogWeb.UserConfirmationController do
     case Accounts.confirm_user(token) do
       {:ok, _} ->
         conn = put_flash(conn, :info, "Email successfully verified.")
+
         case conn.assigns do
           %{current_user: %{}} ->
             redirect(conn, to: "/")
