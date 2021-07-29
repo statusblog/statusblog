@@ -42,7 +42,11 @@ defmodule Statusblog.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:timex, "~> 3.7"},
+
       {:swoosh, "~> 1.3"},
+      {:gen_smtp, "~> 1.0"},
+      {:finch, "~> 0.8"},
+
       {:oban, "~> 2.7"},
       {:sentry, "~> 8.0"}
     ]

@@ -10,6 +10,7 @@ defmodule Statusblog.Application do
     setup_sentry()
 
     children = [
+      {Finch, name: Swoosh.Finch},
       # Start the Ecto repository
       Statusblog.Repo,
       # Start the PubSub system

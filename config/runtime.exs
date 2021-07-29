@@ -49,6 +49,12 @@ if config_env() == :prod do
   config :sentry,
     dsn: System.get_env("SENTRY_DSN")
 
+  config :statusblog, Statusblog.Mailer,
+    adapter: Swoosh.Adapters.AmazonSES,
+    region: System.get_env("AMAZON_SES_REGION"),
+    access_key: System.get_env("AMAZON_SES_ACCESS_KEY"),
+    secret: System.get_env("AMAZON_SES_SECRET_KEY")
+
   # ## Configuring the mailer
   #
   # In production you need to configure the mailer to use a different adapter.
