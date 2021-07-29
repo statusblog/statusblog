@@ -160,7 +160,7 @@ defmodule Statusblog.ComponentsTest do
       }
 
       uptime = Components.get_component_uptime(1, [hour_ago_update], start_date, 90, now)
-      assert uptime.total_percent == 97.87
+      assert uptime.total_percent == 97.91
 
       [today | _rest] = Enum.reverse(uptime.days)
       assert today.major_outage_seconds == 3600
