@@ -9,13 +9,14 @@ defmodule Statusblog.Components do
   alias Statusblog.Components.{Component, ComponentUpdate, ComponentUptime, ComponentUptimeDay}
   alias Statusblog.Blogs.Blog
 
-  #def list_components(%Blog{id: id} = blog), do: list_components(id)
+  # def list_components(%Blog{id: id} = blog), do: list_components(id)
   def list_components(blog_id) do
     from(Component,
       where: [blog_id: ^blog_id],
       order_by: [asc: :inserted_at],
       preload: [:component_updates]
-    ) |> Repo.all()
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -105,7 +106,14 @@ defmodule Statusblog.Components do
   def get_component_uptime(%Component{} = component, num_days \\ 90) do
     component = Repo.preload(component, :component_updates)
     now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
-    get_component_uptime(component.id, component.component_updates, component.start_date, num_days, now)
+
+    get_component_uptime(
+      component.id,
+      component.component_updates,
+      component.start_date,
+      num_days,
+      now
+    )
   end
 
   def get_component_uptime(id, updates, start_date, num_days, now) do
@@ -115,36 +123,57 @@ defmodule Statusblog.Components do
   end
 
   defp compute_uptime_percent(days) do
-    totals = Enum.reduce(days, %{}, fn (day, acc) ->
-      acc
-      |> Map.update(:operational_seconds, day.operational_seconds, &(&1 + day.operational_seconds))
-      |> Map.update(:under_maintenance_seconds, day.under_maintenance_seconds, &(&1 + day.under_maintenance_seconds))
-      |> Map.update(:degraded_performance_seconds, day.degraded_performance_seconds, &(&1 + day.degraded_performance_seconds))
-      |> Map.update(:partial_outage_seconds, day.partial_outage_seconds, &(&1 + day.partial_outage_seconds))
-      |> Map.update(:major_outage_seconds, day.major_outage_seconds, &(&1 + day.major_outage_seconds))
-    end)
+    totals =
+      Enum.reduce(days, %{}, fn day, acc ->
+        acc
+        |> Map.update(
+          :operational_seconds,
+          day.operational_seconds,
+          &(&1 + day.operational_seconds)
+        )
+        |> Map.update(
+          :under_maintenance_seconds,
+          day.under_maintenance_seconds,
+          &(&1 + day.under_maintenance_seconds)
+        )
+        |> Map.update(
+          :degraded_performance_seconds,
+          day.degraded_performance_seconds,
+          &(&1 + day.degraded_performance_seconds)
+        )
+        |> Map.update(
+          :partial_outage_seconds,
+          day.partial_outage_seconds,
+          &(&1 + day.partial_outage_seconds)
+        )
+        |> Map.update(
+          :major_outage_seconds,
+          day.major_outage_seconds,
+          &(&1 + day.major_outage_seconds)
+        )
+      end)
 
-    total_seconds =
-      totals.operational_seconds
-      + totals.under_maintenance_seconds
-      + totals.degraded_performance_seconds
-      + totals.partial_outage_seconds
-      + totals.major_outage_seconds
+    total_seconds = totals.operational_seconds
+    +totals.under_maintenance_seconds
+    +totals.degraded_performance_seconds
+    +totals.partial_outage_seconds
+    +totals.major_outage_seconds
 
-    down_seconds =
-      totals.major_outage_seconds
-      + (totals.partial_outage_seconds * 0.3)
+    down_seconds = totals.major_outage_seconds
+    +(totals.partial_outage_seconds * 0.3)
 
-    (total_seconds - down_seconds) / total_seconds
+    ((total_seconds - down_seconds) / total_seconds)
     |> Kernel.*(100)
     |> Float.floor(2)
   end
 
   defp get_component_uptime_days(component_updates, start_date, days, now) do
     today = Timex.to_date(now)
-    relevant_updates = Enum.filter(component_updates, fn cu ->
-      NaiveDateTime.compare(cu.inserted_at, Timex.to_naive_datetime(start_date)) == :gt
-    end)
+
+    relevant_updates =
+      Enum.filter(component_updates, fn cu ->
+        NaiveDateTime.compare(cu.inserted_at, Timex.to_naive_datetime(start_date)) == :gt
+      end)
 
     Enum.map(
       Date.range(Date.add(today, -(days - 1)), today),
@@ -163,25 +192,27 @@ defmodule Statusblog.Components do
       midnight = %ComponentUpdate{inserted_at: get_midnight(now)}
       complete_updates = component_updates ++ [now_update, midnight]
 
-      {_, _, day} = Enum.reduce(
-        complete_updates,
-        {:operational, start_date, %ComponentUptimeDay{date: date}},
-        fn (update, {status, last_time, day}) ->
-          if last_time == update.inserted_at do
-            {update.status, update.inserted_at, day}
-          else
-            cur_interval = Timex.Interval.new(from: last_time, until: update.inserted_at)
-
-            if Timex.Interval.overlaps?(date_interval, cur_interval) do
-              duration_seconds = get_duration_seconds(date_interval, cur_interval)
-              duration_key = String.to_atom("#{status}_seconds")
-              day = Map.update!(day, duration_key, &(&1 + duration_seconds))
+      {_, _, day} =
+        Enum.reduce(
+          complete_updates,
+          {:operational, start_date, %ComponentUptimeDay{date: date}},
+          fn update, {status, last_time, day} ->
+            if last_time == update.inserted_at do
               {update.status, update.inserted_at, day}
             else
-              {update.status, update.inserted_at, day}
+              cur_interval = Timex.Interval.new(from: last_time, until: update.inserted_at)
+
+              if Timex.Interval.overlaps?(date_interval, cur_interval) do
+                duration_seconds = get_duration_seconds(date_interval, cur_interval)
+                duration_key = String.to_atom("#{status}_seconds")
+                day = Map.update!(day, duration_key, &(&1 + duration_seconds))
+                {update.status, update.inserted_at, day}
+              else
+                {update.status, update.inserted_at, day}
+              end
             end
           end
-        end)
+        )
 
       day
     end
@@ -215,5 +246,4 @@ defmodule Statusblog.Components do
     |> Date.add(1)
     |> Timex.to_naive_datetime()
   end
-
 end

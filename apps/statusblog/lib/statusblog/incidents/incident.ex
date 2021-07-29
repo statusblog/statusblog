@@ -26,8 +26,11 @@ defmodule Statusblog.Incidents.Incident do
 
   defp maybe_set_resolved_at(changeset) do
     case get_change(changeset, :status) do
-      :resolved -> put_change(changeset, :resolved_at, DateTime.utc_now() |> DateTime.truncate(:second))
-      _ -> changeset
+      :resolved ->
+        put_change(changeset, :resolved_at, DateTime.utc_now() |> DateTime.truncate(:second))
+
+      _ ->
+        changeset
     end
   end
 end

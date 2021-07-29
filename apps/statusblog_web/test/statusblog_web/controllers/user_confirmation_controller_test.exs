@@ -26,6 +26,7 @@ defmodule StatusblogWeb.UserConfirmationControllerTest do
 
     test "redirects from confirmation page if confirmed", %{conn: conn, user: user} do
       user = Repo.update!(Accounts.User.confirm_changeset(user))
+
       conn =
         log_in_user(conn, user)
         |> get(Routes.user_confirmation_path(conn, :new))

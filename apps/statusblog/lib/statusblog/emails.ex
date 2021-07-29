@@ -5,7 +5,14 @@ defmodule Statusblog.Emails do
   alias Statusblog.Blogs.Blog
 
   text_template(:subscription_confirmation, [:subscription, :blog])
-  text_template(:incident_update_notification, [:blog, :incident, :incident_update, :is_new?, :subscription])
+
+  text_template(:incident_update_notification, [
+    :blog,
+    :incident,
+    :incident_update,
+    :is_new?,
+    :subscription
+  ])
 
   defp site_url(%Blog{} = blog, path \\ nil) do
     origin = Statusblog.Utils.site_origin_uri(blog)
@@ -31,7 +38,8 @@ defmodule Statusblog.Emails do
     |> from("noreply@statusblog.io")
     # todo: could prefix with [blog_name]
     |> subject("[#{blog.name}] Incident - #{incident.name}")
-    |> text_body(incident_update_notification_txt(blog, incident, incident_update, is_new?, subscription))
+    |> text_body(
+      incident_update_notification_txt(blog, incident, incident_update, is_new?, subscription)
+    )
   end
-
 end

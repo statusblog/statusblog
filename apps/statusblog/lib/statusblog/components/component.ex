@@ -5,7 +5,13 @@ defmodule Statusblog.Components.Component do
   alias Statusblog.Components.ComponentUpdate
 
   # these are in ascending order of "importance"
-  @status_values [:operational, :under_maintenance, :degraded_performance, :partial_outage, :major_outage]
+  @status_values [
+    :operational,
+    :under_maintenance,
+    :degraded_performance,
+    :partial_outage,
+    :major_outage
+  ]
   def status_values(), do: @status_values
 
   schema "components" do
@@ -41,7 +47,9 @@ defmodule Statusblog.Components.Component do
         put_assoc(changeset, :component_updates, [%ComponentUpdate{status: status}])
 
       {status, {:data, existing_updates}} ->
-        put_assoc(changeset, :component_updates, [%ComponentUpdate{status: status} | existing_updates])
+        put_assoc(changeset, :component_updates, [
+          %ComponentUpdate{status: status} | existing_updates
+        ])
     end
   end
 
@@ -59,6 +67,7 @@ defmodule Statusblog.Components.Component do
 
   defp validate_start_date(changeset) do
     date = get_change(changeset, :start_date)
+
     if date != nil && Date.compare(date, Date.utc_today()) == :gt do
       add_error(changeset, :start_date, "cannot be in future")
     else

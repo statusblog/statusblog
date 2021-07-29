@@ -23,11 +23,12 @@ defmodule Statusblog.AccountsFixtures do
     user
   end
 
-  def confirmed_user_fixture(attrs \\%{}) do
+  def confirmed_user_fixture(attrs \\ %{}) do
     token =
       extract_user_token(fn url ->
         Statusblog.Accounts.deliver_user_confirmation_instructions(user_fixture(attrs), url)
       end)
+
     {:ok, user} = Statusblog.Accounts.confirm_user(token)
     user
   end

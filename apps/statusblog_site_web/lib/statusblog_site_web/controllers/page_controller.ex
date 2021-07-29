@@ -15,9 +15,10 @@ defmodule StatusblogSiteWeb.PageController do
   end
 
   defp put_component_uptimes(conn) do
-    uptimes = conn.assigns.components
+    uptimes =
+      conn.assigns.components
       |> Enum.map(&Components.get_component_uptime/1)
-      |> Enum.reduce(%{}, fn (elem, acc) -> Map.put(acc, elem.component_id, elem) end)
+      |> Enum.reduce(%{}, fn elem, acc -> Map.put(acc, elem.component_id, elem) end)
 
     assign(conn, :component_uptime_by_id, uptimes)
   end

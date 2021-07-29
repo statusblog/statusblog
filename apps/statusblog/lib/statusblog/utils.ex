@@ -1,12 +1,11 @@
 defmodule Statusblog.Utils do
-
   alias Statusblog.Blogs.Blog
 
   def site_origin_uri(%Blog{} = blog) do
     %URI{
       port: Application.get_env(:statusblog, :site_port),
       host: get_host(blog),
-      scheme: Application.get_env(:statusblog, :site_scheme),
+      scheme: Application.get_env(:statusblog, :site_scheme)
     }
   end
 

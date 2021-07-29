@@ -8,11 +8,11 @@ defmodule StatusblogWeb.SubscriptionLive.New do
   @impl true
   def mount(params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :subscriptions)
-      |> assign(:page_title, "New subscriber")
-      |> assign(:changeset, Subscriptions.change_subscription(%Subscription{}))}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign(:menu, :subscriptions)
+     |> assign(:page_title, "New subscriber")
+     |> assign(:changeset, Subscriptions.change_subscription(%Subscription{}))}
   end
 
   @impl true
@@ -34,13 +34,12 @@ defmodule StatusblogWeb.SubscriptionLive.New do
           |> Statusblog.Mailer.deliver_better()
 
         {:noreply,
-          socket
-          |> put_flash(:info, "Subscriber added successfully")
-          |> push_redirect(to: Routes.subscription_index_path(socket, :index, socket.assigns.blog))}
+         socket
+         |> put_flash(:info, "Subscriber added successfully")
+         |> push_redirect(to: Routes.subscription_index_path(socket, :index, socket.assigns.blog))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
-
 end

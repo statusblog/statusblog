@@ -4,6 +4,7 @@ defmodule Statusblog.SubscriptionsFixtures do
   def unique_email, do: "user#{System.unique_integer()}@example.com"
 
   def subscription_fixture(), do: subscription_fixture(BlogsFixtures.blog_fixture())
+
   def subscription_fixture(blog, attrs \\ %{}) do
     attrs =
       Enum.into(attrs, %{

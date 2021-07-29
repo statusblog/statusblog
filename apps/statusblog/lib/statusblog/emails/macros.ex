@@ -5,7 +5,8 @@ defmodule Statusblog.Emails.Macros do
         :defp,
         unquote(:"#{name}_txt"),
         unquote(Path.absname("lib/statusblog/emails/#{name}.txt.eex")),
-        unquote(args))
+        unquote(args)
+      )
     end
   end
 end

@@ -11,11 +11,11 @@ defmodule StatusblogWeb.IncidentLive.New do
   @impl true
   def mount(params, session, socket) do
     {:ok,
-      socket
-      |> MountHelpers.assign_defaults(params, session)
-      |> assign(:menu, :incidents)
-      |> assign(:page_title, "New incident")
-      |> assign_changeset()}
+     socket
+     |> MountHelpers.assign_defaults(params, session)
+     |> assign(:menu, :incidents)
+     |> assign(:page_title, "New incident")
+     |> assign_changeset()}
   end
 
   defp assign_changeset(socket) do
@@ -55,9 +55,11 @@ defmodule StatusblogWeb.IncidentLive.New do
     case Incidents.create_incident(socket.assigns.blog, copy_status_to_incident(incident_params)) do
       {:ok, incident} ->
         {:noreply,
-          socket
-          |> put_flash(:info, "Incident created successfully")
-          |> push_redirect(to: Routes.incident_edit_path(socket, :edit, socket.assigns.blog, incident))}
+         socket
+         |> put_flash(:info, "Incident created successfully")
+         |> push_redirect(
+           to: Routes.incident_edit_path(socket, :edit, socket.assigns.blog, incident)
+         )}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -65,7 +67,10 @@ defmodule StatusblogWeb.IncidentLive.New do
   end
 
   defp copy_status_to_incident(incident_params) do
-    Map.put_new(incident_params, "status", get_in(incident_params, ["incident_updates", "0", "status"]))
+    Map.put_new(
+      incident_params,
+      "status",
+      get_in(incident_params, ["incident_updates", "0", "status"])
+    )
   end
-
 end

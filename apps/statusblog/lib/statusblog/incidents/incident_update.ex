@@ -23,5 +23,4 @@ defmodule Statusblog.Incidents.IncidentUpdate do
     |> cast_embed(:components)
     |> validate_required([:message, :status])
   end
-
 end

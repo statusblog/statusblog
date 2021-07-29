@@ -19,12 +19,13 @@ defmodule Statusblog.ComponentsFixtures do
         name: "some name",
         position: 0,
         start_date: ~D[2021-06-09],
-        status: :operational,
+        status: :operational
       })
       |> create_component()
 
     component
   end
 
-  defp create_component(attrs), do: Components.create_component(BlogsFixtures.blog_fixture(), attrs)
+  defp create_component(attrs),
+    do: Components.create_component(BlogsFixtures.blog_fixture(), attrs)
 end

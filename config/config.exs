@@ -26,7 +26,17 @@ config :statusblog,
   site_root_domain: "statusblog.local",
   site_port: 4001,
   site_scheme: "http",
-  subdomain_denylist: ["www", "manage", "blog", "docs", "my", "statusblog", "status", "email", "meta"]
+  subdomain_denylist: [
+    "www",
+    "manage",
+    "blog",
+    "docs",
+    "my",
+    "statusblog",
+    "status",
+    "email",
+    "meta"
+  ]
 
 config :statusblog_web,
   ecto_repos: [Statusblog.Repo],
@@ -75,7 +85,6 @@ config :logger, Sentry.LoggerBackend,
   capture_log_messages: true,
   level: :warn,
   excluded_domains: []
-
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

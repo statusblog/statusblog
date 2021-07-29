@@ -73,13 +73,24 @@ defmodule Statusblog.Incidents do
 
       multi =
         Ecto.Multi.new()
-        |> Oban.insert(:job, Statusblog.Workers.ProcessIncidentUpdate.new(%{incident_update_id: incident_update.id, is_new?: true}))
+        |> Oban.insert(
+          :job,
+          Statusblog.Workers.ProcessIncidentUpdate.new(%{
+            incident_update_id: incident_update.id,
+            is_new?: true
+          })
+        )
 
       Enum.filter(incident_update.components, fn iuc -> iuc.selected end)
       |> Enum.reduce(multi, fn iuc, multi ->
         component = Components.get_component!(iuc.id)
+
         if component.status != iuc.status do
-          Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
+          Ecto.Multi.update(
+            multi,
+            "component_#{iuc.id}",
+            Components.change_component(component, %{status: iuc.status})
+          )
         else
           multi
         end
@@ -87,9 +98,12 @@ defmodule Statusblog.Incidents do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{incident: incident}} -> {:ok, incident}
-      {:error, :incident, changeset, _} -> {:error, changeset}
-      # don't handle component issues
+      {:ok, %{incident: incident}} ->
+        {:ok, incident}
+
+      {:error, :incident, changeset, _} ->
+        {:error, changeset}
+        # don't handle component issues
     end
   end
 
@@ -186,15 +200,29 @@ defmodule Statusblog.Incidents do
       # update incident
       multi =
         Ecto.Multi.new()
-        |> Ecto.Multi.update(:incident, change_incident(incident, %{status: incident_update.status}))
-        |> Oban.insert(:job, Statusblog.Workers.ProcessIncidentUpdate.new(%{incident_update_id: incident_update.id, is_new?: false}))
+        |> Ecto.Multi.update(
+          :incident,
+          change_incident(incident, %{status: incident_update.status})
+        )
+        |> Oban.insert(
+          :job,
+          Statusblog.Workers.ProcessIncidentUpdate.new(%{
+            incident_update_id: incident_update.id,
+            is_new?: false
+          })
+        )
 
       # update components
       Enum.filter(incident_update.components, fn iuc -> iuc.selected end)
       |> Enum.reduce(multi, fn iuc, multi ->
         component = Components.get_component!(iuc.id)
+
         if component.status != iuc.status do
-          Ecto.Multi.update(multi, "component_#{iuc.id}", Components.change_component(component, %{status: iuc.status}))
+          Ecto.Multi.update(
+            multi,
+            "component_#{iuc.id}",
+            Components.change_component(component, %{status: iuc.status})
+          )
         else
           multi
         end
@@ -202,9 +230,12 @@ defmodule Statusblog.Incidents do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{incident_update: incident_update}} -> {:ok, incident_update}
-      {:error, :incident_update, changeset, _} -> {:error, changeset}
-      # don't handle component issues
+      {:ok, %{incident_update: incident_update}} ->
+        {:ok, incident_update}
+
+      {:error, :incident_update, changeset, _} ->
+        {:error, changeset}
+        # don't handle component issues
     end
   end
 

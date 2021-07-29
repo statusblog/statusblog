@@ -6,6 +6,7 @@ defmodule Statusblog.Repo.Migrations.AddSubscriptionsConfirmedAt do
       add :email_token, :text
       add :confirmed_at, :naive_datetime
     end
+
     create unique_index(:subscriptions, :email_token)
   end
 end

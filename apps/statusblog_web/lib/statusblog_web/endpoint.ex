@@ -25,7 +25,8 @@ defmodule StatusblogWeb.Endpoint do
     at: "/",
     from: :statusblog_web,
     gzip: false
-    #only: ~w(css fonts images js favicon.ico robots.txt)
+
+  # only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -47,6 +48,7 @@ defmodule StatusblogWeb.Endpoint do
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
+
   plug Sentry.PlugContext
 
   plug Plug.MethodOverride
