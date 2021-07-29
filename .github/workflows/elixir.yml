@@ -78,7 +78,7 @@ jobs:
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.tags }}
-        registry: docker.io
+        registry: docker.io/statusblog
         username: statusblog
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
